@@ -32,3 +32,34 @@
 
 ---
 > **참고**: PWA 내부의 `node_modules`와 Python 임시 캐시 파일들은 `.gitignore`를 통해 업로드에서 제외되었습니다. 코드를 클론(Clone) 받은 후 반드시 `npm install` 등의 초기 세팅을 진행해주세요.
+
+## 🔄 프로젝트 복구 및 초기 세팅 가이드 (Antigravity 재설치 시)
+
+만약 PC를 포맷하거나 Antigravity(AI 에이전트)를 새로 설치하여 처음부터 다시 시작해야 할 경우, 다음 순서대로 진행해 주세요.
+
+### 1. 소스코드 내려받기 (Clone)
+터미널(또는 Antigravity 파워쉘)을 열고 원하는 폴더(예: `D:\`)에서 아래 명령어를 실행합니다.
+```bash
+git clone https://github.com/freefluxkr/DMDG_UT.git
+```
+명령어가 완료되면 `D:\DMDG_UT` 폴더가 생성되고 모든 코드가 다운로드됩니다.
+
+### 2. Antigravity에게 컨텍스트 부여하기
+새로 설치된 Antigravity에게 프로젝트를 설명하려면, 채팅창에 다음과 같이 입력하세요:
+> "D:\DMDG_UT 폴더에 있는 프로젝트야. README.md 파일과 회의록 폴더를 먼저 읽고 현재 상황과 내(Master) 역할, 그리고 너희 팀(Demis, Peggy, Mustafa)의 역할을 파악해 줘."
+
+### 3. PWA 웹앱 실행 준비
+의존성(라이브러리) 모듈을 다시 설치해야 정상적으로 웹앱을 실행할 수 있습니다.
+```bash
+cd D:\DMDG_UT\sodam-pwa
+npm install
+npm run dev
+```
+
+### 4. 백업 스크립트 실행 (선택)
+작업을 마친 뒤 다시 GitHub에 백업하고 싶다면 `D:\DMDG_UT` 최상단 폴더에서 다음 명령어들을 순서대로 실행하세요.
+```bash
+git add .
+git commit -m "작업 내용 요약"
+git push
+```
