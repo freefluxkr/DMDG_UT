@@ -1,0 +1,31 @@
+# [[[K-pop Demon Hunters] 푸른 호랑이 더피(Duffy)의 판타지 키친(달걀말이)Blue Tiger Duffy’s Magical Cooking Class]]
+
+## 📌 Brief Summary
+"호랑이가 만드는 달걀(계란)말이?" 더피와 아기 호랑이들의 신비로운 쿠킹 타임"
+
+## 📖 Core Content
+"호랑이가 만드는 달걀(계란)말이?" 더피와 아기 호랑이들의 신비로운 쿠킹 타임"
+A Tiger Baking a Cake?" Watch Duffy and the Cubs Cook with Magic!
+
+추운 겨울밤, 고즈넉한 한옥 마을에 살고 있는 신비로운 푸른 호랑이 '더피'의 주방을 살짝 들여다볼까요?
+
+반짝이는 마법 달걀과 신비로운 약초를 정성껏 손질하고 섞어서, 귀여운 아기 호랑이들과 함께 세상에서 가장 따뜻하고 달콤한 요리를 만듭니다. 지글지글 소리와 함께 완성되어 가는 황금빛 롤케이크!
+
+더피와 친구들이 전하는 마법 같은 힐링 시간을 함께 즐겨보세요.
+
+Step into the magical kitchen of Duffy, the mysterious blue tiger living in a peaceful traditional village on a snowy winter night.
+
+Watch as Duffy and the cubs carefully prepare glowing magical eggs and mystical herbs to create the world’s warmest and sweetest dessert. From the rhythmic chopping to the sizzling pan, experience the magic of baking a golden roll cake.
+
+Relax and enjoy this heartwarming fairy-tale moment with Duffy and friends.
+
+#TigerAnimation #DuffyTheTiger #MagicalCooking #CozyVibes #FantasyArt #HealingVideo #ASMRCooking #TigerCubs #WinterTale #Storytelling #AnimationShorts #BlueTiger #MagicalKitchen #FantasyASMR
+#호랑이애니메이션 #더피 #푸른호랑이 #판타지쿠킹 #호랑이요리 #ASMR요리 #힐링영상 #동화같은영상 #마법요리 #아기호랑이 #겨울밤 #한옥감성 #애니메이션쇼츠 #TuffyTheTiger #BlueTiger #TigerAnimation #MagicalCooking
+
+## 🔗 Knowledge Connections
+- **Related Topics:** None
+- **Projects/Contexts:** [[YouTube Content]]
+- **Contradictions/Notes:** 
+
+---
+*Last updated: 2026-05-26*

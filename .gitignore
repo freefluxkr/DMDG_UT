@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Media / Outputs (Optional: 렌더링된 영상이나 무거운 중간 파일들 제외하고 싶을 때 주석 해제)
+# YOUTUBE/result/**/*.mp4
+# YOUTUBE/result/**/*.wav
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/
