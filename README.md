@@ -33,33 +33,64 @@
 ---
 > **참고**: PWA 내부의 `node_modules`와 Python 임시 캐시 파일들은 `.gitignore`를 통해 업로드에서 제외되었습니다. 코드를 클론(Clone) 받은 후 반드시 `npm install` 등의 초기 세팅을 진행해주세요.
 
-## 🔄 프로젝트 복구 및 초기 세팅 가이드 (Antigravity 재설치 시)
+## 🔄 프로젝트 완전 복구 가이드 (PC 포맷 또는 Antigravity 재설치 시)
 
-만약 PC를 포맷하거나 Antigravity(AI 에이전트)를 새로 설치하여 처음부터 다시 시작해야 할 경우, 다음 순서대로 진행해 주세요.
+만약 PC를 포맷했거나 Antigravity를 완전히 새로 설치하여 **아무것도 없는 백지 상태**에서 시작해야 한다면, 아래의 단계를 순서대로 하나씩 따라와 주세요.
 
-### 1. 소스코드 내려받기 (Clone)
-터미널(또는 Antigravity 파워쉘)을 열고 원하는 폴더(예: `D:\`)에서 아래 명령어를 실행합니다.
+### 1단계: 필수 프로그램 설치 (사전 준비)
+새 PC라면 먼저 아래 두 가지 프로그램이 설치되어 있어야 합니다.
+1. **Git (버전 관리 프로그램)**: [https://git-scm.com/](https://git-scm.com/) 에서 다운로드 후 기본 설정으로 설치 (Next만 누르시면 됩니다).
+2. **Node.js (웹앱 실행 환경)**: [https://nodejs.org/](https://nodejs.org/) 에서 **LTS 버전** 다운로드 후 설치.
+3. (선택) **Python 3.10+**: 영상 합성(YOUTUBE 폴더) 작업을 이어가시려면 파이썬도 설치해야 합니다.
+
+### 2단계: 소스코드 다운로드 (복구)
+1. 윈도우 **명령 프롬프트(cmd)** 또는 **PowerShell**을 엽니다.
+2. 코드를 저장하고 싶은 드라이브로 이동합니다. (예: D드라이브)
+   ```cmd
+   D:
+   ```
+3. 아래 명령어를 복사해서 붙여넣고 엔터를 치면 GitHub에서 전체 코드를 내려받습니다.
+   ```cmd
+   git clone https://github.com/freefluxkr/DMDG_UT.git
+   ```
+4. 명령어가 완료되면 `D:\DMDG_UT` 폴더가 생성됩니다.
+
+### 3단계: Antigravity(AI 에이전트) 초기 세팅
+1. Antigravity를 실행합니다.
+2. 좌측 또는 설정 메뉴에서 **Workspace(작업 폴더)** 를 방금 다운로드 받은 **`D:\DMDG_UT`** 로 지정해 줍니다.
+3. Antigravity 채팅창에 **아래 문장을 그대로 복사해서 붙여넣어 줍니다.** 이 주문을 통해 AI가 과거의 기억과 역할을 100% 되찾습니다.
+
+> **[복구용 마법 주문]**
+> "여기는 '당목담글(DMDG_UT)' 프로젝트 폴더야. 너는 지금부터 단순한 AI가 아니라 우리 팀의 AI 에이전트들이야.
+> 먼저 최상단의 `README.md` 파일과 `회의록/` 폴더 안의 문서들(특히 팀 프로필과 스토리보드)을 전부 꼼꼼히 읽어줘.
+> 다 읽은 후에는 현재 진행 상황을 요약해 주고, 너희들(Demis, Peggy, Mustafa)의 페르소나를 장착한 채로 나(Master)에게 앞으로 무엇을 하면 좋을지 보고해 줘. 
+> PWA 앱과 YOUTUBE 렌더링 파이프라인 구조도 완벽히 파악해 줘."
+
+### 4단계: PWA 웹앱(당목담글) 구동하기
+소스코드만 다운받았을 뿐, 앱을 실행하기 위한 부품(라이브러리)들은 아직 없는 상태입니다. 아래 명령어로 부품을 조립하고 앱을 실행합니다.
+
+1. Antigravity의 터미널(Terminal) 창을 엽니다.
+2. 웹앱 폴더로 이동하여 패키지를 설치하고 실행합니다.
+   ```bash
+   cd D:\DMDG_UT\sodam-pwa
+   npm install
+   npm run dev
+   ```
+3. 화면에 나타난 `http://localhost:5173` 주소를 Ctrl 키를 누른 채로 클릭하면 브라우저에 당목담글 앱이 뜹니다.
+
+### 5단계: 영상 합성 작업(YOUTUBE) 이어가기 (선택)
+웹툰 컷 렌더링이나 영상 결합을 계속하시려면 파이썬 패키지를 설치해야 합니다.
 ```bash
-git clone https://github.com/freefluxkr/DMDG_UT.git
-```
-명령어가 완료되면 `D:\DMDG_UT` 폴더가 생성되고 모든 코드가 다운로드됩니다.
-
-### 2. Antigravity에게 컨텍스트 부여하기
-새로 설치된 Antigravity에게 프로젝트를 설명하려면, 채팅창에 다음과 같이 입력하세요:
-> "D:\DMDG_UT 폴더에 있는 프로젝트야. README.md 파일과 회의록 폴더를 먼저 읽고 현재 상황과 내(Master) 역할, 그리고 너희 팀(Demis, Peggy, Mustafa)의 역할을 파악해 줘."
-
-### 3. PWA 웹앱 실행 준비
-의존성(라이브러리) 모듈을 다시 설치해야 정상적으로 웹앱을 실행할 수 있습니다.
-```bash
-cd D:\DMDG_UT\sodam-pwa
-npm install
-npm run dev
+cd D:\DMDG_UT\YOUTUBE
+pip install -r requirements.txt  (의존성 파일이 없다면 opencv-python, gtts, moviepy 등을 수동 설치)
+python render_video.py
 ```
 
-### 4. 백업 스크립트 실행 (선택)
-작업을 마친 뒤 다시 GitHub에 백업하고 싶다면 `D:\DMDG_UT` 최상단 폴더에서 다음 명령어들을 순서대로 실행하세요.
+### 💡 (팁) 작업 후 다시 백업하려면?
+작업을 마친 뒤 변경된 내용을 다시 GitHub에 백업(저장)하려면 `D:\DMDG_UT` 최상단 폴더에서 다음 명령어들을 순서대로 실행하세요.
 ```bash
 git add .
-git commit -m "작업 내용 요약"
+git commit -m "작업 내용 요약 적기"
 git push
 ```
+*(새 PC라면 처음 한 번은 GitHub 로그인 팝업이 뜰 수 있습니다.)*
