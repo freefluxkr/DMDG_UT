@@ -31,17 +31,33 @@ scenes = {
     ]
 }
 
-def create_srt(srt_path, text):
-    srt_content = f"1\n00:00:00,000 --> 01:00:00,000\n{text}\n"
-    with open(srt_path, "w", encoding="utf-8") as f:
-        f.write(srt_content)
+def create_ass(ass_path, text):
+    ass_text = text.replace('\n', '\\N')
+    
+    ass_content = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 1
 
-def create_scene_video(image_path, audio_path, srt_path, output_path):
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,65,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,4,2,2,80,80,120,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,1:00:00.00,Default,,0,0,0,,{ass_text}
+"""
+    with open(ass_path, "w", encoding="utf-8") as f:
+        f.write(ass_content)
+
+def create_scene_video(image_path, audio_path, ass_path, output_path):
     print(f"Rendering {os.path.basename(output_path)}...")
-    safe_srt_path = srt_path.replace("\\", "/").replace(":", "\\:")
+    safe_ass_path = ass_path.replace("\\", "/").replace(":", "\\\\:")
     cmd = [
         "ffmpeg", "-y", "-loop", "1", "-i", image_path, "-i", audio_path,
-        "-vf", f"scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,subtitles='{safe_srt_path}':force_style='FontSize=26,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=1,Alignment=2,MarginV=60'",
+        "-filter_complex", f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=20:20[bg];[0:v]scale=1080:1920:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2[outv];[outv]subtitles='{safe_ass_path}'[finalv]",
+        "-map", "[finalv]", "-map", "1:a",
         "-c:v", "libx264", "-tune", "stillimage", "-c:a", "aac", "-b:a", "192k", "-pix_fmt", "yuv420p", "-shortest", output_path
     ]
     subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -77,12 +93,12 @@ def main():
                 
                 if scene["image"] != "black":
                     image_path = os.path.join(IMG_DIR, scene["image"])
-                    temp_srt = os.path.join(EXPORT_DIR, f"temp_shorts_scene{scene_num}_{lang}.srt")
+                    temp_ass = os.path.join(EXPORT_DIR, f"temp_shorts_scene{scene_num}_{lang}.ass")
                     if not os.path.exists(image_path): continue
                     
-                    temp_files.extend([temp_vid, temp_srt])
-                    create_srt(temp_srt, scene["text"])
-                    create_scene_video(image_path, audio_path, temp_srt, temp_vid)
+                    temp_files.extend([temp_vid, temp_ass])
+                    create_ass(temp_ass, scene["text"])
+                    create_scene_video(image_path, audio_path, temp_ass, temp_vid)
                 else:
                     temp_txt = os.path.join(EXPORT_DIR, f"temp_shorts_scene{scene_num}_{lang}.txt")
                     temp_files.extend([temp_vid, temp_txt])

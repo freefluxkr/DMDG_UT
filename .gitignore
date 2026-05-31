@@ -18,9 +18,12 @@ venv/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Media / Outputs (Optional: 렌더링된 영상이나 무거운 중간 파일들 제외하고 싶을 때 주석 해제)
-# YOUTUBE/result/**/*.mp4
-# YOUTUBE/result/**/*.wav
+# Media / Outputs
+YOUTUBE/result/**/*.mp4
+YOUTUBE/result/**/*.wav
+*.zip
+*.mp4
+*.wav
 
 # OS Files
 .DS_Store

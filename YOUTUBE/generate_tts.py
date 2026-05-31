@@ -108,9 +108,20 @@ async def main():
     print(f"Total files to generate: {len(all_scripts)}")
     for item in all_scripts:
         print(f"Generating {os.path.basename(item['file'])} with voice {item['voice']}...")
-        communicate = edge_tts.Communicate(item['text'], item['voice'])
+        
+        # 나레이션(Voice) 파트인 경우 비장하고 무겁게, 더피(Duffy) 파트인 경우 약간 무겁게
+        is_narration = "voice" in item['file'] or "long_scene" in item['file'] or "narration" in item['file']
+        
+        if is_narration:
+            rate = "-15%"   # 속도를 느리게 하여 장엄함 강조
+            pitch = "-15Hz" # 피치를 낮춰서 무겁고 슬픈 톤 연출
+        else:
+            rate = "-5%"
+            pitch = "-5Hz"
+            
+        communicate = edge_tts.Communicate(item['text'], item['voice'], rate=rate, pitch=pitch)
         await communicate.save(item['file'])
-    print("All TTS generations completed successfully.")
+    print("All TTS generations completed successfully with solemn tones.")
 
 if __name__ == "__main__":
     asyncio.run(main())
