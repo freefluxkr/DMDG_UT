@@ -1,0 +1,68 @@
+[
+  {
+    "scene_number": 1,
+    "duration": "20초",
+    "character": "나레이션 (여성) / 더피",
+    "dialogue": "나레이션: (한국어) \"100년 전 그날 밤, 누군가는 도망쳤고, 누군가는 피를 흘렸으며, 누군가는 모든 것을 기록했다.\"\n더피: (영어) \"This voice message... it's not just a prank. It's a letter from the past.\"",
+    "background": "쇼츠 티저 마지막 장면(더피가 놀라는 표정)에서 시작해 과거 1895년 건청궁의 밤으로 자연스럽게 트랜지션.",
+    "directing_technique": "시공간을 초월하는 서사 도입. '한'의 감정에 서서히 빠져들게 함.",
+    "camera_working": "[Cross-fade] 현대의 경복궁에서 1895년 흑백/세피아 톤의 고퀄리티 웹툰 작화로 오버랩.",
+    "audio_effect": "바람 소리가 점점 거세지다가 챙-! 하는 날카로운 칼 뽑는 소리로 전환.",
+    "visual_effect": "오래된 필름 텍스처와 노이즈 효과."
+  },
+  {
+    "scene_number": 2,
+    "duration": "30초",
+    "character": "나레이션 (여성)",
+    "dialogue": "나레이션: (일본어 더빙, 한국어/영어 자막) \"가장 차가운 칼날이 내 심장을 꿰뚫던 날, 조선의 밤은 그 어느 때보다 뜨겁게 타올랐다. 내 이름은 지워졌지만, 나의 목소리마저 베어낼 수는 없었다.\"",
+    "background": "차가운 마룻바닥에 툭 떨어져 두 동강 난 비취색 옥비녀. 그 옆으로 붉은 피가 수묵화처럼 은은하게 번져나감.",
+    "directing_technique": "시각적 은유를 통한 비극의 극대화. 피와 비녀의 색채 대비.",
+    "camera_working": "[Slow-motion & Zoom-in] 부러진 옥비녀와 번지는 핏자국을 미려하고 아주 느리게 줌인.",
+    "audio_effect": "구슬픈 해금 연주가 메인 테마로 깔림.",
+    "visual_effect": "채도가 낮은 무채색 배경에 오직 '피의 붉은색'과 '비녀의 비취색'만 남기는 포인트 컬러 기법."
+  },
+  {
+    "scene_number": 3,
+    "duration": "40초",
+    "character": "나레이션 (여성)",
+    "dialogue": "나레이션: (영어 더빙, 한국어/일본어 자막) \"Weep not for the fallen, but remember the silence they left behind. This is not just a story of death; it's an echo of unyielding sorrow... what we call 'Han'.\"",
+    "background": "건청궁 옥호루의 달빛 비치는 문창살. 창호지 너머로 일렁이는 횃불 그림자와 흔들리는 그림자들.",
+    "directing_technique": "다국어 낭독을 통해 글로벌 시청자들에게 '한(Han)'의 개념을 전달.",
+    "camera_working": "[Pan] 창살을 스치며 천천히 옆으로 이동. 그림자의 역동성과 달리 정적인 카메라.",
+    "audio_effect": "멀리서 들리는 군화 발자국 소리(저벅저벅)와 거친 숨소리.",
+    "visual_effect": "창호지에 맺힌 붉은 불빛이 서서히 꺼지며 깊은 어둠으로 침잠."
+  },
+  {
+    "scene_number": 4,
+    "duration": "30초",
+    "character": "더피(Duffy)",
+    "dialogue": "더피: (눈가를 닦으며, 영어) \"I never understood what Koreans meant by 'Han'. Now I know. It's an unbearable sadness, yet so incredibly resilient. This voice... it brought history back to life.\"",
+    "background": "다시 현재의 건청궁. 달빛 아래 서 있는 더피. 표정은 슬프지만 깊은 위로를 받은 듯 평온해 보임.",
+    "directing_technique": "이방인의 입을 빌려 한국의 정서를 공감으로 승화 (위로의 메시지).",
+    "camera_working": "[Medium Shot] 더피의 진정성 있는 인터뷰 샷.",
+    "audio_effect": "해금 연주가 잦아들고 따뜻한 어쿠스틱 피아노 선율로 부드럽게 전환.",
+    "visual_effect": "어두웠던 블루 톤이 걷히고 새벽이 밝아오는 듯한 따뜻한 웜 톤(오렌지/옐로우) 보정."
+  },
+  {
+    "scene_number": 5,
+    "duration": "30초",
+    "character": "당목담글 시그니처 멘트",
+    "dialogue": "나레이션: (한국어) \"단절된 역사를 잇고, 이방인의 눈물을 닦아준 것은 바로 '따뜻한 목소리'였습니다. 잊혀진 이야기들을 당신의 목소리로 다시 들려주세요.\"",
+    "background": "당목담글(DMDG)의 브랜드 로고(따뜻한 음파 모양)가 화면 중앙에 은은하게 떠오름.",
+    "directing_technique": "콘텐츠의 본질(목소리 이어읽기)과 서비스 가치 연결 (Call to Action).",
+    "camera_working": "정지 화면 위에 부드러운 애니메이션 그래픽 전개.",
+    "audio_effect": "희망차고 감성적인 오케스트라 배경음악.",
+    "visual_effect": "텍스트 그래픽 등장: [지금 화면을 두 번 터치하여 당신의 목소리로 다음 글을 읽어주세요]"
+  },
+  {
+    "scene_number": 6,
+    "duration": "20초",
+    "character": "기술적 안내 텍스트",
+    "dialogue": "(나레이션 없음. 텍스트로만 고지)",
+    "background": "깔끔하고 세련된 다크 모드 UI 화면. 자물쇠 아이콘이 빛남.",
+    "directing_technique": "PWA 웹앱 진입 유도 및 프라이버시(On-device) 안심 고지.",
+    "camera_working": "없음.",
+    "audio_effect": "은은한 화이트 노이즈.",
+    "visual_effect": "하단 텍스트 팝업: \"※ 기부하신 소중한 음성 데이터는 서버로 전송되지 않으며, 오직 당신의 기기(On-device)에만 안전하게 보관됩니다. 안심하고 참여하세요.\""
+  }
+]

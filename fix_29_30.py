@@ -38,35 +38,50 @@ def fix_cut30():
     draw = ImageDraw.Draw(base)
     
     text = "지금, 당신의 목소리로 다음글을 읽어 주세요"
-    # Try to load a Korean font
     font_paths = [
         "C:\\Windows\\Fonts\\malgun.ttf", 
         "C:\\Windows\\Fonts\\NanumGothic.ttf",
         "C:\\Windows\\Fonts\\gulim.ttc"
     ]
+    
+    # Dynamically find a font size that fits 90% of image width
+    target_width = int(base.width * 0.9)
+    font_size = 80
     font = None
-    for fp in font_paths:
-        if os.path.exists(fp):
-            font = ImageFont.truetype(fp, 80)
+    
+    while font_size > 10:
+        found_font = None
+        for fp in font_paths:
+            if os.path.exists(fp):
+                found_font = ImageFont.truetype(fp, font_size)
+                break
+        if not found_font:
+            found_font = ImageFont.load_default()
+            font = found_font
             break
             
+        bbox = draw.textbbox((0,0), text, font=found_font)
+        tw = bbox[2] - bbox[0]
+        if tw <= target_width:
+            font = found_font
+            break
+        font_size -= 2
+        
     if font is None:
         font = ImageFont.load_default()
         
-    # Add text shadow/outline for readability
     bbox = draw.textbbox((0,0), text, font=font)
     tw = bbox[2] - bbox[0]
     th = bbox[3] - bbox[1]
     
     x = (base.width - tw) // 2
-    y = (base.height - th) // 2
+    y = int(base.height * 0.8) - th  # Position at bottom-middle area (around 80% height)
     
-    # Semi-transparent text to simulate fade (or just solid text, and we let ffmpeg do the fade out later if needed)
-    # The user asked for "텍스트 페이드 아웃 효과". I will just render solid text here, since it's a still image.
-    draw.text((x, y), text, font=font, fill=(255, 255, 255, 255))
+    # Draw white text with black outline for maximum legibility
+    draw.text((x, y), text, font=font, fill=(255, 255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0, 255))
     
     base.convert("RGB").save(base_path)
-    print("Cut 30 text added successfully.")
+    print(f"Cut 30 text added successfully (size={font_size}).")
 
 if __name__ == "__main__":
     fix_cut29()

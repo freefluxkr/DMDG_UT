@@ -1,0 +1,57 @@
+[
+  {
+    "scene_number": 1,
+    "duration": "5초",
+    "character": "더피(Duffy)",
+    "dialogue": "더피: (카메라를 향해 다급하게, 영어) \"Guys, if you ever come to Korea, beware of this beautiful palace at night.\"",
+    "background": "칠흑 같이 어두운 밤, 화려한 조명이 켜진 경복궁 건청궁 앞.",
+    "directing_technique": "시청자의 호기심을 극대화하는 경고성 멘트 (멱살 잡기 오프닝).",
+    "camera_working": "[Zoom-in] 겁에 질린 듯한 더피의 얼굴로 빠르게 줌인.",
+    "audio_effect": "심장 박동처럼 긴장감을 유발하는 저음의 비트 (둥- 둥-).",
+    "visual_effect": "화면 가장자리에 붉은색 경고(🚨) 테두리가 미세하게 깜빡임."
+  },
+  {
+    "scene_number": 2,
+    "duration": "10초",
+    "character": "더피(Duffy)",
+    "dialogue": "더피: (영어) \"It looks peaceful, right? But the air here... it's incredibly heavy. It feels like something tragic happened right where I'm standing.\"",
+    "background": "건청궁 주변의 고즈넉하지만 묘하게 스산한 풍경을 천천히 훑음.",
+    "directing_technique": "이질감과 '한(恨)'의 분위기 조성.",
+    "camera_working": "[Pan] 더피의 시선을 따라 인적 없는 궁궐의 처마와 어두운 뜰을 천천히 보여줌.",
+    "audio_effect": "차갑고 스산한 바람 소리 (휘이잉-).",
+    "visual_effect": "전체적으로 어둡고 푸른(블루/블랙) 톤 보정으로 스산함 강조."
+  },
+  {
+    "scene_number": 3,
+    "duration": "10초",
+    "character": "더피(Duffy)",
+    "dialogue": "더피: (영어) \"Wait, what is this? I just got an anonymous voice message.\"",
+    "background": "더피가 폰을 꺼내 화면을 봄. 화면은 발신자 표시 제한(Unknown Sender) 상태.",
+    "directing_technique": "갑작스러운 사건 전개로 긴장감 최고조.",
+    "camera_working": "[Close-up] 더피의 폰 화면을 확대하지만, 중요한 부분은 모자이크 처리하여 숨김.",
+    "audio_effect": "소름 돋는 불협화음의 날카로운 알림음 (삐빅-).",
+    "visual_effect": "스마트폰에서 나오는 푸르스름한 불빛이 더피의 얼굴에 강하게 반사됨."
+  },
+  {
+    "scene_number": 4,
+    "duration": "15초",
+    "character": "음성 메시지 (여성)",
+    "dialogue": "음성: (애절한 목소리로, 한국어/영어 자막) \"가장 차가운 칼날이 내 심장을 꿰뚫던 날, 조선의 밤은 그 어느 때보다 뜨겁게 타올랐다...\"",
+    "background": "더피가 숨을 죽이고 메시지를 듣는 모습. 건청궁의 실루엣이 배경으로 깔림.",
+    "directing_technique": "명성황후의 비극적 서사를 암시하는 짧고 강렬한 오디오.",
+    "camera_working": "[Extreme Close-up] 오디오를 듣고 점점 눈이 커지며 충격받는 더피의 눈동자 포커스.",
+    "audio_effect": "유리창이 쨍그랑 깨지는 소리 이후 서글픈 해금(국악기) 선율이 희미하게 깔림.",
+    "visual_effect": "더피의 동공에 붉은 불길이 타오르는 듯한 미세한 CG 반사 효과."
+  },
+  {
+    "scene_number": 5,
+    "duration": "10초",
+    "character": "더피(Duffy)",
+    "dialogue": "더피: (눈물이 맺힌 채, 영어) \"Oh my god... If you want to know the tragic truth behind this voice, check the full video.\"",
+    "background": "충격에서 헤어나오지 못하는 더피.",
+    "directing_technique": "본편(롱폼)으로의 완벽한 트래픽 유도 (Call to Action).",
+    "camera_working": "[Fade-out] 더피의 눈물 맺힌 눈에서 화면 전체가 빠르게 암전됨.",
+    "audio_effect": "무겁게 닫히는 궁궐 문 소리 (쾅-).",
+    "visual_effect": "화면 중앙에 '이방인을 울린 목소리의 정체는? 👉 본편 링크 클릭' 자막 등장."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "scene_number": 1,
+    "duration": "8초",
+    "character": "나레이션",
+    "dialogue": "조선 역사상 가장 거대한 비밀 문서, '금등지사'. 만약 이것이 발견되지 않았다면, 정조는 즉위하자마자 살해당했을지도 모릅니다.",
+    "background": "어두운 궁궐 내부, 붉은 어좌 뒤 그림자 속에 놓인 붉은 끈으로 묶인 철함.",
+    "directing_technique": "시청자의 이목을 단숨에 사로잡는 미스터리하고 웅장한 톤 앤 매너.",
+    "camera_working": "[Zoom-in] 어좌 뒤의 어두운 구석에서 철함으로 서서히 줌인.",
+    "audio_effect": "웅장하고 비장한 대금 소리와 심장 박동 같은 낮은 베이스 음.",
+    "visual_effect": "현대 수묵 채색화 스타일, 붉은색과 검은색의 극명한 대비."
+  },
+  {
+    "scene_number": 2,
+    "duration": "12초",
+    "character": "나레이션",
+    "dialogue": "자신의 친아들 사도세자를 뒤주에 가둬 굶겨 죽인 비정한 아버지, 영조. 하지만 그는 아들이 죽자마자 매일 밤 피눈물을 흘리며 후회했습니다.",
+    "background": "비바람이 몰아치는 궁궐 마당, 거대한 뒤주의 실루엣과 괴로워하는 영조.",
+    "directing_technique": "처절하고 슬픈 비극적 반전 분위기 형성.",
+    "camera_working": "[Pan-down] 하늘의 먹구름에서 땅의 뒤주와 엎드린 영조의 모습으로 내려옴.",
+    "audio_effect": "거센 비바람 소리와 천둥 번개 소리.",
+    "visual_effect": "거친 먹선과 번져나가는 빗방울 표현의 수묵화."
+  },
+  {
+    "scene_number": 3,
+    "duration": "15초",
+    "character": "나레이션",
+    "dialogue": "영조는 손자 정조를 살리기 위해, 자신의 피눈물 섞인 후회와 정조를 해하지 말라는 서약서를 철함에 봉인해 궁궐 깊숙한 곳에 숨깁니다.",
+    "background": "어두운 밀실, 촛불 아래에서 떨리는 붓으로 피 붉은 서찰을 적는 늙은 왕의 손.",
+    "directing_technique": "비장하고 경건한 약속의 의식 연출.",
+    "camera_working": "[Extreme Close-up] 떨리며 서약서를 써 내려가는 붓끝과 붉은 한자에 초밀착 포커스.",
+    "audio_effect": "사각거리는 붓 소리와 은은한 가야금 선율.",
+    "visual_effect": "촛불 주변의 붉은 광원 효과와 검은 어둠의 대비."
+  },
+  {
+    "scene_number": 4,
+    "duration": "13초",
+    "character": "나레이션",
+    "dialogue": "정조가 즉위하자마자 반대파 신하들이 그를 위협할 때, 정조는 숨겨진 금등지사를 꺼내 단 한 장으로 조정의 숨통을 끊어놓았습니다.",
+    "background": "어좌 위에서 금등지사 서찰을 치켜든 위엄 있는 정조와 무릎 꿇은 조정 신하들.",
+    "directing_technique": "카타르시스를 유발하는 사이다 클라이맥스.",
+    "camera_working": "[Low-angle Tilt-up] 무릎 꿇은 신하들의 시선에서 어좌 위 정조의 당당한 전신으로 치켜올림.",
+    "audio_effect": "빠르고 비장하게 고조되는 전통 북소리와 꽹과리 소리.",
+    "visual_effect": "정조의 붉은 곤룡포와 서찰에서 내뿜는 듯한 강렬한 노란빛 안개 효과."
+  },
+  {
+    "scene_number": 5,
+    "duration": "12초",
+    "character": "나레이션",
+    "dialogue": "자식을 죽인 영조가 남긴 피눈물의 유언, 금등지사의 충격적인 진짜 내용은 아래 관련 동영상에서 확인하세요.",
+    "background": "붉은 낙관 도장 테두리 안에 '금등지사의 진짜 비밀' 링크 클릭 유도 화살표가 대각선 아래로 깜빡이는 화면.",
+    "directing_technique": "유튜브 숏폼의 관련 동영상 클릭을 유도하는 깔때기 CTA.",
+    "camera_working": "[Static] 움직임 없이 중앙 정지 상태로 유지.",
+    "audio_effect": "BGM이 서서히 페이드아웃되며 전통 종소리(댕-)로 마무리.",
+    "visual_effect": "한국 전통 문양의 붉은 낙관 디자인이 화면에 박히며 Diagonally down-left 방향의 브러시 화살표 애니메이션 루프."
+  }
+]

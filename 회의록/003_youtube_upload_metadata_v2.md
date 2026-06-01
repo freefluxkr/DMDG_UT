@@ -37,19 +37,19 @@
 * **🔥 감성 후킹 제목 (Title)**: 요괴도 울게 만든 가장 차가운 칼날, 조선의 마지막 밤 (명성황후 편)
 * **📝 영상 설명 (Description)**:
   > 1895년 가을, 건청궁. 한 나라의 국모가 마주해야 했던 가장 차가운 칼날, 그리고 남겨진 슬픔. @anti-korea 의 주인공 더피마저 눈물 흘리게 만든 그 밤의 진짜 이야기를 전합니다. 아픈 역사를 기억하는 가장 따뜻한 방법은 서로의 목소리로 안아주는 것입니다. 지금, 당신의 목소리로 이 슬픔을 치유해 주세요.
-  > 🎤 내 목소리 기부하러 가기 👉 [PWA 웹앱 링크 삽입]
+  > 🎤 내 목소리 기부하러 가기 👉 https://dmdg-ut.web.app/sodam-web
 * **#️⃣ 해시태그**: #당목담글 #명성황후 #웹툰낭독 #목소리기부 #위로 #힐링 #ASMR
 
 ### 🇺🇸 영어 (ENG)
 * **🔥 감성 후킹 제목 (Title)**: The Coldest Blade That Made a Demon Cry: Joseon's Last Night
 * **📝 영상 설명 (Description)**:
   > Autumn 1895, Geoncheonggung Palace. The coldest blade a nation's mother had to face, and the sorrow left behind. We bring you the true story of that night, which brought tears even to Duffy from @anti-korea. The warmest way to remember a painful history is to embrace it with each other's voices. Heal this sorrow with your voice today.
-  > 🎤 Donate your voice now 👉 [PWA Web App Link]
+  > 🎤 Donate your voice now 👉 https://dmdg-ut.web.app/sodam-web
 * **#️⃣ 해시태그**: #VoiceDonation #EmpressMyeongseong #WebtoonVoice #Healing #ASMR #KoreanHistory
 
 ### 🇯🇵 일본어 (JPN)
 * **🔥 감성 후킹 제목 (Title)**: 妖怪をも泣かせた最も冷たい刃、朝鮮最後の夜 (明成皇后 篇)
 * **📝 영상 설명 (Description)**:
   > 1895年秋、乾清宮。一国の国母が直面しなければならなかった最も冷たい刃、そして残された悲しみ。@anti-korea の主人公ダフィーさえも涙させたあの夜の本当の物語をお伝えします。痛ましい歴史を記憶する最も温かい方法は、互いの声で抱きしめ合うことです。今、あなたの声でこの悲しみを癒してください。
-  > 🎤 声の寄付に参加する 👉 [PWA Webアプリリンク]
+  > 🎤 声の寄付に参加する 👉 https://dmdg-ut.web.app/sodam-web
 * **#️⃣ 해시태그**: #声の寄付 #明成皇后 #ウェブトゥーン朗読 #癒し #ヒーリング #ASMR #韓国の歴史

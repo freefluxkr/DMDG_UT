@@ -1,0 +1,16 @@
+CMD: c:\Users\user\Documents\DMDG_UT\YOUTUBE\ffmpeg.exe -y -f concat -safe 0 -i c:/Users/user/Documents/DMDG_UT/YOUTUBE/Projects/Empress_Longform/exports/temp_30c_scene4_JPN_images.txt -i c:/Users/user/Documents/DMDG_UT/YOUTUBE/Projects/Empress_Longform/assets_audio/012_long_scene4_JPN.mp3 -filter_complex [0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,boxblur=20:20[bg];[0:v]scale=1920:1080:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2[outv];[outv]subtitles='c\\:/Users/user/Documents/DMDG_UT/YOUTUBE/Projects/Empress_Longform/exports/temp_30c_scene4_JPN.ass',fade=out:st=16.216:d=2.0[finalv];[1:a]afade=out:st=16.216:d=2.0[finala] -map [finalv] -map [finala] -c:v libx264 -r 30 -c:a aac -b:a 192k -ar 44100 -ac 2 -pix_fmt yuv420p -shortest c:/Users/user/Documents/DMDG_UT/YOUTUBE/Projects/Empress_Longform/exports/temp_30c_scene4_JPN.mp4
+
+STDERR:
+ffmpeg version 2026-05-28-git-7b46c6a2a3-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers
+  built with gcc 16.1.0 (Rev2, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-cairo --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 31.100 / 60. 31.100
+  libavcodec     62. 34.102 / 62. 34.102
+  libavformat    62. 18.100 / 62. 18.100
+  libavdevice    62.  4.100 / 62.  4.100
+  libavfilter    11. 17.100 / 11. 17.100
+  libswscale      9.  7.100 /  9.  7.100
+  libswresample   6.  4.100 /  6.  4.100
+[Parsed_subtitles_5 @ 000002473ff92e00] Unable to parse "original_size" option value "/Users/user/Documents/DMDG_UT/YOUTUBE/Projects/Empress_Longform/exports/temp_30c_scene4_JPN.ass" as image size
+[fc#0 @ 000002473ff70f40] Error applying option 'original_size' to filter 'subtitles': Invalid argument
+Error : Invalid argument
