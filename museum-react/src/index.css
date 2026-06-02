@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Noto Serif KR", serif;
+  --font-sans: "Noto Sans KR", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply antialiased select-none bg-[#090d16] text-white;
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer components {
+  .serif {
+    font-family: var(--font-serif);
+  }
+
+  /* Mist Animation */
+  .mist-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mist {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    opacity: 0.4;
+    animation: mist-move 40s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+  }
+
+  @keyframes mist-move {
+    from {
+      transform: translateX(-30%) translateY(15%);
+    }
+    to {
+      transform: translateX(5%) translateY(-5%);
+    }
+  }
+
+  /* 3D Gate Styles */
+  .gate-frame {
+    perspective: 1200px;
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
+    transform-style: preserve-3d;
+  }
+
+  /* Cinematic Vignetting */
+  .gate-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(9, 13, 22, 0.95) 0%, transparent 30%, transparent 70%, rgba(9, 13, 22, 0.95) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .door {
+    transition: transform 4.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-style: preserve-3d;
+    z-index: 10;
+  }
+
+  /* Gate Opening State */
+  .gate-open .door-left {
+    transform: rotateY(-110deg);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
+  }
+
+  .gate-open .door-right {
+    transform: rotateY(110deg);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+  }
+
+  .gate-open .ui-layer {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+  }
+
+  .gate-open .portal-bg {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  /* Text Glow */
+  .text-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Glassmorphism */
+  .glass-card {
+    background: rgba(20, 25, 35, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Custom Animations */
+  .animate-width {
+    animation: expand-width 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    width: 0;
+  }
+
+  @keyframes expand-width {
+    to { width: 4rem; }
+  }
+
+  .record-pulse {
+    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.2;
+    }
+    50% {
+      transform: scale(1.15);
+      opacity: 0.4;
+    }
+  }
+
+  /* Custom Scrollbar */
+  .custom-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+  }
+}
