@@ -91,19 +91,21 @@ function AudiobookPlayerModal({ isOpen, onClose, theme, email }) {
           initial={{ y: 20, scale: 0.95, opacity: 0 }}
           animate={{ y: 0, scale: 1, opacity: 1 }}
           exit={{ y: 20, scale: 0.95, opacity: 0 }}
-          className="bg-white border border-slate-200 rounded-[2rem] w-full max-w-sm overflow-hidden shadow-2xl relative"
+          className="bg-white/80 backdrop-blur-2xl border border-white/60 rounded-[2rem] w-full max-w-sm overflow-hidden shadow-2xl relative"
         >
+          {/* Wave Background */}
+          <div className="absolute inset-0 z-0 opacity-70 pointer-events-none" style={{ backgroundImage: `url('${import.meta.env.BASE_URL}bg_waves.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
           {/* Header */}
-          <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50 relative z-10">
-            <h3 className="text-xs font-bold text-slate-500 tracking-widest uppercase">당목담글 특별판 오디오북</h3>
-            <button onClick={onClose} className="text-slate-400 hover:text-orange-500 p-1 font-bold transition">
+          <div className="p-5 border-b border-white/40 flex justify-between items-center bg-white/40 backdrop-blur-sm relative z-10">
+            <h3 className="text-xs font-bold text-slate-700 tracking-widest uppercase">당목담글 특별판 오디오북</h3>
+            <button onClick={onClose} className="text-slate-500 hover:text-orange-500 p-1 font-bold transition">
               ✕
             </button>
           </div>
 
           {/* Record Player UI */}
-          <div className="p-8 pb-10 flex flex-col items-center justify-center relative bg-white">
-            <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
+          <div className="p-8 pb-10 flex flex-col items-center justify-center relative">
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
             
             <div className="relative w-48 h-48 mb-8 z-10">
               {/* Outer Glow */}
@@ -118,13 +120,13 @@ function AudiobookPlayerModal({ isOpen, onClose, theme, email }) {
                 className="absolute inset-0 rounded-full bg-slate-50 border-[4px] border-white shadow-xl flex items-center justify-center overflow-hidden"
               >
                 {/* Grooves */}
-                <div className="absolute inset-3 rounded-full border border-slate-200" />
-                <div className="absolute inset-7 rounded-full border border-slate-100" />
-                <div className="absolute inset-11 rounded-full border border-slate-200" />
-                <div className="absolute inset-14 rounded-full border border-slate-100" />
-                {/* Center Label */}
-                <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-inner relative z-20" style={{ backgroundColor: rawAccent }}>
-                  <div className="w-4 h-4 bg-white rounded-full border border-slate-200 shadow-inner" />
+                <div className="absolute inset-3 rounded-full border border-slate-200/80" />
+                <div className="absolute inset-7 rounded-full border border-slate-100/80" />
+                <div className="absolute inset-11 rounded-full border border-slate-200/80" />
+                <div className="absolute inset-14 rounded-full border border-slate-100/80" />
+                {/* Center Label (Logo) */}
+                <div className="w-[5.5rem] h-[5.5rem] rounded-full flex items-center justify-center shadow-inner relative z-20 overflow-hidden bg-white p-0.5 border border-slate-200">
+                  <img src={`${import.meta.env.BASE_URL}logo_circle.png`} alt="당목담글 로고" className="w-full h-full object-cover rounded-full" />
                 </div>
               </motion.div>
             </div>

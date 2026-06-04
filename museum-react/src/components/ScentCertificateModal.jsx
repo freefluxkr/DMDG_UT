@@ -41,16 +41,18 @@ function ScentCertificateModal({ isOpen, onClose, theme }) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-md bg-white border border-slate-200 rounded-[2rem] shadow-2xl overflow-hidden"
+            className="relative w-full max-w-md bg-white/85 backdrop-blur-2xl border border-white/60 rounded-[2rem] shadow-2xl overflow-hidden"
           >
+            {/* Wave Background */}
+            <div className="absolute inset-0 z-0 opacity-60 pointer-events-none" style={{ backgroundImage: `url('${import.meta.env.BASE_URL}bg_waves.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
             {/* Top decorative wave */}
-            <div className="w-full h-32 relative flex items-center justify-center overflow-hidden bg-slate-50">
+            <div className="w-full h-32 relative flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
-                <div className="absolute bottom-0 w-[150%] h-24 bg-white rounded-t-[50%] translate-y-12 shadow-sm"></div>
+                <div className="absolute bottom-0 w-[150%] h-24 bg-white/30 backdrop-blur-sm rounded-t-[50%] translate-y-12 shadow-sm"></div>
                 
-                {/* Wax seal */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full border border-dashed flex items-center justify-center shadow-sm bg-white" style={{ borderColor: rawAccent }}>
-                    <span className="text-2xl" style={{ color: rawAccent }}>💮</span>
+                {/* Wax seal (Logo) */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full border border-dashed border-slate-300 flex items-center justify-center shadow-md bg-white p-0.5 z-10 overflow-hidden">
+                    <img src={`${import.meta.env.BASE_URL}logo_circle.png`} alt="당목담글 로고" className="w-full h-full object-cover rounded-full" />
                 </div>
             </div>
 

@@ -55,13 +55,13 @@ function MediaGallery() {
             <span className="text-xs uppercase tracking-widest font-bold text-amber-500">
               Media Archive
             </span>
-            <h1 className="serif text-3xl sm:text-4xl mt-2 text-slate-100 flex items-center gap-3">
-              {palaceData.title} <span className="text-lg text-slate-400 font-sans tracking-wide">| {palaceData.subtitle}</span>
+            <h1 className="serif text-3xl sm:text-4xl mt-2 text-white flex items-center gap-3">
+              {palaceData.title} <span className="text-lg text-white/80 font-sans tracking-wide">| {palaceData.subtitle}</span>
             </h1>
           </div>
           <button 
             onClick={() => navigate(`/chamber/${palaceId}`)} 
-            className="px-6 py-2.5 glass-card hover:bg-white/10 rounded-full text-xs text-slate-300 tracking-wider transition font-bold"
+            className="px-6 py-2.5 bg-white/20 hover:bg-white/30 rounded-full text-xs text-white tracking-wider transition font-bold shadow-md border border-white/30"
           >
             ← 전시관으로 돌아가기
           </button>

@@ -90,7 +90,7 @@ function Chamber() {
       bgSoft: "bg-teal-50",
       borderSoft: "border-teal-200",
       bgActive: "bg-teal-100",
-      tagCode: "@anti-korea"
+      tagCode: "@Anti-korea"
     },
     changgyeong: { 
       name: "창경궁", subtitle: "비극의 전각", spirit: "사도세자", season: "하얀 눈이 쌓이는 겨울",
@@ -323,10 +323,12 @@ function Chamber() {
             onClick={() => navigate('/gallery/' + palaceId)} 
             className="cursor-pointer group"
           >
-            <span className={`text-xs uppercase tracking-widest font-extrabold transition mb-1 block group-hover:brightness-110 ${currentTheme.accent}`}>
-              {currentTheme.name} 전시관 (영상실 입장)
+            <span className={`text-xs uppercase tracking-widest font-extrabold transition mb-1 block group-hover:brightness-110 text-amber-500`}>
+              MEDIA ARCHIVE (영상실 입장)
             </span>
-            <h1 className="serif text-3xl sm:text-4xl mt-1 font-bold text-blue-950 group-hover:text-blue-800 transition">{currentTheme.subtitle}</h1>
+            <h1 className="serif text-3xl sm:text-4xl mt-1 font-bold text-white group-hover:text-slate-200 transition">
+              {currentTheme.name} 전시관 <span className="text-white/60 font-medium text-lg sm:text-xl ml-2 tracking-normal">| {currentTheme.subtitle} ({currentTheme.tagCode})</span>
+            </h1>
           </div>
           <button onClick={() => navigate('/')} className="px-6 py-2.5 bg-white border border-slate-300 hover:border-blue-900 rounded-full text-xs text-blue-950 tracking-wider transition font-bold shadow-sm">
             ← 대문으로 돌아가기
