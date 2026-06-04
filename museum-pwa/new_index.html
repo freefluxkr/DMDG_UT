@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>당목담글: 역사의 문 (The Gates)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* New Paper-cut Bright Theme Palette */
+            --bg-base: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.7);
+            --bg-glass-heavy: rgba(255, 255, 255, 0.9);
+            --color-navy: #172554; /* Deep Navy */
+            --color-teal: #0d9488; /* Vibrant Teal */
+            --color-mint: #2dd4bf; /* Light Mint */
+            --color-orange: #ea580c; /* Warm Orange */
+            --color-yellow: #eab308; /* Golden Yellow */
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .serif { font-family: 'Noto Serif KR', serif; }
+
+        /* Fluid Paper-cut SVG Backgrounds */
+        .paper-cut-layer {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .svg-wave {
+            position: absolute;
+            width: 120vw;
+            min-width: 1400px;
+            left: -10vw;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
+            animation: wave-breathe 15s ease-in-out infinite alternate;
+        }
+
+        .svg-wave-top { top: -5vh; transform-origin: top center; }
+        .svg-wave-bottom { bottom: -5vh; transform-origin: bottom center; }
+
+        @keyframes wave-breathe {
+            0% { transform: scale(1) translateY(0) rotate(0deg); }
+            100% { transform: scale(1.05) translateY(-20px) rotate(1deg); }
+        }
+
+        /* 3D Gate Frameworks */
+        .gate-frame {
+            perspective: 1500px;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s;
+            z-index: 20;
+        }
+
+        .door {
+            transition: transform 2.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-style: preserve-3d;
+            z-index: 10;
+        }
+
+        /* Authentic Korean Palace Fortress Door Styling */
+        .palace-wood {
+            background: radial-gradient(circle at center, #541d1d 0%, #2f0f0f 100%);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.85), 5px 0 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        /* Traditional Brass Studs (정정) layout */
+        .stud-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            padding: 2.5rem 1.5rem;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.45;
+        }
+        .stud {
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle at 3px 3px, #ffd700, #8b6508);
+            border-radius: 50%;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.6);
+            margin: auto;
+        }
+
+        /* Separate Palace Gate Illustration Portal Mapping */
+        .portal-bg {
+            transition: transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .portal-bg-gwanghwa { background-image: url('gwanghwa_spring_2.png'); background-position: 50% 50%; }
+        .portal-bg-deoksu { background-image: url('deoksu_autumn_2.png'); background-position: 0% 50%; }
+        .portal-bg-changgyeong { background-image: url('changgyeong_winter_2.png'); background-position: 100% 50%; }
+
+        /* Exhibition Chamber Banners */
+        .banner-gwanghwa { background-image: url('gwanghwa_spring_2.png'); background-size: cover; background-position: 50% 30%; }
+        .banner-deoksu { background-image: url('deoksu_autumn_2.png'); background-size: cover; background-position: 50% 30%; }
+        .banner-changgyeong { background-image: url('changgyeong_winter_2.png'); background-size: cover; background-position: 50% 30%; }
+
+        /* Gate Opening State Triggers */
+        .gate-open .door-left {
+            transform: rotateY(-115deg);
+            box-shadow: 15px 0 40px rgba(0,0,0,0.4);
+        }
+        .gate-open .door-right {
+            transform: rotateY(115deg);
+            box-shadow: -15px 0 40px rgba(0,0,0,0.4);
+        }
+        .gate-open .ui-layer {
+            opacity: 0;
+            transform: scale(0.92);
+            pointer-events: none;
+        }
+        .gate-open .portal-bg {
+            opacity: 1;
+            transform: scale(1.15); /* Soft majestic zoom */
+        }
+
+        /* Radar Chart Container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 260px;
+        }
+
+        /* Light Glassmorphism Card */
+        .glass-card {
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            background: var(--bg-glass);
+            border: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255,255,255,0.4);
+            color: var(--text-main);
+        }
+
+        .glass-card-heavy {
+            background: var(--bg-glass-heavy);
+        }
+
+        /* Swipe Navigation Slider */
+        .gate-slider {
+            display: flex;
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .gate-item {
+            min-width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem 6rem 2rem;
+        }
+
+        /* Pulse Recording Circle */
+        .record-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+        }
+
+        /* Custom Scrollbar for Light Theme */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); border-radius: 10px;}
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+
+        /* Sky Lantern Memorial Styles */
+        .lantern-container {
+            position: absolute;
+            bottom: -150px;
+            width: 80px;
+            height: 120px;
+            pointer-events: none;
+            animation: rise-and-drift 24s linear forwards;
+            filter: drop-shadow(0 0 15px rgba(234, 88, 12, 0.4));
+            z-index: 10;
+        }
+
+        @keyframes rise-and-drift {
+            0% { transform: translateY(0) translateX(0) scale(0.6) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.95; }
+            50% { transform: translateY(-40vh) translateX(40px) scale(0.85) rotate(5deg); }
+            100% { transform: translateY(-110vh) translateX(-60px) scale(0.4) rotate(-8deg); opacity: 0; }
+        }
+
+        /* Responsive Mobile Tweak */
+        @media (max-width: 640px) {
+            .chart-container { height: 180px; }
+            .gate-item { padding: 4rem 1rem 8rem 1rem; }
+            .glass-card { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body class="antialiased select-none relative">
+
+    <!-- Paper-cut Animated Fluid Backgrounds -->
+    <div class="paper-cut-layer">
+        <!-- Top Layers -->
+        <svg class="svg-wave svg-wave-top" style="animation-delay: -2s; z-index: 3;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#172554" fill-opacity="1" d="M0,64L48,80C96,96,192,128,288,122.7C384,117,480,75,576,69.3C672,64,768,96,864,112C960,128,1056,128,1152,112C1248,96,1344,64,1392,48L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        </svg>
+        <svg class="svg-wave svg-wave-top" style="animation-delay: -5s; z-index: 2;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#0d9488" fill-opacity="1" d="M0,128L48,138.7C96,149,192,171,288,154.7C384,139,480,85,576,80C672,75,768,117,864,144C960,171,1056,181,1152,165.3C1248,149,1344,96,1392,69.3L1440,43L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        </svg>
+        <svg class="svg-wave svg-wave-top" style="animation-delay: -8s; z-index: 1;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#ea580c" fill-opacity="1" d="M0,192L48,181.3C96,171,192,149,288,149.3C384,149,480,171,576,197.3C672,224,768,256,864,240C960,224,1056,160,1152,122.7C1248,85,1344,75,1392,69.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        </svg>
+
+        <!-- Bottom Layers -->
+        <svg class="svg-wave svg-wave-bottom" style="animation-delay: -1s; z-index: 3;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#0d9488" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,117.3C672,85,768,43,864,37.3C960,32,1056,64,1152,80C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+        <svg class="svg-wave svg-wave-bottom" style="animation-delay: -4s; z-index: 2;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#eab308" fill-opacity="1" d="M0,160L48,154.7C96,149,192,139,288,144C384,149,480,171,576,170.7C672,171,768,149,864,149.3C960,149,1056,171,1152,192C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+        <svg class="svg-wave svg-wave-bottom" style="animation-delay: -7s; z-index: 1;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#172554" fill-opacity="1" d="M0,224L48,229.3C96,235,192,245,288,224C384,203,480,149,576,133.3C672,117,768,139,864,154.7C960,171,1056,181,1152,192C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+
+    <!-- YouTube Shorts Custom Lightbox Player Modal -->
+    <div id="shortsPlayerModal" class="fixed inset-0 z-[130] bg-white/80 backdrop-blur-xl flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="relative w-full max-w-sm aspect-[9/16] bg-black rounded-3xl border border-slate-200 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex flex-col justify-between">
+            <button onclick="closeShortsPlayer()" class="absolute top-4 right-4 z-50 w-8 h-8 rounded-full bg-white/20 backdrop-blur border border-white/40 text-white flex items-center justify-center text-lg hover:bg-white/40 transition font-bold">✕</button>
+            <iframe id="shortsIframe" class="w-full h-full" src="" title="YouTube video player" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            
+            <div class="absolute bottom-4 left-0 right-0 px-6 text-center z-50">
+                <button id="shortsFallbackBtn" class="w-full py-2.5 bg-[#ff0000]/80 hover:bg-[#ff0000] backdrop-blur-md border border-[#ff0000]/40 rounded-full text-xs text-white font-bold tracking-wider transition shadow-lg">
+                    유튜브에서 직접 감상하기 ↗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Splash Screen -->
+    <div id="splash" class="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center transition-opacity duration-1000">
+        <!-- Recreating the logo's colorful paper-cut vortex -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50">
+             <div class="w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] rounded-full border-[40px] border-orange-500 blur-[20px] animate-pulse"></div>
+             <div class="absolute w-[60vw] h-[60vw] max-w-[450px] max-h-[450px] rounded-full border-[30px] border-teal-500 blur-[15px] animate-pulse" style="animation-delay: 0.5s;"></div>
+             <div class="absolute w-[40vw] h-[40vw] max-w-[300px] max-h-[300px] rounded-full border-[20px] border-blue-900 blur-[10px] animate-pulse" style="animation-delay: 1s;"></div>
+        </div>
+        <div class="relative z-10 text-center px-4 bg-white/80 p-12 rounded-full backdrop-blur-sm shadow-[0_0_50px_rgba(255,255,255,1)]">
+            <h1 class="serif text-6xl font-bold tracking-[0.4em] text-blue-900 mb-4 opacity-0 animate-pulse" style="animation-duration: 3s; opacity: 1;">당목담글</h1>
+            <p class="text-sm font-bold tracking-[0.3em] text-teal-600 uppercase">Connecting Hearts through History</p>
+            <div class="w-16 h-[2px] bg-orange-500 mx-auto mt-6"></div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="fixed top-0 inset-x-0 z-[90] glass-card p-4 mx-4 mt-20 rounded-2xl hidden transition-all duration-300">
+        <div class="max-w-md mx-auto">
+            <h3 class="serif text-lg text-blue-900 font-bold mb-2 flex items-center justify-between">
+                <span>⚙️ Gemini AI 설정 (선택사항)</span>
+                <button onclick="toggleSettings()" class="text-xs text-slate-500 hover:text-orange-500 font-bold">닫기</button>
+            </h3>
+            <p class="text-xs text-slate-600 mb-4 leading-relaxed font-medium">
+                '당목담글'은 이 환경에서 <b>Gemini API Key를 자동으로 감지하여 대입</b>합니다. 별도로 입력하지 않으셔도 완벽하게 구동됩니다.
+            </p>
+            <div class="flex space-x-2">
+                <input id="apiKeyInput" type="password" placeholder="AI-xxxxxxxxxxxx..." class="flex-1 px-4 py-2 bg-white/50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition">
+                <button onclick="saveApiKey()" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs font-bold transition shadow-md">저장</button>
+            </div>
+            <p id="apiKeyStatus" class="text-[10px] text-teal-600 font-bold mt-2 hidden">✓ API Key가 로컬에 정상 저장되었습니다.</p>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlertModal" class="fixed inset-0 z-[120] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-card max-w-sm w-full p-6 rounded-2xl border border-white text-center shadow-2xl">
+            <span class="text-3xl block mb-3">💬</span>
+            <h4 class="serif text-lg text-blue-900 font-bold mb-2">알림</h4>
+            <p id="customAlertText" class="text-sm text-slate-700 font-medium leading-relaxed mb-6"></p>
+            <button onclick="closeCustomAlert()" class="px-8 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-xs rounded-full transition font-bold shadow-md">
+                확인
+            </button>
+        </div>
+    </div>
+
+    <main id="app" class="relative z-10 w-full h-screen overflow-hidden opacity-0 transition-opacity duration-1000">
+        
+        <!-- Top Navigation -->
+        <nav class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center bg-gradient-to-b from-white/90 to-transparent">
+            <div class="serif text-2xl font-bold tracking-wider text-blue-950 drop-shadow-sm">The Gates</div>
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:flex space-x-6 text-xs font-bold tracking-widest uppercase text-slate-500">
+                    <button onclick="moveGate(0)" class="nav-link hover:text-orange-500 transition text-orange-600">Gwanghwa</button>
+                    <button onclick="moveGate(1)" class="nav-link hover:text-orange-500 transition">Deoksu</button>
+                    <button onclick="moveGate(2)" class="nav-link hover:text-orange-500 transition">Changgyeong</button>
+                </div>
+                <button onclick="toggleSettings()" class="px-4 py-2 glass-card rounded-xl text-xs font-bold text-blue-900 hover:text-orange-500 transition flex items-center space-x-1.5 shadow-sm">
+                    <span>⚙️</span> <span class="hidden md:inline">설정</span>
+                </button>
+            </div>
+        </nav>
+
+        <div id="gateSlider" class="gate-slider h-full">
+            
+            <!-- Gate 1: Gwanghwamun -->
+            <section class="gate-item" id="section-0">
+                <div class="gate-frame relative w-full max-w-lg aspect-[4/5] flex items-center justify-center">
+                    <div class="absolute inset-0 flex overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)]" style="perspective: 1200px; background-color: #090d16;">
+                        <div class="absolute inset-0 portal-bg portal-bg-gwanghwa bg-cover bg-center transition-transform duration-[2s] ease-out scale-100 z-0 opacity-0" id="portal-bg-0"></div>
+                        
+                        <div class="door door-left w-1/2 h-full palace-wood border-r border-[#8b2525]/50 flex items-center justify-end pr-4 origin-left">
+                            <div class="stud-grid">
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full border border-yellow-600/30 bg-radial from-yellow-500/10 to-yellow-900/40 flex items-center justify-center shadow-lg relative z-20">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500/60 shadow-inner flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full border border-yellow-500/20 absolute -right-2 top-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="door door-right w-1/2 h-full palace-wood border-l border-[#8b2525]/50 flex items-center justify-start pl-4 origin-right">
+                            <div class="stud-grid">
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full border border-yellow-600/30 bg-radial from-yellow-500/10 to-yellow-950/40 flex items-center justify-center shadow-lg relative z-20">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500/60 shadow-inner flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full border border-yellow-500/20 absolute -left-2 top-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ui-layer relative z-20 w-full p-8 text-center transition-all duration-700">
+                        <div class="glass-card p-6 rounded-3xl mt-12 mx-auto shadow-xl inline-block max-w-[90%]">
+                            <span class="text-orange-600 text-xs tracking-[0.3em] font-extrabold bg-orange-100 px-3 py-1 rounded-full">@dmdg-free</span>
+                            <h2 class="serif text-3xl sm:text-4xl mt-5 mb-2 font-bold text-blue-950">광화문 (정궁)</h2>
+                            <p class="text-slate-600 font-medium text-sm mb-6">따뜻한 봄날, 단종과 정조 등 조선 왕실 정사</p>
+                            
+                            <div class="chart-container mb-6">
+                                <canvas id="chart-gwanghwa"></canvas>
+                            </div>
+
+                            <button onclick="openGate(0, this)" class="px-10 py-3.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-sm font-bold tracking-widest uppercase transition-all shadow-[0_10px_20px_rgba(234,88,12,0.3)]">
+                                문의 안쪽으로 입장하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gate 2: Deoksugung -->
+            <section class="gate-item" id="section-1">
+                <div class="gate-frame relative w-full max-w-lg aspect-[4/5] flex items-center justify-center">
+                    <div class="absolute inset-0 flex overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)]" style="perspective: 1200px; background-color: #090d16;">
+                        <div class="absolute inset-0 portal-bg portal-bg-deoksu bg-cover bg-center transition-transform duration-[2s] ease-out scale-100 z-0 opacity-0" id="portal-bg-1"></div>
+                        
+                        <div class="door door-left w-1/2 h-full palace-wood border-r border-[#8b2525]/50 flex items-center justify-end pr-4 origin-left">
+                            <div class="stud-grid">
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full border border-yellow-600/30 bg-radial from-yellow-500/10 to-yellow-900/40 flex items-center justify-center shadow-lg relative z-20">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500/60 shadow-inner flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full border border-yellow-500/20 absolute -right-2 top-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="door door-right w-1/2 h-full palace-wood border-l border-[#8b2525]/50 flex items-center justify-start pl-4 origin-right">
+                            <div class="stud-grid">
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full border border-yellow-600/30 bg-radial from-yellow-500/10 to-yellow-900/40 flex items-center justify-center shadow-lg relative z-20">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500/60 shadow-inner flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full border border-yellow-500/20 absolute -left-2 top-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ui-layer relative z-20 w-full p-8 text-center transition-all duration-700">
+                        <div class="glass-card p-6 rounded-3xl mt-12 mx-auto shadow-xl inline-block max-w-[90%]">
+                            <span class="text-teal-600 text-xs tracking-[0.3em] font-extrabold bg-teal-50 px-3 py-1 rounded-full">@anti-korea</span>
+                            <h2 class="serif text-3xl sm:text-4xl mt-5 mb-2 font-bold text-blue-950">덕수궁 (근대의 아픔)</h2>
+                            <p class="text-slate-600 font-medium text-sm mb-6">간도와 관동 학살 등 아픈 역사의 현장</p>
+                            
+                            <div class="chart-container mb-6">
+                                <canvas id="chart-deoksu"></canvas>
+                            </div>
+
+                            <button onclick="openGate(1, this)" class="px-10 py-3.5 bg-teal-600 hover:bg-teal-700 text-white rounded-full text-sm font-bold tracking-widest uppercase transition-all shadow-[0_10px_20px_rgba(13,148,136,0.3)]">
+                                역사의 진실 마주하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gate 3: Changgyeonggung -->
+            <section class="gate-item" id="section-2">
+                <div class="gate-frame relative w-full max-w-lg aspect-[4/5] flex items-center justify-center">
+                    <div class="absolute inset-0 flex overflow-hidden rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)]" style="perspective: 1200px; background-color: #090d16;">
+                        <div class="absolute inset-0 portal-bg portal-bg-changgyeong bg-cover bg-center transition-transform duration-[2s] ease-out scale-100 z-0 opacity-0" id="portal-bg-2"></div>
+                        
+                        <div class="door door-left w-1/2 h-full palace-wood border-r border-[#8b2525]/50 flex items-center justify-end pr-4 origin-left">
+                            <div class="stud-grid">
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full border border-yellow-600/30 bg-radial from-yellow-500/10 to-yellow-900/40 flex items-center justify-center shadow-lg relative z-20">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500/60 shadow-inner flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full border border-yellow-500/20 absolute -right-2 top-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="door door-right w-1/2 h-full palace-wood border-l border-[#8b2525]/50 flex items-center justify-start pl-4 origin-right">
+                            <div class="stud-grid">
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                                <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full border border-yellow-600/30 bg-radial from-yellow-500/10 to-yellow-900/40 flex items-center justify-center shadow-lg relative z-20">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500/60 shadow-inner flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full border border-yellow-500/20 absolute -left-2 top-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ui-layer relative z-20 w-full p-8 text-center transition-all duration-700">
+                        <div class="glass-card p-6 rounded-3xl mt-12 mx-auto shadow-xl inline-block max-w-[90%]">
+                            <span class="text-blue-700 text-xs tracking-[0.3em] font-extrabold bg-blue-100 px-3 py-1 rounded-full">@dmdg-sad</span>
+                            <h2 class="serif text-3xl sm:text-4xl mt-5 mb-2 font-bold text-blue-950">창경궁 (비극의 전각)</h2>
+                            <p class="text-slate-600 font-medium text-sm mb-6">하얀 눈, 사도세자 등 전각의 슬픈 비사</p>
+                            
+                            <div class="chart-container mb-6">
+                                <canvas id="chart-changgyeong"></canvas>
+                            </div>
+
+                            <button onclick="openGate(2, this)" class="px-10 py-3.5 bg-blue-800 hover:bg-blue-900 text-white rounded-full text-sm font-bold tracking-widest uppercase transition-all shadow-[0_10px_20px_rgba(30,58,138,0.3)]">
+                                비극의 전각 탐색하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Navigation Helpers -->
+        <div class="fixed inset-y-0 left-4 z-40 flex items-center pointer-events-none">
+            <button onclick="moveGate(currentGateIndex - 1)" class="pointer-events-auto p-4 rounded-full bg-white/80 backdrop-blur shadow-lg text-blue-900 hover:text-orange-500 transition border border-slate-200" id="prevBtn" style="opacity: 0.3;">
+                <b class="text-xl">←</b>
+            </button>
+        </div>
+        <div class="fixed inset-y-0 right-4 z-40 flex items-center pointer-events-none">
+            <button onclick="moveGate(currentGateIndex + 1)" class="pointer-events-auto p-4 rounded-full bg-white/80 backdrop-blur shadow-lg text-blue-900 hover:text-orange-500 transition border border-slate-200" id="nextBtn">
+                <b class="text-xl">→</b>
+            </button>
+        </div>
+
+        <!-- Bottom Status Bar -->
+        <footer class="fixed bottom-0 left-0 w-full p-6 flex justify-between items-end z-40 pointer-events-none">
+            <div class="pointer-events-auto glass-card px-4 py-2 rounded-full">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                    <span id="statusLabel" class="text-[10px] font-bold text-slate-700 tracking-widest uppercase">광화문 게이트 동기화 완료</span>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- The Exhibition Chamber (Light Paper-cut Theme) -->
+    <div id="exhibitionChamber" class="fixed inset-0 z-50 bg-white overflow-y-auto hidden opacity-0 transition-opacity duration-1000 p-4 sm:p-8">
+        
+        <!-- Background inner waves for the chamber -->
+        <div class="paper-cut-layer" style="opacity: 0.4;">
+            <svg class="svg-wave svg-wave-top" style="animation-delay: -3s;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#f6a500" fill-opacity="1" d="M0,256L48,229.3C96,203,192,149,288,154.7C384,160,480,224,576,218.7C672,213,768,139,864,122.7C960,107,1056,149,1152,170.7C1248,192,1344,192,1392,192L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+            </svg>
+            <svg class="svg-wave svg-wave-bottom" style="animation-delay: -6s;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#2bbca5" fill-opacity="1" d="M0,128L48,149.3C96,171,192,213,288,208C384,203,480,149,576,144C672,139,768,181,864,186.7C960,192,1056,160,1152,154.7C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto flex flex-col min-h-full relative z-10">
+            
+            <!-- Chamber Topbar -->
+            <div class="flex justify-between items-center pb-6 border-b border-slate-200">
+                <div>
+                    <span id="chamberAccent" class="text-xs uppercase tracking-widest font-extrabold text-orange-500">광화문 전시관</span>
+                    <h1 id="chamberTitle" class="serif text-3xl sm:text-4xl mt-1 font-bold text-blue-950">정궁의 메아리</h1>
+                </div>
+                <button onclick="closeExhibition()" class="px-6 py-2.5 bg-white border border-slate-300 hover:border-blue-900 rounded-full text-xs text-blue-950 tracking-wider transition font-bold shadow-sm">
+                    ← 대문으로 돌아가기
+                </button>
+            </div>
+
+            <!-- Slice Illustration Display (Visual Header of Chamber) -->
+            <div id="chamberBanner" class="w-full h-48 rounded-3xl mt-8 border-4 border-white shadow-[0_15px_30px_rgba(0,0,0,0.15)] relative overflow-hidden bg-cover bg-center transition-all duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10"></div>
+                <div class="absolute bottom-5 left-6 flex items-center space-x-2">
+                    <span id="chamberBannerSeason" class="text-[11px] uppercase font-bold tracking-widest px-3 py-1.5 rounded-full bg-white/90 text-slate-900 shadow-lg backdrop-blur">
+                        따뜻한 봄
+                    </span>
+                </div>
+            </div>
+
+            <!-- Immersive Split Screen (Grid) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 flex-1">
+                
+                <!-- Left Column: Voice Donation & Time Mailbox & Lantern Ceremony -->
+                <div class="flex flex-col space-y-6">
+                    
+                    <!-- Mode Selector Tab -->
+                    <div class="flex space-x-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-inner">
+                        <button id="tabBtnReading" onclick="switchRitualTab('reading')" class="flex-1 py-2.5 rounded-xl text-xs font-bold transition bg-white text-orange-600 shadow-sm border border-slate-200">
+                            📖 목소리 발자취 남기기
+                        </button>
+                        <button id="tabBtnLetter" onclick="switchRitualTab('letter')" class="flex-1 py-2.5 rounded-xl text-xs font-bold transition text-slate-500 hover:text-blue-900">
+                            ✉️ 시공의 우체통
+                        </button>
+                        <button id="tabBtnLantern" onclick="switchRitualTab('lantern')" class="flex-1 py-2.5 rounded-xl text-xs font-bold transition text-slate-500 hover:text-blue-900">
+                            🌌 등불 추모 의례
+                        </button>
+                    </div>
+
+                    <!-- Ritual Tab 1: Reading Essay Block -->
+                    <div id="ritualTabReading" class="glass-card-heavy p-8 rounded-3xl relative overflow-hidden flex-1 flex flex-col justify-between min-h-[400px] border border-white shadow-xl">
+                        <div>
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="serif text-xl font-bold text-blue-950">오늘의 마중물</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="playTTS('readingText')" class="px-4 py-2 bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 rounded-full text-[11px] transition flex items-center space-x-1 font-bold shadow-sm">
+                                        <span>🔊 낭독 듣기</span>
+                                    </button>
+                                    <button onclick="generateReading(true)" class="px-4 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 rounded-full text-[11px] transition font-bold shadow-sm">
+                                        새 글 가져오기
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Emotional Tone Customizer Selector -->
+                            <div class="mb-6 flex items-center space-x-3 bg-slate-50/80 p-3 rounded-2xl border border-slate-200">
+                                <span class="text-[11px] text-slate-500 font-bold">감정 조율:</span>
+                                <div class="flex space-x-2" id="toneSelector">
+                                    <button id="tone-btn-solemn" onclick="setReadingTone('solemn', this)" class="tone-btn px-3 py-1.5 rounded-xl text-[11px] font-bold bg-blue-900 text-white shadow-md transition">경건·엄숙</button>
+                                    <button id="tone-btn-warm" onclick="setReadingTone('warm', this)" class="tone-btn px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-600 bg-white border border-slate-200 hover:text-orange-500 transition">따뜻·위로</button>
+                                    <button id="tone-btn-poetic" onclick="setReadingTone('poetic', this)" class="tone-btn px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-600 bg-white border border-slate-200 hover:text-orange-500 transition">시적·애도</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Internal Loader Block -->
+                            <div id="readingLoader" class="absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center z-10 hidden rounded-3xl">
+                                <div class="w-10 h-10 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin"></div>
+                                <p class="text-sm text-blue-950 mt-4 serif font-bold">마음을 수필로 적어내는 중...</p>
+                            </div>
+                            
+                            <!-- Active Essay Reading Text Block -->
+                            <div id="readingText" class="serif text-lg sm:text-xl text-slate-700 leading-loose tracking-wide h-56 overflow-y-auto custom-scroll pr-4 font-medium">
+                                "비는 대지를 적시고, 내 목소리는 누군가의 마음에 가닿아 따뜻한 위로가 됩니다. 광화문 너머 고요히 침묵하는 전각의 밤, 조선 왕실의 엄숙함 속에 살다 간 이들의 깊은 숨결을 오늘 내 숨결과 엮어 목소리로 되살립니다."
+                            </div>
+                        </div>
+
+                        <!-- Simulated Recording and Evaluation Ritual -->
+                        <div class="mt-6 pt-6 border-t border-slate-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-sm text-blue-950 font-bold">목소리 발자취 남기기</h4>
+                                    <p id="recordingStatus" class="text-xs text-slate-500 mt-1 font-medium">대기 중</p>
+                                </div>
+                                <div class="relative w-16 h-16 flex items-center justify-center">
+                                    <div id="micPulse" class="absolute inset-0 rounded-full bg-orange-500/20 record-pulse hidden"></div>
+                                    <button id="recordBtn" onclick="toggleRecordingSimulation()" class="relative z-10 w-14 h-14 rounded-full bg-white hover:bg-orange-50 border-2 border-orange-200 hover:border-orange-500 hover:scale-105 active:scale-95 shadow-lg flex items-center justify-center text-2xl transition">
+                                        🎙️
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Waves Visualizer -->
+                            <div id="visualizerPlaceholder" class="w-full h-6 mt-4 flex justify-start items-center space-x-1.5 opacity-20 transition-opacity">
+                                <div class="w-1.5 h-3 bg-orange-400 rounded-full"></div>
+                                <div class="w-1.5 h-5 bg-teal-500 rounded-full"></div>
+                                <div class="w-1.5 h-4 bg-orange-400 rounded-full"></div>
+                                <div class="w-1.5 h-2 bg-blue-900 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ritual Tab 2: Time Mailbox Block -->
+                    <div id="ritualTabLetter" class="glass-card-heavy p-8 rounded-3xl relative overflow-hidden flex-1 flex flex-col justify-between min-h-[400px] border border-white shadow-xl hidden">
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="serif text-xl font-bold text-blue-950 mb-3">시공의 우체통</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed mb-5 font-medium">
+                                    역사적 인물이나 그 아픔 속에서 잊힌 영혼을 향해 따뜻한 위로의 편지를 남겨 보세요. <b>Gemini가 그들의 화답 편지</b>를 적어내려 갑니다.
+                                </p>
+                                
+                                <textarea id="letterInput" rows="4" placeholder="예: 나라를 잃고 슬퍼하셨을 고종 황제께 위로의 마음을 전합니다..." class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-sm text-slate-800 focus:outline-none focus:border-teal-500 custom-scroll resize-none mb-4 shadow-inner"></textarea>
+                                
+                                <button onclick="sendLetterToPast()" class="w-full py-3.5 bg-blue-900 hover:bg-blue-950 rounded-2xl text-sm text-white transition font-bold shadow-lg">
+                                    ✉️ 시공간 너머로 편지 보내기
+                                </button>
+                            </div>
+
+                            <!-- Reply Area -->
+                            <div id="letterReplyContainer" class="mt-6 pt-6 border-t border-slate-200 hidden">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="serif text-sm font-bold text-orange-600" id="replyAuthor">역사 속에서 온 답장</h4>
+                                    <button onclick="playTTS('replyContent')" class="px-3 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-full text-[10px] transition flex items-center space-x-1 font-bold">
+                                        <span>🔊 목소리로 듣기</span>
+                                    </button>
+                                </div>
+                                <div id="replyContent" class="serif text-sm text-slate-700 leading-relaxed bg-slate-50 p-5 rounded-2xl border border-slate-200 max-h-32 overflow-y-auto custom-scroll chat-bubble-content font-medium">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2 Loader -->
+                        <div id="letterLoader" class="absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center z-10 hidden rounded-3xl">
+                            <div class="w-10 h-10 border-4 border-blue-200 border-t-blue-900 rounded-full animate-spin"></div>
+                            <p class="text-sm text-blue-950 mt-4 serif font-bold text-center px-4 leading-relaxed">과거의 영혼과<br>연결하는 중...</p>
+                        </div>
+                    </div>
+
+                    <!-- Ritual Tab 3: Sky Lantern Memorial Block -->
+                    <div id="ritualTabLantern" class="glass-card-heavy p-8 rounded-3xl relative overflow-hidden flex-1 flex flex-col justify-between min-h-[400px] border border-white shadow-xl hidden">
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="serif text-xl font-bold text-blue-950 mb-3">🌌 등불 추모 의례</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed mb-5 font-medium">
+                                    역사 속 영혼들에게 전하는 애틋한 바람을 한 구절 적어 보세요. <b>Gemini가 이를 정통 한국 시조(Sijo)</b>로 승화하여 등불과 함께 올립니다.
+                                </p>
+                                
+                                <textarea id="lanternInput" rows="3" placeholder="예: 차가운 겨울 뒤주 속에서 눈감은 사도세자께 따뜻한 봄바람이 불기를 소망합니다..." class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-sm text-slate-800 focus:outline-none focus:border-teal-500 custom-scroll resize-none mb-4 shadow-inner"></textarea>
+                                
+                                <button onclick="launchLantern()" class="w-full py-3.5 bg-teal-600 hover:bg-teal-700 rounded-2xl text-sm text-white transition font-bold shadow-lg">
+                                    🌌 추모 등불 밝히기
+                                </button>
+                            </div>
+
+                            <!-- Generated Sijo Display Area -->
+                            <div id="sijoDisplayContainer" class="mt-6 pt-6 border-t border-slate-200 hidden relative">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="serif text-sm font-bold text-teal-700">헌정 추모 시조</h4>
+                                    <button onclick="playTTS('sijoContent')" class="px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 rounded-full text-[10px] transition flex items-center space-x-1 font-bold">
+                                        <span>🔊 시조 낭송 듣기</span>
+                                    </button>
+                                </div>
+                                <div id="sijoContent" class="serif text-base text-center text-blue-950 leading-loose bg-white p-6 rounded-3xl border border-slate-200 shadow-inner max-h-40 overflow-y-auto custom-scroll tracking-wide font-bold">
+                                    <!-- Sijo content -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3 Loader -->
+                        <div id="lanternLoader" class="absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center z-10 hidden rounded-3xl">
+                            <div class="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
+                            <p class="text-sm text-blue-950 mt-4 serif font-bold text-center px-4 leading-relaxed">염원의 등불을 올리고<br>시조를 짓는 중...</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Interactive Chat (Docent vs Spirit Mirror) -->
+                <div class="flex flex-col space-y-6">
+                    <div class="glass-card-heavy p-8 rounded-3xl flex-1 flex flex-col justify-between min-h-[500px] border border-white shadow-xl">
+                        <div>
+                            <!-- Toggle Mode -->
+                            <div class="flex space-x-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-inner mb-6">
+                                <button id="modeBtnDocent" onclick="switchChamberMode('docent')" class="flex-1 py-2 rounded-xl text-[11px] font-bold transition bg-white text-teal-700 shadow-sm border border-slate-200">
+                                    🧑‍🏫 도슨트 제이와 대화
+                                </button>
+                                <button id="modeBtnMirror" onclick="switchChamberMode('mirror')" class="flex-1 py-2 rounded-xl text-[11px] font-bold transition text-slate-500 hover:text-purple-700">
+                                    🔮 역사 속 영령의 거울
+                                </button>
+                            </div>
+
+                            <div class="flex items-center justify-between pb-5 border-b border-slate-200 mb-5">
+                                <div class="flex items-center space-x-3">
+                                    <div id="chatAvatar" class="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-sm shadow-md font-bold text-white">J</div>
+                                    <div>
+                                        <h4 id="chatName" class="text-sm font-bold text-blue-950">AI 도슨트 '제이'</h4>
+                                        <p id="chatSub" class="text-[10px] text-slate-500 font-bold mt-0.5">역사와 마음을 지키는 가이드</p>
+                                    </div>
+                                </div>
+                                <button onclick="clearChatHistory()" class="text-xs text-slate-400 hover:text-orange-500 font-bold bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">대화 초기화</button>
+                            </div>
+
+                            <!-- Chat Scroll Area -->
+                            <div id="chatArea" class="h-[300px] overflow-y-auto custom-scroll space-y-5 pr-4 text-sm">
+                                <div class="flex space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-[11px] shrink-0 font-bold text-white shadow-sm">J</div>
+                                    <div class="chat-bubble-content bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200 max-w-[85%] text-slate-700 leading-relaxed text-sm serif font-medium shadow-sm">
+                                        어서 오세요. 저는 '당목담글'의 수필 편집자이자 역사적 진실을 전하는 동행자, 제이(Jay)입니다. 질문을 던져주시면 따뜻하게 답해 드릴게요.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input Block -->
+                        <div class="mt-5 pt-5 border-t border-slate-200">
+                            <div class="flex space-x-2">
+                                <input id="chatInput" onkeypress="handleChatKey(event)" type="text" placeholder="제이에게 질문해 보세요..." class="flex-1 px-4 py-3.5 bg-white border-2 border-slate-200 rounded-2xl text-sm text-slate-800 focus:outline-none focus:border-teal-500 shadow-inner font-medium">
+                                <button onclick="sendChatMessage()" class="px-6 py-3.5 bg-teal-600 hover:bg-teal-700 rounded-2xl text-sm text-white transition font-bold shrink-0 shadow-md">
+                                    보내기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- YouTube Shorts Gallery Section -->
+            <div class="glass-card-heavy p-8 rounded-3xl mt-10 border border-white shadow-xl">
+                <h3 class="serif text-xl font-bold text-blue-950 mb-5 flex items-center justify-between">
+                    <span>🎥 역사 쇼츠 갤러리 (<span id="shortsThemeAccent" class="text-orange-500">@dmdg-free</span>)</span>
+                    <span class="text-xs text-slate-500 tracking-wider font-bold bg-slate-100 px-3 py-1 rounded-full">인기 순 배치</span>
+                </h3>
+                <div id="shortsGalleryList" class="flex space-x-5 overflow-x-auto pb-6 custom-scroll snap-x snap-mandatory">
+                    <!-- Dynamic rendering of shorts cards -->
+                </div>
+            </div>
+
+            <!-- Custom Email Subscription Banner -->
+            <div class="glass-card-heavy p-8 rounded-3xl mt-8 border-2 border-orange-100 bg-gradient-to-tr from-orange-50 to-white shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-center md:text-left">
+                        <h4 class="serif text-xl font-bold text-orange-600 mb-2">📬 나의 발자취를 한 편의 오디오북으로</h4>
+                        <p class="text-sm text-slate-600 font-medium leading-relaxed max-w-xl">
+                            추후 채널 구독 시, 기기에 축적해둔 나만의 목소리 흔적 수필들을 <b>전용 헌정 오디오북(MP3)</b>으로 엮어 보내드립니다.
+                        </p>
+                    </div>
+                    <div class="flex space-x-2 w-full md:w-auto shrink-0">
+                        <input id="subEmailInput" type="email" placeholder="example@email.com" class="px-4 py-3 bg-white border-2 border-orange-200 rounded-2xl text-sm text-slate-800 focus:outline-none focus:border-orange-500 w-full md:w-64 shadow-inner">
+                        <button onclick="subscribeAudiobook()" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white text-sm rounded-2xl font-bold transition shrink-0 shadow-md">
+                            신청하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Records list -->
+            <div class="glass-card-heavy p-8 rounded-3xl mt-8 border border-white shadow-xl">
+                <h3 class="serif text-xl font-bold text-blue-950 mb-5">📜 내 기기에 저장된 나의 흔적들</h3>
+                <div id="donationRecordList" class="grid grid-cols-1 md:grid-cols-2 gap-5 max-h-60 overflow-y-auto custom-scroll pr-2">
+                    <p class="text-sm text-slate-500 font-medium italic">아직 발자취가 없습니다. 낭독을 마쳐보세요.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Portal Opening Transition layer (Now Bright White Glass) -->
+    <div id="transitionLayer" class="fixed inset-0 z-[200] bg-white/95 backdrop-blur-2xl opacity-0 pointer-events-none transition-opacity duration-[1.2s]"></div>
+
+    <!-- Certificate Modal with Imagen Postcard display -->
+    <div id="certificateModal" class="fixed inset-0 z-[110] bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4 hidden transition-opacity duration-500 overflow-y-auto">
+        <div class="bg-white max-w-lg w-full p-10 rounded-[2rem] text-center relative shadow-2xl my-8">
+            <span class="text-xs text-orange-500 font-bold uppercase tracking-widest block mb-2">Dang-Mok-Dam-Geul</span>
+            <h2 class="serif text-3xl font-extrabold text-blue-950 mb-6">목소리 발자취 증서</h2>
+            
+            <!-- Real-Time AI generated custom postcard space -->
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 mb-6 flex items-center justify-center shadow-inner">
+                <div id="postcardLoader" class="absolute inset-0 bg-white/90 backdrop-blur flex flex-col items-center justify-center z-10 hidden">
+                    <div class="w-8 h-8 border-4 border-teal-200 border-t-teal-500 rounded-full animate-spin"></div>
+                    <p class="text-xs text-blue-900 font-bold mt-3 serif">기념 화첩을 그리는 중...</p>
+                </div>
+                <img id="postcardImage" class="w-full h-full object-cover hidden" alt="AI Commemorative Postcard" onerror="this.classList.add('hidden'); document.getElementById('postcardPlaceholder').classList.remove('hidden');">
+                <div id="postcardPlaceholder" class="text-center p-4">
+                    <p class="text-sm font-bold text-slate-400">"발자취를 남기면 AI 기념 엽서가 발행됩니다."</p>
+                </div>
+            </div>
+
+            <div class="w-16 h-[2px] bg-slate-200 mx-auto mb-6"></div>
+            
+            <p id="certPalaceName" class="text-base text-blue-900 serif mb-2 font-extrabold">광화문 전시관</p>
+            <p id="certColorName" class="text-[11px] tracking-widest font-bold text-teal-600 mb-5 uppercase">목소리 색채: 분석 대기 중</p>
+            
+            <div id="certAppreciation" class="serif text-base text-slate-700 font-medium leading-relaxed bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8 max-h-48 overflow-y-auto custom-scroll">
+                "이름 모를 무고한 이들의 한을 기리는 낭독... 귀하의 목소리가 잊힌 이들의 마음을 따뜻하게 위로합니다."
+            </div>
+            
+            <p class="text-[10px] text-slate-400 mb-8 font-medium leading-relaxed px-4">
+                * 이 증서, 생성된 엽서 및 낭독 기록은 완벽히 귀하의 브라우저(LocalStorage) 내부에만 보관되며, 서버로 유입되지 않습니다.
+            </p>
+            
+            <div class="flex space-x-3 justify-center">
+                <button id="certPlayBtn" onclick="playTTS('certAppreciation')" class="px-6 py-3 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-700 text-sm rounded-2xl transition flex items-center space-x-1 font-bold shadow-sm">
+                    <span>🔊 증서 목소리로 듣기</span>
+                </button>
+                <button onclick="closeCertificate()" class="px-8 py-3 bg-blue-900 hover:bg-blue-950 text-white text-sm rounded-2xl transition font-bold shadow-md">
+                    마음속에 간직하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // System and User Configuration State
+        const apiKey = ""; 
+        let currentGateIndex = 0;
+        let isRecording = false;
+        let recordingTimer = null;
+        let activePalaceTheme = "광화문";
+        let activeAudio = null;
+        let activeReadingTone = "solemn"; 
+        let activeChamberTab = "reading"; 
+        let activeChamberMode = "docent"; 
+
+        let recognition = null;
+        let transcribedText = "";
+        let isSpeechSupported = false;
+
+        let readingCache = {
+            "광화문": { "solemn": null, "warm": null, "poetic": null },
+            "덕수궁": { "solemn": null, "warm": null, "poetic": null },
+            "창경궁": { "solemn": null, "warm": null, "poetic": null }
+        };
+
+        let chatHistories = {
+            "광화문": { "docent": [], "mirror": [] },
+            "덕수궁": { "docent": [], "mirror": [] },
+            "창경궁": { "docent": [], "mirror": [] }
+        };
+
+        // Real-world thematic YouTube Shorts Metadata belonging to @dmdg-free sorted by views
+        const shortsData = {
+            "광화문": [
+                { id: "s-g-1", title: "단종의 비극적인 잔혹사 (Full Ver.)", views: "142만 회", duration: "01:13", youtubeId: "Uu3m9I_D9yU", bgGrad: "from-orange-100 to-white", badgeColor: "border-orange-200 text-orange-600 bg-white" },
+                { id: "s-g-2", title: "다산 정약용의 고뇌에 가득 찬 하루", views: "85만 회", duration: "00:59", youtubeId: "Uu3m9I_D9yU", bgGrad: "from-yellow-100 to-white", badgeColor: "border-yellow-300 text-yellow-700 bg-white" },
+                { id: "s-g-3", title: "가장 슬픈 고백, 판소리 춘향가 '쑥대머리'", views: "41만 회", duration: "03:50", youtubeId: "Uu3m9I_D9yU", bgGrad: "from-slate-100 to-white", badgeColor: "border-slate-300 text-slate-700 bg-white" }
+            ],
+            "덕수궁": [
+                { id: "s-d-1", title: "명성황후 시해 사건, 경복궁 내 옥호루의 비극", views: "215만 회", duration: "05:01", youtubeId: "Uu3m9I_D9yU", bgGrad: "from-red-100 to-white", badgeColor: "border-red-200 text-red-600 bg-white" },
+                { id: "s-d-2", title: "을사늑약과 제국의 노을, 슬픈 고종의 마지막 편지", views: "92만 회", duration: "02:15", youtubeId: "Uu3m9I_D9yU", bgGrad: "from-orange-50 to-white", badgeColor: "border-orange-200 text-orange-600 bg-white" }
+            ],
+            "창경궁": [
+                { id: "s-c-1", title: "조선 여인 박씨, 병자호란의 모진 풍파", views: "110만 회", duration: "02:01", youtubeId: "Uu3m9I_D9yU", bgGrad: "from-indigo-100 to-white", badgeColor: "border-indigo-200 text-indigo-600 bg-white" },
+                { id: "s-c-2", title: "사도세자 이선, 차디찬 뒤주 속 마지막 슬픈 독백", views: "74만 회", duration: "01:30", youtubeId: "Uu3m9I_D9yU", bgGrad: "from-purple-100 to-white", badgeColor: "border-purple-200 text-purple-600 bg-white" }
+            ]
+        };
+
+        const gateData = [
+            { id: 0, title: "광화문", channel: "@dmdg-free", status: "광화문 게이트 동기화 완료", accent: "#ea580c", season: "따뜻한 봄" },
+            { id: 1, title: "덕수궁", channel: "@anti-korea", status: "덕수궁 비극 데이터 분석 완료", accent: "#0d9488", season: "하늘이 높은 가을" },
+            { id: 2, title: "창경궁", channel: "@dmdg-sad", status: "창경궁 비밀 아카이브 연동 완료", accent: "#1d4ed8", season: "하얀 눈이 쌓이는 겨울" }
+        ];
+
+        // Fallback Local Readings
+        const localReadingsPool = {
+            "광화문": {
+                "solemn": ["새벽안개 헤쳐 일어난 광화문의 기둥마다 따뜻한 봄날의 슬픈 햇살이 감돕니다. 기와의 선을 그리던 대목수의 숨결과 정조 대왕이 고뇌하던 정사의 밤이, 오늘 내 목소리를 타고 흘러 하나의 따뜻한 역사가 됩니다."],
+                "warm": ["봄날의 햇살처럼 온화한 온기가 광화문 너머 쓸쓸히 비어 있는 전각 뜰을 보듬어 안습니다. 오랫동안 묵혀왔던 역사의 시린 눈물을 거두어 가듯, 오늘 내 다정한 목소리가 작은 희망의 촛불로 타오릅니다."],
+                "poetic": ["흐드러진 봄날의 벚꽃이 기와 끝에 내려앉는 밤, 바람이 이끄는 대로 내 목소리가 가만히 흘러갑니다. 가늘게 피어오르는 향 연기 너머 보이지 않는 영혼들에게 영원토록 시리지 않을 봄을 선물하렵니다."]
+            },
+            "덕수궁": {
+                "solemn": ["대한문 너머 가을 밤의 달빛은 유난히 푸르고 하늘은 높아 쓸쓸함이 깊어집니다. 간도의 들판에서 쓰러져 간 이름 모를 나의 벗들과 관동의 불길 속에서 침묵했던 영혼들의 흔적을 오늘 내 따뜻한 날숨으로 되살려냅니다."],
+                "warm": ["단풍잎이 흩날리는 정동 돌담길 너머 고요한 전각 뒤편에 작은 화로 하나를 놓습니다. 고난의 세월 속에 차디찬 겨울을 보내야 했던 백성들의 혼령들에게, 내 가슴속에서 빚어낸 따뜻한 한 구절로 온기를 나눕니다."],
+                "poetic": ["마른 단풍잎이 돌바닥에 서걱이며 속삭이는 가을, 가슴 깊숙한 곳에서 우러나는 시를 읊조려 봅니다. 푸른 창공 멀리 흩어져 버린 대한제국의 마지막 눈물들이 내 목소리에 기대어 편안한 꿈속으로 떠나갑니다."]
+            },
+            "창경궁": {
+                "solemn": ["하얀 눈이 내리는 전각 문정전 뜰 앞에서 가녀린 대금 소리가 흐느끼듯 흩어집니다. 뒤주 속에 잠든 슬픈 세자의 넋을 기리며, 오랫동안 침묵 속에 가둬두었던 비사를 이제는 내 목소리의 울림으로 감싸 안으렵니다."],
+                "warm": ["문정전 처마 아래 포근하게 내려앉은 하얀 눈처럼, 나의 소리가 상처받은 외로운 마음에 가만히 내려앉습니다. 모진 세월의 가위눌림에서 비로소 안식할 수 있도록, 오직 그대의 영혼을 향한 따뜻한 안부를 띄워 보냅니다."],
+                "poetic": ["시린 달빛이 켜지는 고요한 겨울밤의 연못가, 얼어붙은 나뭇가지 끝에 목소리로 하얀 눈꽃송이를 피웁니다. 비극의 서막 끝에 마침내 마주하는 침묵의 순간, 아름답고 슬픈 향기를 남긴 채 별빛 속으로 날아오릅니다."]
+            }
+        };
+
+        const docentJaySystemPrompt = `
+        너는 한국 궁궐의 가슴 아픈 비극과 역사적 사실을 가장 따뜻하고 정중하게 들려주는 AI 도슨트 '제이(Jay)'다.
+        사용자가 질문하는 역사적 의문에 대해 온화하고 품격 있는 문체로 답변해 줘.
+        너는 이전 대화의 문맥을 모두 기억하고 있어, 친근하고 유연하게 대답해야 한다.
+        역사적 진실(간도 참변, 관동 대지진 조선인 학살, 사도세자 등)을 타협 없이 정확하게 전달하되, 비극 속에서 희망과 추모의 마음을 이끌어내는 문체로 한국어로만 작성해 줘.
+        `;
+
+        const mirrorSpiritPrompts = {
+            "광화문": `너는 만 16세에 영월에서 원통하게 숨을 거둔 조선의 어린 비운의 임금, '단종(홍위)'의 영혼이다. 10대의 어린 소년 임금으로서 가련하고 정갈하며 슬픈 한문학적 명조 어조로 한국어로만 말해라.`,
+            "덕수궁": `너는 제국의 황혼과 주권 상실의 참혹한 비극을 지켜봐야 했던 대한제국의 슬픈 군주, '고종 황제(이희)'의 영혼이다. 황제의 무겁고 정중하며 애통한 명조체 어조로 말해라.`,
+            "창경궁": `너는 아버지 영조에 의해 문정전 앞 뜰 뒤주에 갇혀 8일 동안 숨이 막혀 비극적으로 눈을 감았던 비운의 왕세자, '사도세자(이선)'의 영혼이다. 가슴을 쥐어짜는 듯 시리고, 절박한 슬픈 명조체 독백 어조로 대답해라.`
+        };
+
+        const writerSystemPrompt = `
+        너는 한국의 아름답고 슬픈 역사를 기록하는 문학가이자 목소리 기부 플랫폼 '당목담글'의 대표 수필 편집자다.
+        사용자가 선택한 궁궐 역사 테마와 낭독 감정 톤에 맞춰, 기부자가 소리 내어 낭독하기 가장 따뜻하고, 울림이 있으며, 문학적으로 아름다운 3~4문장 길이의 수필(마중물)을 한국어로 작성해 줘.
+        오직 텍스트 수필 내용만 바로 반환해 줘.
+        `;
+
+        const replyLetterSystemPrompt = `
+        너는 역사 속 아픔을 겪고 세상을 떠난 인물이거나, 그 참상 속에서 잊힌 평범한 한인 백성(피해자)의 영혼이다.
+        사용자가 시공간을 넘어 전해온 따뜻한 위로의 편지를 읽고, 당시의 역사적 사실(검색 활용)에 기반하여 진심 어린 눈물과 감사가 담긴 답장을 한국어로 써 줘.
+        따뜻하고 서정적인 독백으로 3~4문장 분량으로 작성해라.
+        `;
+
+        const lanternSystemPrompt = `
+        너는 한국의 애달픈 역사적 죽음과 한을 위로하는 고전 향가 및 시인이다.
+        사용자가 과거의 영혼들을 추모하며 작성한 염원과 기도의 글을 감상하고, 이를 정통 3장 6구 형식의 기품 있고 눈물겨운 한국 전통 시조(Sijo)로 승화하여 작성해 줘.
+        오직 줄바꿈이 있는 3줄의 시조 구절만 직접 반환해라.
+        `;
+
+        const certificateSystemPrompt = `
+        사용자가 다음 마중물을 낭독하여 목소리를 기부했습니다:
+        사용자의 목소리에 맞추어 정밀한 감정 지수를 분석하고 그 결과를 한국어로 구성해줘.
+        반환값은 반드시 JSON 포맷이어야 한다.
+        `;
+
+        // Utility Functions
+        function showCustomAlert(message) {
+            const modal = document.getElementById('customAlertModal');
+            if (modal) {
+                document.getElementById('customAlertText').innerText = message;
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.add('opacity-100'), 50);
+            }
+        }
+
+        function closeCustomAlert() {
+            const modal = document.getElementById('customAlertModal');
+            if (modal) {
+                modal.classList.remove('opacity-100');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        // Initialize Speech Recognition
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'ko-KR';
+                isSpeechSupported = true;
+
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    let finalTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript;
+                        } else {
+                            interimTranscript += event.results[i][0].transcript;
+                        }
+                    }
+                    if (finalTranscript) {
+                        transcribedText += finalTranscript + " ";
+                    }
+                    const displayStatus = transcribedText || interimTranscript || "낭독 소리를 감지하고 있습니다...";
+                    const statusEl = document.getElementById('recordingStatus');
+                    if (statusEl) statusEl.innerText = "낭독 분석 중: " + displayStatus.substring(0, 30) + "...";
+                };
+            }
+        }
+
+        function setReadingTone(tone, btn) {
+            activeReadingTone = tone;
+            document.querySelectorAll('.tone-btn').forEach(b => {
+                b.className = "tone-btn px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-600 bg-white border border-slate-200 hover:text-orange-500 transition";
+            });
+            btn.className = "tone-btn px-3 py-1.5 rounded-xl text-[11px] font-bold bg-blue-900 text-white shadow-md transition";
+            
+            const rText = document.getElementById('readingText');
+            if (readingCache[activePalaceTheme][tone]) {
+                if (rText) rText.innerText = readingCache[activePalaceTheme][tone];
+            } else {
+                generateReading(false);
+            }
+        }
+
+        function switchRitualTab(tab) {
+            activeChamberTab = tab;
+            const btnReading = document.getElementById('tabBtnReading');
+            const btnLetter = document.getElementById('tabBtnLetter');
+            const btnLantern = document.getElementById('tabBtnLantern');
+            const divReading = document.getElementById('ritualTabReading');
+            const divLetter = document.getElementById('ritualTabLetter');
+            const divLantern = document.getElementById('ritualTabLantern');
+
+            const unselected = "flex-1 py-2.5 rounded-xl text-xs font-bold transition text-slate-500 hover:text-blue-900";
+            const selected = "flex-1 py-2.5 rounded-xl text-xs font-bold transition bg-white text-orange-600 shadow-sm border border-slate-200";
+
+            if (btnReading) btnReading.className = unselected;
+            if (btnLetter) btnLetter.className = unselected;
+            if (btnLantern) btnLantern.className = unselected;
+
+            if (divReading) divReading.classList.add('hidden');
+            if (divLetter) divLetter.classList.add('hidden');
+            if (divLantern) divLantern.classList.add('hidden');
+
+            if (tab === 'reading') {
+                if (btnReading) btnReading.className = selected;
+                if (divReading) divReading.classList.remove('hidden');
+            } else if (tab === 'letter') {
+                if (btnLetter) btnLetter.className = selected;
+                if (divLetter) divLetter.classList.remove('hidden');
+            } else if (tab === 'lantern') {
+                if (btnLantern) btnLantern.className = selected;
+                if (divLantern) divLantern.classList.remove('hidden');
+            }
+        }
+
+        function switchChamberMode(mode) {
+            activeChamberMode = mode;
+            const btnDocent = document.getElementById('modeBtnDocent');
+            const btnMirror = document.getElementById('modeBtnMirror');
+            const avatar = document.getElementById('chatAvatar');
+            const nameEl = document.getElementById('chatName');
+            const subEl = document.getElementById('chatSub');
+            const chatInput = document.getElementById('chatInput');
+
+            if (btnDocent) btnDocent.className = "flex-1 py-2 rounded-xl text-[11px] font-bold transition text-slate-500 hover:text-teal-700";
+            if (btnMirror) btnMirror.className = "flex-1 py-2 rounded-xl text-[11px] font-bold transition text-slate-500 hover:text-purple-700";
+
+            if (mode === 'docent') {
+                if (btnDocent) btnDocent.className = "flex-1 py-2 rounded-xl text-[11px] font-bold transition bg-white text-teal-700 shadow-sm border border-slate-200";
+                if (avatar) {
+                    avatar.innerText = "J";
+                    avatar.className = "w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-sm shadow-md font-bold text-white";
+                }
+                if (nameEl) nameEl.innerText = "AI 도슨트 '제이'";
+                if (subEl) subEl.innerText = "온라인 · 역사와 마음을 지키는 가이드";
+                if (chatInput) chatInput.placeholder = "제이에게 질문해 보세요...";
+            } else {
+                if (btnMirror) btnMirror.className = "flex-1 py-2 rounded-xl text-[11px] font-bold transition bg-white text-purple-700 shadow-sm border border-slate-200";
+                let initial = "단";
+                let title = "소황제 단종의 혼백";
+                if (activePalaceTheme === "덕수궁") { initial = "고"; title = "고종 황제의 혼백"; }
+                if (activePalaceTheme === "창경궁") { initial = "사"; title = "사도세자의 혼백"; }
+
+                if (avatar) {
+                    avatar.innerText = initial;
+                    avatar.className = "w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-sm shadow-md font-bold text-white";
+                }
+                if (nameEl) nameEl.innerText = title;
+                if (subEl) subEl.innerText = "영혼의 거울 개방 완료";
+                if (chatInput) chatInput.placeholder = `${initial}에게 위안의 한마디를 건네보세요...`;
+            }
+            renderChatHistory();
+        }
+
+        function renderChatHistory() {
+            const chatArea = document.getElementById('chatArea');
+            if (!chatArea) return;
+            const history = chatHistories[activePalaceTheme][activeChamberMode] || [];
+            
+            if (history.length === 0) {
+                let initMsg = "";
+                if (activeChamberMode === 'docent') {
+                    const welcomeText = {
+                        "광화문": `정궁인 이곳 광화문의 따뜻한 봄빛을 밟으며 오셨군요. 태조 대왕께서 주춧돌을 세운 이 터에는 정도전의 개혁 의지와 단종의 슬픈 유배, 그리고 정조 대왕의 개혁을 향한 치열한 고군분투가 깊이 새겨져 있습니다. 저와 함께 엄숙하고 유구한 정사의 이야기를 낭독하며 마음을 나눠보실까요?`,
+                        "덕수궁": `덕수궁 대한문 앞으로 드높은 가을 하늘과 노을의 슬픈 빛을 마주하셨군요. 을사늑약의 현장이며 고종 대왕의 한이 잠든 이곳에는, 간도 참변과 관동 대지진 조선인 학살이라는 뼈아픈 역사가 함께 뒤엉켜 있습니다. 잊힌 이들의 목소리를 우리가 이어받아 다시 외쳐야 할 때입니다.`,
+                        "창경궁": `하얀 눈이 소복이 쌓이는 겨울의 창경궁 홍화문 뜰 앞에 발을 딛으셨습니다. 뒤주에 갇혀 죽어가야 했던 사도세자의 슬픈 비사부터, 일제강점기 동물원으로 변모하며 훼손되어갔던 전각의 슬픈 신음까지... 전각 깊숙이 숨겨진 미스터리하고 아픔을 함께 소리 내어 위로해 보시지요.`
+                    };
+                    initMsg = welcomeText[activePalaceTheme];
+                } else {
+                    const mirrorWelcomeText = {
+                        "광화문": "유배 길에 올랐던 어린 임금, 홍위라 하옵니다... 찬 바람 몰아치던 영월의 밤, 그리움에 지쳐 흐느끼던 나의 넋을 그 먼 미래에서 찾아와 보듬어주시는군요. 그대와 영혼의 거울로 엮이게 되어 참으로 가슴이 메어지며 고맙소이다.",
+                        "덕수궁": "나는 제국의 황혼을 슬피 지켜보아야만 했던 고종 이희로다. 사방에서 몰아치던 적들의 칼날과 배신 속에서, 무고하게 참살당한 나의 백성들을 위안하러 이 쓸쓸한 중명전 뒤뜰을 지켜주어 고맙소. 그대의 마음이 아주 눈물겹소.",
+                        "창경궁": "숨이 막혀오는 가혹한 뒤주 안에서 마지막까지 서늘한 물 한 모금을 찾아 헤매이던 사도세자 이선이외다... 문정전 마당의 차가운 눈 더미를 쓸어내고 나의 울음 섞인 신음에 손을 뻗어주시니, 한 서린 내 넋이 눈녹듯 녹아내리는 것만 같소."
+                    };
+                    initMsg = mirrorWelcomeText[activePalaceTheme];
+                }
+
+                let speakerInitial = activeChamberMode === 'docent' ? "J" : (activePalaceTheme === "광화문" ? "단" : (activePalaceTheme === "덕수궁" ? "고" : "사"));
+                let avatarColor = activeChamberMode === 'docent' ? "bg-teal-600" : "bg-purple-600";
+
+                chatArea.innerHTML = `
+                    <div class="flex space-x-3">
+                        <div class="w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center text-[11px] shrink-0 font-bold text-white shadow-sm">${speakerInitial}</div>
+                        <div class="chat-bubble-content bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200 max-w-[85%] text-slate-700 leading-relaxed text-sm serif font-medium shadow-sm">
+                            ${initMsg}
+                        </div>
+                    </div>
+                `;
+            } else {
+                chatArea.innerHTML = "";
+                history.forEach(entry => {
+                    if (entry.role === "user") {
+                        chatArea.innerHTML += `
+                            <div class="flex space-x-3 justify-end">
+                                <div class="bg-teal-600 p-4 rounded-2xl rounded-tr-none max-w-[85%] text-white leading-relaxed text-sm font-medium shadow-md text-right">
+                                    ${entry.text}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        let initial = activeChamberMode === 'docent' ? "J" : (activePalaceTheme === "광화문" ? "단" : (activePalaceTheme === "덕수궁" ? "고" : "사"));
+                        let avatarColor = activeChamberMode === 'docent' ? "bg-teal-600" : "bg-purple-600";
+                        let sourcesHtml = "";
+                        
+                        if (entry.sources && entry.sources.length > 0) {
+                            sourcesHtml = `<div class="mt-3 pt-3 border-t border-slate-200 flex flex-wrap gap-2 items-center">
+                                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mr-1">🔍 정보 출처:</span>`;
+                            entry.sources.forEach(src => {
+                                sourcesHtml += `<a href="${src.uri}" target="_blank" class="px-2.5 py-1 bg-white hover:bg-slate-100 rounded-lg text-[10px] text-slate-600 border border-slate-200 transition inline-block max-w-[150px] truncate shadow-sm font-bold" title="${src.title}">${src.title}</a>`;
+                            });
+                            sourcesHtml += `</div>`;
+                        }
+
+                        chatArea.innerHTML += `
+                            <div class="flex space-x-3">
+                                <div class="w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center text-[11px] shrink-0 font-bold text-white shadow-sm">${initial}</div>
+                                <div class="chat-bubble-content bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200 max-w-[85%] text-slate-700 leading-relaxed text-sm font-medium shadow-sm">
+                                    <p class="serif">${entry.text}</p>
+                                    ${sourcesHtml}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (response.status === 429 && retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithBackoff(url, options, retries - 1, delay * 2);
+                }
+                return response;
+            } catch (error) {
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithBackoff(url, options, retries - 1, delay * 2);
+                }
+                throw error;
+            }
+        }
+
+        async function callGemini(promptOrContents, systemInstruction, config = {}, useGrounding = false) {
+            const keyParam = apiKey ? `?key=${apiKey}` : "";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent${keyParam}`;
+            
+            let contentsPayload;
+            if (Array.isArray(promptOrContents)) {
+                contentsPayload = promptOrContents;
+            } else {
+                contentsPayload = [{ parts: [{ text: promptOrContents }] }];
+            }
+
+            const payload = {
+                contents: contentsPayload,
+                systemInstruction: { parts: [{ text: systemInstruction }] },
+                ...config
+            };
+
+            if (useGrounding) { payload.tools = [{ "google_search": {} }]; }
+
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            };
+
+            try {
+                const response = await fetchWithBackoff(url, options);
+                return await response.json();
+            } catch (error) {
+                console.error("Gemini API 호출 중 문제가 발생했습니다: ", error);
+                throw error;
+            }
+        }
+
+        async function playTTS(sourceElementId) {
+            const el = document.getElementById(sourceElementId);
+            if (!el) return;
+            const textToSpeak = el.innerText;
+            if (!textToSpeak) return;
+
+            if (activeAudio) {
+                activeAudio.pause();
+                activeAudio = null;
+            }
+
+            let voiceProfile = "Sulafat"; 
+            if (activeChamberMode === 'mirror') {
+                if (activePalaceTheme === "광화문") voiceProfile = "Leda"; 
+                else if (activePalaceTheme === "덕수궁") voiceProfile = "Charon"; 
+                else if (activePalaceTheme === "창경궁") voiceProfile = "Fenrir"; 
+            } else {
+                if (activePalaceTheme === "덕수궁") voiceProfile = "Charon"; 
+                if (activePalaceTheme === "창경궁") voiceProfile = "Achernar"; 
+            }
+
+            const keyParam = apiKey ? `?key=${apiKey}` : "";
+            const ttsUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent${keyParam}`;
+            const payload = {
+                contents: [{ parts: [{ text: textToSpeak }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceProfile } } }
+                }
+            };
+
+            try {
+                const response = await fetchWithBackoff(ttsUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                const audioData = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                const mimeType = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                    const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)?.[1] || "24000", 10);
+                    const pcmData = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmData);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+                    activeAudio = new Audio(audioUrl);
+                    activeAudio.play();
+                } else {
+                    showCustomAlert("오디오 합성 실패");
+                }
+            } catch (err) {
+                showCustomAlert("음성 합성 중 문제가 발생했습니다.");
+            }
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) { bytes[i] = binaryString.charCodeAt(i); }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcm16, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcm16.length * 2);
+            const view = new DataView(buffer);
+            const writeString = (view, offset, string) => { for (let i = 0; i < string.length; i++) { view.setUint8(offset + i, string.charCodeAt(i)); } };
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + pcm16.length * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true); 
+            view.setUint16(22, 1, true); 
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true); 
+            view.setUint16(32, 2, true); 
+            view.setUint16(34, 16, true); 
+            writeString(view, 36, 'data');
+            view.setUint32(40, pcm16.length * 2, true);
+
+            for (let i = 0; i < pcm16.length; i++) { view.setInt16(44 + i * 2, pcm16[i], true); }
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        function saveApiKey() {
+            const val = document.getElementById('apiKeyInput').value.trim();
+            localStorage.setItem('DMDG_GEMINI_KEY', val);
+            const status = document.getElementById('apiKeyStatus');
+            if (status) {
+                status.classList.remove('hidden');
+                setTimeout(() => {
+                    status.classList.add('hidden');
+                    toggleSettings();
+                }, 1200);
+            }
+        }
+
+        function playGateOpeningSound() {
+            try {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return;
+                const ctx = new AudioContextClass();
+                if (ctx.state === 'suspended') ctx.resume();
+                const now = ctx.currentTime;
+
+                const oscCreak = ctx.createOscillator();
+                const gainCreak = ctx.createGain();
+                oscCreak.type = 'sawtooth';
+                oscCreak.frequency.setValueAtTime(75, now);
+                oscCreak.frequency.linearRampToValueAtTime(45, now + 1.8);
+
+                const lfo = ctx.createOscillator();
+                const lfoGain = ctx.createGain();
+                lfo.frequency.value = 14; lfoGain.gain.value = 25;
+                lfo.connect(lfoGain); lfoGain.connect(oscCreak.frequency);
+
+                gainCreak.gain.setValueAtTime(0, now);
+                gainCreak.gain.linearRampToValueAtTime(0.08, now + 0.1);
+                gainCreak.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass'; filter.frequency.value = 250;
+
+                oscCreak.connect(filter); filter.connect(gainCreak); gainCreak.connect(ctx.destination);
+                lfo.start(now); oscCreak.start(now); lfo.stop(now + 1.8); oscCreak.stop(now + 1.8);
+
+                const gongFrequencies = [110, 165, 220, 275, 330, 440];
+                gongFrequencies.forEach((freq, index) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine'; osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, now);
+                    gain.gain.linearRampToValueAtTime(index === 0 ? 0.35 : 0.06, now + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.8);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(now); osc.stop(now + 4.2);
+                });
+            } catch (e) { console.warn("Sound could not be played: ", e); }
+        }
+
+        let charts = {};
+        function initCharts() {
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0,0,0,0.05)' },
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        pointLabels: { color: '#475569', font: { size: 10, weight: 'bold' } },
+                        ticks: { display: false }
+                    }
+                },
+                plugins: { legend: { display: false } }
+            };
+
+            const chartGwanghwa = document.getElementById('chart-gwanghwa');
+            if (chartGwanghwa) {
+                charts.gwanghwa = new Chart(chartGwanghwa, {
+                    type: 'radar',
+                    data: {
+                        labels: ['엄숙함', '정통성', '서사성', '기록성', '흔적의 깊이'],
+                        datasets: [{
+                            data: [90, 85, 75, 90, 85],
+                            backgroundColor: 'rgba(234, 88, 12, 0.15)',
+                            borderColor: '#ea580c',
+                            pointBackgroundColor: '#ea580c',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: commonOptions
+                });
+            }
+
+            const chartDeoksu = document.getElementById('chart-deoksu');
+            if (chartDeoksu) {
+                charts.deoksu = new Chart(chartDeoksu, {
+                    type: 'radar',
+                    data: {
+                        labels: ['비극성', '역사 고발', '추모 밀도', '현대성', '흔적의 깊이'],
+                        datasets: [{
+                            data: [98, 95, 92, 80, 88],
+                            backgroundColor: 'rgba(13, 148, 136, 0.15)',
+                            borderColor: '#0d9488',
+                            pointBackgroundColor: '#0d9488',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: commonOptions
+                });
+            }
+
+            const chartChanggyeong = document.getElementById('chart-changgyeong');
+            if (chartChanggyeong) {
+                charts.changgyeong = new Chart(chartChanggyeong, {
+                    type: 'radar',
+                    data: {
+                        labels: ['애절함', '비사 밀도', '전통성', '고립성', '흔적의 깊이'],
+                        datasets: [{
+                            data: [92, 96, 75, 90, 70],
+                            backgroundColor: 'rgba(30, 58, 138, 0.15)',
+                            borderColor: '#1e3a8a',
+                            pointBackgroundColor: '#1e3a8a',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: commonOptions
+                });
+            }
+        }
+
+        function moveGate(index) {
+            if (index < 0 || index >= gateData.length) return;
+            currentGateIndex = index;
+            const slider = document.getElementById('gateSlider');
+            if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
+            
+            const statusLabel = document.getElementById('statusLabel');
+            if (statusLabel) statusLabel.innerText = gateData[index].status;
+            
+            const prevBtn = document.getElementById('prevBtn');
+            if (prevBtn) prevBtn.style.opacity = index === 0 ? "0.3" : "1";
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) nextBtn.style.opacity = index === gateData.length - 1 ? "0.3" : "1";
+
+            document.querySelectorAll('.nav-link').forEach((link, i) => {
+                link.classList.toggle('text-orange-500', i === index);
+                link.classList.toggle('text-slate-500', i !== index);
+            });
+        }
+
+        function openGate(gateId, btn) {
+            const frame = btn.closest('.gate-frame');
+            const transitionLayer = document.getElementById('transitionLayer');
+            
+            playGateOpeningSound();
+
+            if (frame) frame.classList.add('gate-open');
+            activePalaceTheme = gateData[gateId].title;
+
+            const matchingBg = document.getElementById(`portal-bg-${gateId}`);
+            if (matchingBg) {
+                matchingBg.classList.remove('opacity-0');
+            }
+            
+            // Fade to white bright background
+            setTimeout(() => {
+                if (transitionLayer) {
+                    transitionLayer.classList.remove('pointer-events-none');
+                    transitionLayer.classList.add('opacity-100');
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                const app = document.getElementById('app');
+                if (app) app.classList.add('hidden');
+                setupExhibitionChamber(gateId);
+                const chamber = document.getElementById('exhibitionChamber');
+                if (chamber) {
+                    chamber.classList.remove('hidden');
+                    setTimeout(() => {
+                        chamber.classList.add('opacity-100');
+                        if (transitionLayer) {
+                            transitionLayer.classList.remove('opacity-100');
+                            transitionLayer.classList.add('pointer-events-none');
+                        }
+                    }, 50);
+                }
+            }, 2200);
+        }
+
+        function closeExhibition() {
+            const transitionLayer = document.getElementById('transitionLayer');
+            const chamber = document.getElementById('exhibitionChamber');
+            
+            if (transitionLayer) {
+                transitionLayer.classList.remove('pointer-events-none');
+                transitionLayer.classList.add('opacity-100');
+            }
+
+            if (activeAudio) { activeAudio.pause(); activeAudio = null; }
+
+            setTimeout(() => {
+                if (chamber) {
+                    chamber.classList.add('hidden');
+                    chamber.classList.remove('opacity-100');
+                }
+                const app = document.getElementById('app');
+                if (app) app.classList.remove('hidden');
+                
+                document.querySelectorAll('.gate-frame').forEach(f => { f.classList.remove('gate-open'); });
+                document.querySelectorAll('.portal-bg').forEach(bg => { bg.classList.add('opacity-0'); });
+                moveGate(currentGateIndex);
+
+                setTimeout(() => {
+                    if (transitionLayer) {
+                        transitionLayer.classList.remove('opacity-100');
+                        transitionLayer.classList.add('pointer-events-none');
+                    }
+                }, 50);
+            }, 1200);
+        }
+
+        function setupExhibitionChamber(gateId) {
+            const theme = gateData[gateId];
+            
+            const chamberAccent = document.getElementById('chamberAccent');
+            if (chamberAccent) {
+                chamberAccent.innerText = theme.title + " 전시관";
+                chamberAccent.style.color = theme.accent;
+            }
+            
+            const chamberTitle = document.getElementById('chamberTitle');
+            if (chamberTitle) {
+                chamberTitle.innerText = theme.title === "광화문" ? "정궁의 메아리" : (theme.title === "덕수궁" ? "기억해야 할 현대사" : "어스름 속 사도세자");
+            }
+            
+            chatHistories[theme.title] = { "docent": [], "mirror": [] };
+
+            const banner = document.getElementById('chamberBanner');
+            const bannerSeason = document.getElementById('chamberBannerSeason');
+            if (bannerSeason) {
+                bannerSeason.innerText = theme.season;
+                bannerSeason.style.color = theme.accent;
+            }
+
+            if (banner) {
+                if (gateId === 0) {
+                    banner.className = "w-full h-48 rounded-3xl mt-8 border-4 border-white shadow-[0_15px_30px_rgba(0,0,0,0.15)] relative overflow-hidden banner-gwanghwa bg-no-repeat";
+                } else if (gateId === 1) {
+                    banner.className = "w-full h-48 rounded-3xl mt-8 border-4 border-white shadow-[0_15px_30px_rgba(0,0,0,0.15)] relative overflow-hidden banner-deoksu bg-no-repeat";
+                } else {
+                    banner.className = "w-full h-48 rounded-3xl mt-8 border-4 border-white shadow-[0_15px_30px_rgba(0,0,0,0.15)] relative overflow-hidden banner-changgyeong bg-no-repeat";
+                }
+            }
+
+            switchChamberMode('docent');
+            
+            const letterInput = document.getElementById('letterInput');
+            if (letterInput) letterInput.value = "";
+            const lanternInput = document.getElementById('lanternInput');
+            if (lanternInput) lanternInput.value = "";
+            
+            const letterReplyContainer = document.getElementById('letterReplyContainer');
+            if (letterReplyContainer) letterReplyContainer.classList.add('hidden');
+            const sijoDisplayContainer = document.getElementById('sijoDisplayContainer');
+            if (sijoDisplayContainer) sijoDisplayContainer.classList.add('hidden');
+
+            const postcardImage = document.getElementById('postcardImage');
+            if (postcardImage) postcardImage.classList.add('hidden');
+            const postcardPlaceholder = document.getElementById('postcardPlaceholder');
+            if (postcardPlaceholder) postcardPlaceholder.classList.remove('hidden');
+
+            activeReadingTone = "solemn";
+            document.querySelectorAll('.tone-btn').forEach(b => {
+                b.className = "tone-btn px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-600 bg-white border border-slate-200 hover:text-orange-500 transition";
+            });
+            const toneBtnSolemn = document.getElementById('tone-btn-solemn');
+            if (toneBtnSolemn) toneBtnSolemn.className = "tone-btn px-3 py-1.5 rounded-xl text-[11px] font-bold bg-blue-900 text-white shadow-md transition";
+
+            generateReading(false); 
+            renderDonations();
+            renderThematicShorts(); 
+        }
+
+        function renderThematicShorts() {
+            const listContainer = document.getElementById('shortsGalleryList');
+            const headerAccent = document.getElementById('shortsThemeAccent');
+            if (!listContainer || !headerAccent) return;
+            
+            const activeShorts = shortsData[activePalaceTheme] || [];
+            
+            const brandColors = { "광화문": "#ea580c", "덕수궁": "#0d9488", "창경궁": "#1d4ed8" };
+            headerAccent.style.color = brandColors[activePalaceTheme];
+
+            if (activeShorts.length === 0) {
+                listContainer.innerHTML = `<p class="text-sm text-slate-500 italic p-4 font-bold">전시된 영상이 없습니다.</p>`;
+                return;
+            }
+
+            listContainer.innerHTML = activeShorts.map((short, index) => {
+                const medal = index === 0 ? "🥇 1위" : (index === 1 ? "🥈 2위" : "🥉 3위");
+                return `
+                    <div class="snap-start shrink-0 w-48 sm:w-52 bg-gradient-to-b ${short.bgGrad} rounded-3xl border border-slate-200 shadow-md overflow-hidden flex flex-col justify-between p-4 relative transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group cursor-pointer" onclick="openShortsPlayer('${short.youtubeId}')">
+                        <div class="aspect-[9/16] w-full bg-slate-800 rounded-2xl relative overflow-hidden flex flex-col justify-between p-3">
+                            <div class="flex justify-between items-start">
+                                <span class="px-2.5 py-1 text-[9px] font-bold rounded-lg shadow-sm ${short.badgeColor}">${medal}</span>
+                                <span class="px-2.5 py-1 text-[9px] font-bold rounded-lg bg-white border border-slate-200 text-slate-800 shadow-sm">
+                                    🔥 ${short.views}
+                                </span>
+                            </div>
+                            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-white/90 backdrop-blur-md shadow-xl flex items-center justify-center text-lg text-orange-600 transform scale-90 group-hover:scale-100 transition-all">▶</div>
+                            </div>
+                            <div class="text-right">
+                                <span class="px-2 py-1 bg-white/90 backdrop-blur rounded-lg text-[9px] font-bold text-blue-900 shadow-sm">${short.duration}</span>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="text-sm font-bold text-blue-950 line-clamp-2 leading-relaxed group-hover:text-orange-600 transition-colors duration-200 serif">${short.title}</h4>
+                            <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold">@dmdg-free</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openShortsPlayer(youtubeId) {
+            const modal = document.getElementById('shortsPlayerModal');
+            const iframe = document.getElementById('shortsIframe');
+            const originUrl = window.location.origin || window.location.ancestorOrigins?.[0] || "";
+            if (iframe) iframe.src = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&mute=0&rel=0&modestbranding=1&origin=${encodeURIComponent(originUrl)}`;
+            
+            const fallbackBtn = document.getElementById('shortsFallbackBtn');
+            if (fallbackBtn) {
+                fallbackBtn.onclick = () => window.open(`https://www.youtube.com/shorts/${youtubeId}`, '_blank');
+            }
+
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.add('opacity-100'), 50);
+            }
+        }
+
+        function closeShortsPlayer() {
+            const modal = document.getElementById('shortsPlayerModal');
+            const iframe = document.getElementById('shortsIframe');
+            if (modal) {
+                modal.classList.remove('opacity-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    if (iframe) iframe.src = "";
+                }, 300);
+            }
+        }
+
+        async function generateReading(forceRegen = false) {
+            const loader = document.getElementById('readingLoader');
+            const targetText = document.getElementById('readingText');
+
+            if (!forceRegen && readingCache[activePalaceTheme][activeReadingTone]) {
+                if (targetText) targetText.innerText = readingCache[activePalaceTheme][activeReadingTone];
+                return;
+            }
+
+            if (loader) loader.classList.remove('hidden');
+
+            const toneNames = {
+                "solemn": "엄숙하고 한 서린 전통 문학조",
+                "warm": "포근하고 깊은 정감 있는 위로조",
+                "poetic": "시적이고 잔잔한 여운을 남기는 애도조"
+            };
+            const currentPrompt = `${activePalaceTheme} 테마에 어울리며, [${toneNames[activeReadingTone]}]의 성향이 짙게 드러나는 목소리 발자취 남기기용 감성 낭독 글귀 3~4문장을 지어줘.`;
+
+            try {
+                const creativeRes = await callGemini(currentPrompt, writerSystemPrompt);
+                const creativeText = (creativeRes.candidates?.[0]?.content?.parts?.[0]?.text || "").trim();
+                
+                if (creativeText) {
+                    readingCache[activePalaceTheme][activeReadingTone] = creativeText;
+                    if (targetText) targetText.innerText = creativeText;
+                } else { throw new Error("No text returned"); }
+            } catch (err) {
+                const pool = localReadingsPool[activePalaceTheme][activeReadingTone];
+                const fallbackText = pool[Math.floor(Math.random() * pool.length)];
+                readingCache[activePalaceTheme][activeReadingTone] = fallbackText;
+                if (targetText) targetText.innerText = fallbackText;
+            } finally {
+                if (loader) loader.classList.add('hidden');
+            }
+        }
+
+        async function sendLetterToPast() {
+            const letterInput = document.getElementById('letterInput');
+            const userLetter = letterInput ? letterInput.value.trim() : "";
+            if (!userLetter) {
+                showCustomAlert("과거의 영혼들에게 전할 위로의 마음을 작성해 주세요.");
+                return;
+            }
+
+            const loader = document.getElementById('letterLoader');
+            const replyContainer = document.getElementById('letterReplyContainer');
+            const replyAuthor = document.getElementById('replyAuthor');
+            const replyContent = document.getElementById('replyContent');
+
+            if (loader) loader.classList.remove('hidden');
+
+            try {
+                const creativeRes = await callGemini(`테마: ${activePalaceTheme}. 편지 내용: "${userLetter}"`, replyLetterSystemPrompt, {}, true);
+                const replyText = creativeRes.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                if (replyContent) replyContent.innerText = replyText.trim();
+                if (replyAuthor) replyAuthor.innerText = `${activePalaceTheme}의 슬픈 영혼이 보낸 답장`;
+                if (replyContainer) replyContainer.classList.remove('hidden');
+            } catch (err) {
+                const localReplies = {
+                    "광화문": "그 먼 미래에서 소식을 전해와 주시니 조금은 덜 쓸쓸해지는구려. 귀하의 따뜻한 편지가 내 꺾인 기개를 어루만져 줍니다.",
+                    "덕수궁": "차가운 칼바람 속에서 우리를 기억해 주는군요. 귀하가 전한 국화꽃 같은 마음이 숨을 쉽니다.",
+                    "창경궁": "숨 막히는 뒤주에서 한 오라기 빛을 기다릴 때, 나는 그저 한 줄기 바람에 목이 말랐었소. 귀하의 위로가 내 상처 입은 넋을 녹여 줍니다."
+                };
+                if (replyContent) replyContent.innerText = localReplies[activePalaceTheme];
+                if (replyAuthor) replyAuthor.innerText = `${activePalaceTheme}의 메아리`;
+                if (replyContainer) replyContainer.classList.remove('hidden');
+            } finally {
+                if (loader) loader.classList.add('hidden');
+            }
+        }
+
+        async function launchLantern() {
+            const lanternInput = document.getElementById('lanternInput');
+            const textVal = lanternInput ? lanternInput.value.trim() : "";
+            if (!textVal) {
+                showCustomAlert("추모의 염원이나 바람을 적어 주세요.");
+                return;
+            }
+
+            const loader = document.getElementById('lanternLoader');
+            const displayContainer = document.getElementById('sijoDisplayContainer');
+            const contentBox = document.getElementById('sijoContent');
+
+            if (loader) loader.classList.remove('hidden');
+
+            try {
+                const creativeRes = await callGemini(`테마: ${activePalaceTheme}. 추모 염원: "${textVal}"`, lanternSystemPrompt);
+                const sijoText = creativeRes.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                if (contentBox) contentBox.innerText = sijoText.trim();
+                if (displayContainer) displayContainer.classList.remove('hidden');
+            } catch (err) {
+                const localSijo = {
+                    "광화문": "새벽녘 광화문에 봄 안개 자욱하니\n천 대의 기와 기와 단종 넋을 품어 안네\n동포여 슬퍼 마소라 아침 해가 비추리.",
+                    "덕수궁": "가을 바람 서늘하니 낙엽만 뒹구는데\n대한문 넓은 뜰에 눈물 자국 깊어가네\n이내 몸 바쳐 얻은 빛 영원토록 지키리.",
+                    "창경궁": "하얀 눈 문정전에 고요히 쌓여갈 제\n뒤주 속 시린 한숨 눈물 되어 얼어붙네\n봄날의 따스한 빛이 그 넋 보듬어주리."
+                };
+                if (contentBox) contentBox.innerText = localSijo[activePalaceTheme];
+                if (displayContainer) displayContainer.classList.remove('hidden');
+            } finally {
+                if (loader) loader.classList.add('hidden');
+            }
+            createSkyLantern();
+        }
+
+        function createSkyLantern() {
+            const container = document.getElementById('ritualTabLantern');
+            if (!container) return;
+            const lantern = document.createElement('div');
+            lantern.className = 'lantern-container';
+            lantern.style.left = `${Math.random() * 60 + 20}%`;
+
+            lantern.innerHTML = `
+                <svg viewBox="0 0 80 120" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 20C10 10 30 5 40 5C50 5 70 10 70 20C70 40 65 90 55 105C48 115 32 115 25 105C15 90 10 40 10 20Z" fill="url(#lanternGrad)" opacity="0.85"/>
+                    <path d="M10 20C10 10 30 5 40 5C50 5 70 10 70 20C70 40 65 90 55 105C48 115 32 115 25 105C15 90 10 40 10 20Z" stroke="rgba(245, 158, 11, 0.4)" stroke-width="1"/>
+                    <ellipse cx="40" cy="105" rx="15" ry="5" fill="#f59e0b" opacity="0.9"/>
+                    <circle cx="40" cy="105" r="4" fill="#fff">
+                        <animate attributeName="opacity" values="0.4;1;0.4" dur="1s" repeatCount="indefinite" />
+                    </circle>
+                    <path d="M40 108v8M35 110v12M45 110v10" stroke="#f59e0b" stroke-width="1.5" opacity="0.7"/>
+                    <defs>
+                        <radialGradient id="lanternGrad" cx="50%" cy="80%" r="80%">
+                            <stop offset="0%" stop-color="#fffbeb"/>
+                            <stop offset="30%" stop-color="#fef08a"/>
+                            <stop offset="70%" stop-color="#f97316"/>
+                            <stop offset="100%" stop-color="#7c2d12"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            `;
+
+            container.appendChild(lantern);
+            setTimeout(() => { lantern.remove(); }, 24000);
+        }
+
+        function toggleRecordingSimulation() {
+            const btn = document.getElementById('recordBtn');
+            const status = document.getElementById('recordingStatus');
+            const pulse = document.getElementById('micPulse');
+            const visualizer = document.getElementById('visualizerPlaceholder');
+
+            if (!isRecording) {
+                isRecording = true;
+                if (btn) {
+                    btn.classList.add('bg-orange-50', 'border-orange-500');
+                    btn.classList.remove('bg-white', 'border-orange-200');
+                }
+                if (status) {
+                    status.innerText = "발자취 남기는 중 (녹음 중...)";
+                    status.classList.remove('text-slate-500');
+                    status.classList.add('text-orange-600');
+                }
+                if (pulse) pulse.classList.remove('hidden');
+                if (visualizer) visualizer.style.opacity = "1";
+
+                transcribedText = "";
+                if (isSpeechSupported && recognition) {
+                    try { recognition.start(); } catch (e) { console.error(e); }
+                }
+
+                recordingTimer = setTimeout(() => { toggleRecordingSimulation(); }, 12000); 
+            } else {
+                isRecording = false;
+                clearTimeout(recordingTimer);
+                if (btn) {
+                    btn.classList.remove('bg-orange-50', 'border-orange-500');
+                    btn.classList.add('bg-white', 'border-orange-200');
+                }
+                if (status) {
+                    status.innerText = "목소리 주파수 분석 중...";
+                    status.classList.remove('text-orange-600');
+                    status.classList.add('text-teal-600');
+                }
+                if (pulse) pulse.classList.add('hidden');
+                if (visualizer) visualizer.style.opacity = "0.2";
+
+                if (isSpeechSupported && recognition) {
+                    try { recognition.stop(); } catch (e) { console.error(e); }
+                }
+
+                setTimeout(() => { generateCertificate(transcribedText.trim()); }, 1000);
+            }
+        }
+
+        async function generateCertificate(spokenText = "") {
+            const textReading = document.getElementById('readingText');
+            const currentReading = spokenText || (textReading ? textReading.innerText : "");
+            const certTextElement = document.getElementById('certAppreciation');
+            const certColorElement = document.getElementById('certColorName');
+            const certPalaceName = document.getElementById('certPalaceName');
+            
+            if (certPalaceName) certPalaceName.innerText = activePalaceTheme + " 전시관";
+            if (certTextElement) certTextElement.innerText = "귀하의 실제 목소리 주파수를 감지하고 분석하는 중입니다...";
+            if (certColorElement) certColorElement.innerText = "목소리 분석 중...";
+
+            const modal = document.getElementById('certificateModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.style.opacity = "1";
+            }
+
+            const payloadConfig = {
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            warmth: { type: "INTEGER", description: "온기 지수 (0-100)" },
+                            solemnity: { type: "INTEGER", description: "엄숙함 지수 (0-100)" },
+                            resonance: { type: "INTEGER", description: "울림/공명도 지수 (0-100)" },
+                            colorName: { type: "STRING", description: "시적 색채 어울림" },
+                            poeticCertificate: { type: "STRING", description: "기부자의 목소리에 헌정하는 2-3문장의 감성적이고 따뜻한 헌사" },
+                            postcardPromptKeywords: { type: "STRING", description: "English descriptive keywords of the visual theme" }
+                        },
+                        required: ["warmth", "solemnity", "resonance", "colorName", "poeticCertificate", "postcardPromptKeywords"]
+                    }
+                }
+            };
+
+            const evaluationPrompt = `사용자가 마중물을 소리 내어 읽었으며, 녹음기에서 다음과 같은 텍스트가 추출되었습니다: "${currentReading}". 이 낭독자의 실제 발화 내용을 분석하여 목소리에 가장 어울리는 정밀한 감정 및 색채 지수를 생성하고, 그들의 위로에 헌정하는 감동적인 헌사 및 엽서 키워드를 한국어로 구성해줘.`;
+
+            try {
+                let postcardKeywords = "mystical light, warm atmosphere";
+                const structuredRes = await callGemini(evaluationPrompt, certificateSystemPrompt, payloadConfig);
+                const metrics = JSON.parse(structuredRes.candidates[0].content.parts[0].text);
+                
+                if (certTextElement) certTextElement.innerText = metrics.poeticCertificate;
+                if (certColorElement) certColorElement.innerText = `목소리 색채: ${metrics.colorName}`;
+                postcardKeywords = metrics.postcardPromptKeywords;
+                
+                updateChartWithMetrics(metrics.warmth, metrics.solemnity, metrics.resonance);
+                generateAICommemorativePostcard(postcardKeywords);
+            } catch (err) {
+                if (certTextElement) certTextElement.innerText = `"${activePalaceTheme}"의 깊은 역사 속에서 홀로 침묵하던 전각에 귀하의 목소리가 따스하게 가닿았습니다. 깊은 감사의 뜻을 전합니다.`;
+                if (certColorElement) certColorElement.innerText = "목소리 색채: 새벽 서리 단풍빛";
+                updateChartWithMetrics(85, 90, 80);
+                generateAICommemorativePostcard("serene dawn atmosphere");
+            }
+            
+            if (certTextElement) saveDonationRecord(activePalaceTheme, certTextElement.innerText);
+            const status = document.getElementById('recordingStatus');
+            if (status) status.innerText = "발자취 남김 완료";
+        }
+
+        async function generateAICommemorativePostcard(keywords = "warm atmosphere") {
+            const loader = document.getElementById('postcardLoader');
+            const img = document.getElementById('postcardImage');
+            const placeholder = document.getElementById('postcardPlaceholder');
+
+            if (loader) loader.classList.remove('hidden');
+
+            const seasons = { "광화문": "spring with pink cherry blossoms", "덕수궁": "autumn with colorful leaves", "창경궁": "winter with cozy soft snow falling" };
+            const palaceEnglish = { "광화문": "Gwanghwamun main palace gate", "덕수궁": "Deoksugung Korean palace gate", "창경궁": "Changgyeonggung Korean old palace gate" };
+
+            const selectedSeason = seasons[activePalaceTheme] || "spring";
+            const selectedPalace = palaceEnglish[activePalaceTheme] || "Korean palace";
+            const userPrompt = `A beautiful, atmospheric traditional Korean watercolor postcard of ${selectedPalace} during ${selectedSeason}, incorporating visual motifs of ${keywords}. Soft ink wash paint style, misty, cozy warm glow, serene, emotional historical tribute art, 16:9, high-quality.`;
+
+            const payload = { instances: [{ prompt: userPrompt }], parameters: { sampleCount: 1 } };
+            const keyParam = apiKey ? `?key=${apiKey}` : "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict${keyParam}`;
+
+            try {
+                const response = await fetchWithBackoff(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const result = await response.json();
+                const base64Bytes = result?.predictions?.[0]?.bytesBase64Encoded;
+
+                if (base64Bytes) {
+                    if (img) {
+                        img.src = `data:image/png;base64,${base64Bytes}`;
+                        img.classList.remove('hidden');
+                    }
+                    if (placeholder) placeholder.classList.add('hidden');
+                } else {
+                    if (placeholder) placeholder.innerHTML = `<p class="text-[11px] text-teal-600 font-bold">기념 엽서 수집 완료. (리소스를 로컬 대체합니다)</p>`;
+                }
+            } catch (err) {
+                if (placeholder) placeholder.innerHTML = `<p class="text-sm font-bold text-slate-500">"낭독 감정을 담아 고요한 붓질로 그린 가상의 화첩이 발행되었습니다."</p>`;
+            } finally {
+                if (loader) loader.classList.add('hidden');
+            }
+        }
+
+        function updateChartWithMetrics(warmth, solemnity, resonance) {
+            let targetChart = null;
+            if (activePalaceTheme === "광화문") targetChart = charts.gwanghwa;
+            else if (activePalaceTheme === "덕수궁") targetChart = charts.deoksu;
+            else if (activePalaceTheme === "창경궁") targetChart = charts.changgyeong;
+
+            if (targetChart) {
+                targetChart.data.datasets[0].data[0] = solemnity;
+                targetChart.data.datasets[0].data[1] = resonance;
+                targetChart.data.datasets[0].data[2] = warmth;
+                targetChart.update();
+            }
+        }
+
+        function closeCertificate() {
+            const modal = document.getElementById('certificateModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function saveDonationRecord(palace, certificate) {
+            const currentRecords = JSON.parse(localStorage.getItem('DMDG_DONATIONS') || "[]");
+            currentRecords.unshift({
+                id: Date.now(),
+                palace: palace,
+                text: certificate.substring(0, 150) + "...",
+                date: new Date().toLocaleDateString()
+            });
+            localStorage.setItem('DMDG_DONATIONS', JSON.stringify(currentRecords));
+            renderDonations();
+        }
+
+        function renderDonations() {
+            const list = document.getElementById('donationRecordList');
+            if (!list) return;
+            const records = JSON.parse(localStorage.getItem('DMDG_DONATIONS') || "[]");
+            
+            if (records.length === 0) {
+                list.innerHTML = `<p class="text-sm text-slate-500 font-medium italic">아직 발자취가 없습니다. 낭독을 마쳐보세요.</p>`;
+                return;
+            }
+
+            list.innerHTML = records.map(r => `
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center text-[10px] text-slate-500 mb-2 font-bold uppercase">
+                            <span class="text-blue-900">${r.palace}</span>
+                            <span>${r.date}</span>
+                        </div>
+                        <p class="text-xs text-slate-700 serif font-medium leading-relaxed italic">${r.text}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearChatHistory() {
+            setupExhibitionChamber(currentGateIndex);
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatArea = document.getElementById('chatArea');
+            if (!chatArea) return;
+            chatArea.innerHTML += `
+                <div class="flex space-x-3 justify-end">
+                    <div class="bg-teal-600 p-4 rounded-2xl rounded-tr-none max-w-[85%] text-white leading-relaxed text-sm font-medium shadow-md text-right">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            
+            const activeHistory = chatHistories[activePalaceTheme][activeChamberMode] || [];
+            activeHistory.push({ role: "user", text: text });
+            
+            input.value = "";
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            const aiBubbleId = 'ai-' + Date.now();
+            let speakerInitial = activeChamberMode === 'docent' ? "J" : (activePalaceTheme === "광화문" ? "단" : (activePalaceTheme === "덕수궁" ? "고" : "사"));
+            let avatarColor = activeChamberMode === 'docent' ? "bg-teal-600" : "bg-purple-600";
+            
+            chatArea.innerHTML += `
+                <div class="flex space-x-3" id="${aiBubbleId}">
+                    <div class="w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center text-[11px] shrink-0 font-bold text-white shadow-sm">${speakerInitial}</div>
+                    <div class="chat-bubble-content bg-slate-50 p-4 rounded-2xl rounded-tl-none border border-slate-200 max-w-[85%] text-slate-700 leading-relaxed text-sm shadow-sm">
+                        <div class="flex items-center space-x-1.5 py-1">
+                            <div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
+                            <div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                            <div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            try {
+                const chatContents = activeHistory.map(entry => ({
+                    role: entry.role,
+                    parts: [{ text: entry.text }]
+                }));
+
+                const activeSystemPrompt = activeChamberMode === 'docent' ? docentJaySystemPrompt : mirrorSpiritPrompts[activePalaceTheme];
+
+                const rawResponse = await callGemini(chatContents, activeSystemPrompt, {}, true);
+                const aiReply = rawResponse.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                activeHistory.push({ role: "model", text: aiReply || "" });
+                chatHistories[activePalaceTheme][activeChamberMode] = activeHistory;
+
+                let sourcesHtml = "";
+                const attributions = rawResponse.candidates?.[0]?.groundingMetadata?.groundingAttributions;
+                if (attributions && attributions.length > 0) {
+                    sourcesHtml = `<div class="mt-3 pt-3 border-t border-slate-200 flex flex-wrap gap-2 items-center">
+                        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mr-1">🔍 정보 출처:</span>`;
+                    const uniqueSources = [];
+                    attributions.forEach(attr => {
+                        const title = attr.web?.title; const uri = attr.web?.uri;
+                        if (title && uri && !uniqueSources.some(s => s.uri === uri)) { uniqueSources.push({ title, uri }); }
+                    });
+                    uniqueSources.slice(0, 3).forEach(src => {
+                        sourcesHtml += `<a href="${src.uri}" target="_blank" class="px-2.5 py-1 bg-white hover:bg-slate-100 rounded-lg text-[10px] text-slate-600 border border-slate-200 transition inline-block max-w-[150px] truncate shadow-sm font-bold" title="${src.title}">${src.title}</a>`;
+                    });
+                    sourcesHtml += `</div>`;
+                }
+
+                const bubble = document.getElementById(aiBubbleId);
+                if (bubble) {
+                    const bubbleContent = bubble.querySelector('.chat-bubble-content');
+                    if (bubbleContent) {
+                        bubbleContent.innerHTML = `<p class="serif font-medium">${aiReply ? aiReply.trim() : ""}</p>${sourcesHtml}`;
+                    }
+                }
+            } catch (err) {
+                const localAnswers = {
+                    "광화문": "그렇군요. 광화문 정사에 대해 궁금하신 것이군요. 조선의 수많은 왕들이 개혁과 수구의 갈림길에서 치열하게 내딛었던 발자국들이 이곳 정각 처마 끝에 걸려 있답니다.",
+                    "덕수궁": "간도 대학살과 관동 대지진 조선인 학살은 일제가 무고한 민간인을 희생양으로 삼아 감행한 참혹한 역사입니다. 슬픈 영혼들을 향한 소리 없는 외침이 깃들어 있지요.",
+                    "창경궁": "창경궁의 문정전은 사도세자가 뒤주에 갇혀 절규하던 비극의 한가운데에 있었습니다. 그 눈물을 우리는 오늘날 잊지 말고 꼭 보듬어 안아야 합니다."
+                };
+                const fallbackReply = localAnswers[activePalaceTheme];
+                
+                activeHistory.push({ role: "model", text: fallbackReply });
+                chatHistories[activePalaceTheme][activeChamberMode] = activeHistory;
+
+                const bubble = document.getElementById(aiBubbleId);
+                if (bubble) {
+                    const bubbleContent = bubble.querySelector('.chat-bubble-content');
+                    if (bubbleContent) bubbleContent.innerHTML = `<p class="serif font-medium">${fallbackReply}</p>`;
+                }
+            } finally {
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }
+        }
+
+        function handleChatKey(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        }
+
+        function subscribeAudiobook() {
+            const emailInput = document.getElementById('subEmailInput');
+            const email = emailInput ? emailInput.value.trim() : "";
+            if (!email || !email.includes('@')) {
+                showCustomAlert("정확한 이메일 주소를 입력해 주시기 바랍니다.");
+                return;
+            }
+            showCustomAlert(`✓ 등록 완료!\n채널 구독 확인 시 ${email}으로 나만의 목소리 발자취가 담긴 개인 오디오북을 선물해 드리겠습니다.`);
+            if (emailInput) emailInput.value = "";
+        }
+
+        let startX = 0;
+        document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+        document.addEventListener('touchend', e => {
+            const endX = e.changedTouches[0].clientX;
+            if (startX - endX > 70) moveGate(currentGateIndex + 1);
+            if (startX - endX < -70) moveGate(currentGateIndex - 1);
+        });
+
+        window.onload = () => {
+            initCharts();
+            initSpeechRecognition();
+            
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                const app = document.getElementById('app');
+                if (splash) splash.classList.add('opacity-0');
+                setTimeout(() => {
+                    if (splash) splash.style.display = 'none';
+                    if (app) {
+                        app.classList.remove('opacity-0');
+                        app.classList.add('opacity-100');
+                    }
+                }, 1000);
+            }, 2500);
+        };
+    </script>
+</body>
+</html>

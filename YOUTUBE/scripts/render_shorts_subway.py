@@ -82,12 +82,38 @@ Dialogue: 0,0:00:00.00,1:00:00.00,Default,,0,0,0,,{ass_text}
 
 def create_image_video(image_path, duration, output_path):
     ffmpeg_exe = r"c:\Users\user\Documents\DMDG_UT\YOUTUBE\ffmpeg.exe"
+    filename = os.path.basename(image_path)
+    
+    # Calculate number of frames for the zoompan filter (30 fps)
+    frames = max(int(duration * 30), 1)
+    
+    # 1. Stairs scene: Vertical tilt-down
+    if "stairs" in filename:
+        filter_complex = (
+            f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,"
+            f"zoompan=z=1.3:x='(iw-iw/zoom)/2':y='(ih-ih/zoom)*(on/{frames})':d={frames}:s=1080x1920:fps=30[outv]"
+        )
+    # 2. Outro / Ending screen door scene: Pulsing glare/vignette + bouncing CTA arrow
+    elif "screen_door" in filename:
+        filter_complex = (
+            f"[0:v]scale=2160:3840:force_original_aspect_ratio=increase,crop=2160:3840,"
+            f"zoompan=z='min(zoom+0.0006,1.15)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d={frames}:s=1080x1920:fps=30[zoomv];"
+            f"[zoomv]vignette='PI/4+PI/12*sin(2*PI*t/1.5)':eval=frame,"
+            f"drawtext=fontfile='C\\\\:\\\\Windows\\\\Fonts\\\\malgun.ttf':text='▼':fontcolor=red:fontsize=120:x=(w-text_w)/2:y='h-450+30*sin(2*PI*t*1.5)':eval=frame[outv]"
+        )
+    # 3. Escalator, Bump, Priority seat scenes: Center zoom-in (Ken Burns)
+    else:
+        filter_complex = (
+            f"[0:v]scale=2160:3840:force_original_aspect_ratio=increase,crop=2160:3840,"
+            f"zoompan=z='min(zoom+0.0008,1.2)':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d={frames}:s=1080x1920:fps=30[outv]"
+        )
+        
     cmd = [
         ffmpeg_exe, "-y", "-loop", "1", "-i", image_path,
         "-t", f"{duration:.3f}",
-        "-filter_complex", "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=20:20[bg];[0:v]scale=1080:1920:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2[outv]",
+        "-filter_complex", filter_complex,
         "-map", "[outv]",
-        "-c:v", "libx264", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "30", output_path
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30", output_path
     ]
     subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 

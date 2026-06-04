@@ -6,141 +6,125 @@
 }
 
 @layer base {
+  :root {
+    /* New Paper-cut Bright Theme Palette */
+    --bg-base: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.7);
+    --bg-glass-heavy: rgba(255, 255, 255, 0.9);
+    --color-navy: #172554;
+    --color-teal: #0d9488;
+    --color-mint: #2dd4bf;
+    --color-orange: #ea580c;
+    --color-yellow: #eab308;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+  }
+
   body {
-    @apply antialiased select-none bg-[#090d16] text-white;
+    @apply antialiased select-none;
+    background-color: var(--bg-base);
+    color: var(--text-main);
     font-family: var(--font-sans);
+    overflow-x: hidden;
     margin: 0;
     padding: 0;
   }
 }
 
 @layer components {
-  .serif {
-    font-family: var(--font-serif);
-  }
+  .serif { font-family: var(--font-serif); }
 
-  /* Mist Animation */
-  .mist-container {
-    position: absolute;
-    inset: 0;
+  /* Fluid Paper-cut SVG Backgrounds */
+  .paper-cut-layer {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
     overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
   }
 
-  .mist {
+  .svg-wave {
     position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
-    opacity: 0.4;
-    animation: mist-move 40s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+    width: 120vw;
+    min-width: 1400px;
+    left: -10vw;
+    opacity: 0.8;
   }
 
-  @keyframes mist-move {
-    from {
-      transform: translateX(-30%) translateY(15%);
-    }
-    to {
-      transform: translateX(5%) translateY(-5%);
-    }
-  }
+  .svg-wave-top { top: -5vh; transform-origin: top center; }
+  .svg-wave-bottom { bottom: -5vh; transform-origin: bottom center; }
 
-  /* 3D Gate Styles */
+  /* 3D Gate Frameworks */
   .gate-frame {
-    perspective: 1200px;
-    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
-    transform-style: preserve-3d;
-  }
-
-  /* Cinematic Vignetting */
-  .gate-frame::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(9, 13, 22, 0.95) 0%, transparent 30%, transparent 70%, rgba(9, 13, 22, 0.95) 100%);
-    z-index: 2;
-    pointer-events: none;
+    perspective: 1500px;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s;
+    z-index: 20;
   }
 
   .door {
-    transition: transform 4.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 2.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     transform-style: preserve-3d;
     z-index: 10;
   }
 
-  /* Gate Opening State */
-  .gate-open .door-left {
-    transform: rotateY(-110deg);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
-  }
+  /* Gate Open Animation */
+  .gate-open .door-left { transform: rotateY(100deg); }
+  .gate-open .door-right { transform: rotateY(-100deg); }
+  .gate-open .ui-layer { opacity: 0; pointer-events: none; transform: translateY(20px); }
 
-  .gate-open .door-right {
-    transform: rotateY(110deg);
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+  /* Authentic Korean Palace Fortress Door Styling */
+  .palace-wood {
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.2), 5px 0 15px rgba(0,0,0,0.1);
+    position: relative;
   }
+  .door-gwanghwa { background: linear-gradient(135deg, #fdba74 0%, #ea580c 100%); }
+  .door-deoksu { background: linear-gradient(135deg, #5eead4 0%, #0d9488 100%); }
+  .door-changgyeong { background: linear-gradient(135deg, #93c5fd 0%, #1e40af 100%); }
 
-  .gate-open .ui-layer {
-    opacity: 0;
-    transform: scale(0.95);
+  /* Traditional Brass Studs (정정) layout */
+  .stud-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    padding: 2.5rem 1.5rem;
+    height: 100%;
+    position: absolute;
+    inset: 0;
     pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  .stud {
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle at 3px 3px, #ffffff, #d4af37);
+    border-radius: 50%;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    margin: auto;
   }
 
-  .gate-open .portal-bg {
-    opacity: 1;
-    transform: scale(1.15);
-  }
-
-  /* Text Glow */
-  .text-glow {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2);
-  }
-
-  /* Glassmorphism */
+  /* Light Glassmorphism Card */
   .glass-card {
-    background: rgba(20, 25, 35, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background: var(--bg-glass);
+    border: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255,255,255,0.4);
+    color: var(--text-main);
   }
 
-  /* Custom Animations */
-  .animate-width {
-    animation: expand-width 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    width: 0;
+  .glass-card-heavy {
+    background: var(--bg-glass-heavy);
   }
 
-  @keyframes expand-width {
-    to { width: 4rem; }
-  }
-
+  /* Pulse Recording Circle */
   .record-pulse {
-    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   @keyframes pulse-ring {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 0.2;
-    }
-    50% {
-      transform: scale(1.15);
-      opacity: 0.4;
-    }
-  }
-
-  /* Custom Scrollbar */
-  .custom-scroll::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  .custom-scroll::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
-  }
-
-  .custom-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 99px;
+    0% { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(1.3); opacity: 0; }
   }
 }

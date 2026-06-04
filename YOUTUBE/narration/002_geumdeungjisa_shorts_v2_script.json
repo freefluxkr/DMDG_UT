@@ -1,0 +1,57 @@
+[
+  {
+    "scene_number": 1,
+    "duration": "8초",
+    "character": "정조",
+    "dialogue": "이 피 묻은 비단 서찰이 발견되지 않았다면, 나는 왕이 된 첫날 밤 즉시 살해당했을 것이다!",
+    "background": "어둠 속에서 촛불을 켠 채 정조가 피 묻은 비단 서찰을 거칠게 펼치는 모습",
+    "directing_technique": "긴박감 넘치는 줌인과 강렬한 천둥 오디오",
+    "camera_working": "[Zoom-in] 서찰로 빠르게 줌인",
+    "audio_effect": "장대비 소리 + 콰르릉 천둥소리",
+    "visual_effect": "촛불과 피 묻은 비단의 극명한 대비"
+  },
+  {
+    "scene_number": 2,
+    "duration": "12초",
+    "character": "영조",
+    "dialogue": "세자야, 뒤주로 들어가라...! 내가... 내 아들에게 대체 무슨 짓을 한 것인가!",
+    "background": "비바람 속 거대한 뒤주의 어두운 실루엣",
+    "directing_technique": "처절한 비극과 후회, 뒤주를 치는 둔탁한 타격음",
+    "camera_working": "[Shake] 화면이 거칠게 흔들림",
+    "audio_effect": "쿵! 쿵! 뒤주 안의 둔탁한 타격음 + 비바람 소리",
+    "visual_effect": "번개 칠 때마다 뒤주의 윤곽이 번쩍임"
+  },
+  {
+    "scene_number": 3,
+    "duration": "12초",
+    "character": "영조",
+    "dialogue": "내 아들을 죽인 이 피눈물의 참회를 철함에 봉인하노니... 부디 내 손자의 목숨을 구하소서.",
+    "background": "노쇠한 영조의 떨리는 손이 붓으로 붉은 먹을 묻혀 서찰을 적어내려가는 모습",
+    "directing_technique": "사각거리는 붓 소리와 늙은 왕의 애끓는 음성",
+    "camera_working": "[Close-up] 서찰을 적어 내려가는 붓끝",
+    "audio_effect": "거친 사각사각 종이 긁는 소리 + 스산한 바람 소리",
+    "visual_effect": "붉은 먹과 노란 촛불의 애절한 대비"
+  },
+  {
+    "scene_number": 4,
+    "duration": "16초",
+    "character": "신하와 정조",
+    "dialogue": "전하! 그것은 사법을 어기는... / 닥쳐라! 내 아버지를 굶겨 죽인 역적들의 이름이 이 서찰에 있거늘, 네놈들이 감히 내 앞에서 법을 논하느냐!",
+    "background": "정조가 서찰을 펼쳐 들자 신하들이 바닥에 엎드려 사시나무 떨듯 떠는 모습",
+    "directing_technique": "대화형 오디오 믹싱, 포효하는 정조와 긴박한 칼날 쇳소리",
+    "camera_working": "[Shake] 분노의 타이밍에 강하게 흔들림",
+    "audio_effect": "쉬익- 챙! 예리하게 칼을 뽑는 쇳소리 + 쿵! 심장 저음 타격음",
+    "visual_effect": "분노의 순간 번쩍이는 시각 효과"
+  },
+  {
+    "scene_number": 5,
+    "duration": "12초",
+    "character": "나레이션",
+    "dialogue": "왕권을 지키고 복수를 완수한 정조. 하지만 그는 어떻게 밀실 속 철함의 위치를 단번에 알아냈을까요? 영조가 남긴 이 피 묻은 비단 서찰에서 모든 수수께끼가 시작됩니다...",
+    "background": "붉은 낙관 도장 테두리와 관련 영상 링크 화살표",
+    "directing_technique": "루프 연결을 위한 빌드업 및 시계 초침 긴장감 극대화",
+    "camera_working": "[Static] 중앙 고정 상태에서 화살표 바운싱",
+    "audio_effect": "시계 째깍거리는 긴장감 넘치는 초침 소리",
+    "visual_effect": "붉은 낙관 테두리 생성 및 ▼ 마크 깜빡임"
+  }
+]

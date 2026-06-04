@@ -81,3 +81,53 @@
 *   **화면:** 복수가 끝난 후, 텅 빈 편전에 홀로 앉아 빗소리를 들으며 시정기를 덮는 정조의 쓸쓸한 뒷모습. 화면이 흑백의 잉크가 물에 퍼지듯 페이드아웃.
 *   **나레이션:** "할아버지가 숨겨둔 역사의 유령은 결국 손자의 손에 들려 복수의 칼날이 되었습니다. 하지만 왕권을 지킨 정조 역시 평생 아버지의 피눈물에서 벗어나지 못했습니다. 봉인되었던 금등지사, 그것은 구원이었을까요, 아니면 또 다른 지옥의 시작이었을까요? 여러분의 생각을 댓글로 남겨주세요."
 *   **오디오:** 웅장하지만 깊은 슬픔을 담은 국악 현악 합주가 페이드아웃되며 종료.
+
+---
+
+## **[📺 YouTube 전용 메타데이터 & 어그로 전략 / YouTube Metadata & Aggro Strategy / YouTube 専用メタデータ＆アグロ戦略]**
+
+### **KOR (한국어)**
+* **후킹(Hooking) 포인트**: "만약 금등지사가 없었다면 정조는 즉위 즉시 살해당했을 것"이라는 역사 서스펜스 도입부로 시청자의 도파민을 자극. 뒤주 속 사도세자의 비극과 영조의 숨겨진 철함을 빠르게 매칭하여 첫 5초 내 이탈 방지.
+* **어그로(Aggro) 전략**: "비정한 아버지 영조의 피눈물", "조정을 뒤엎은 단 한 장의 서찰" 등 강렬한 역사적 대비와 감정선(분노, 후회, 복수)을 강조하여 역사적 해석 및 감정에 대한 댓글 논쟁 유도.
+* **해시태그 (Hashtags)**:
+  `#금등지사` `#정조` `#영조` `#사도세자` `#조선왕조실록` `#역사미스터리` `#뒤주` `#영원한제국` `#역사쇼츠` `#한국사`
+
+### **ENG (영어)**
+* **Hooking Point**: Hook viewers with a suspenseful premise: "Without the Geumdeungjisa, King Jeongjo might have been assassinated immediately upon taking the throne." Prevent early drop-offs by showing the tragedy of Prince Sado in the wooden chest and Yeongjo's hidden iron box in the first 5 seconds.
+* **Aggro Strategy**: Emphasize dramatic historical conflicts like "a cold father's blood-stained tears" and "a single scroll that destroyed the royal court" to provoke emotional resonance and drive historical debates in the comments section.
+* **Hashtags**:
+  `#JoseonDynasty` `#KingJeongjo` `#PrinceSado` `#KoreanHistory` `#HistoryMystery` `#SecretScroll` `#RoyalTragedy` `#HistoryShorts` `#KdramaVibe` `#Geumdeungjisa`
+
+### **JPN (일본어)**
+* **フッキングポイント**: 「もし金滕之詞（クムドゥンジサ）がなければ、正祖（チョンジョ）は即位直後に暗殺されていたかもしれない」という歴史サスペンスの導入で視聴者の興味を惹きつける。米びつに閉じ込められた思悼世子（サドセジャ）の悲劇と隠された鉄箱を最初の5秒で見せ、離脱を防ぐ。
+* **アグロ戦略**: 「非情な父、英祖（ヨンジョ）の血の涙」「朝廷を覆したたった一枚の書状」など、強烈な歴史的対立と感情（怒り、後悔、復讐）を強調し、コメント欄での歴史解釈をめぐる議論を活性化させる。
+* **ハッシュタグ (Hashtags)**:
+  `#正祖` `#イサン` `#英祖` `#思悼世子` `#韓国歴史` `#王室の秘密` `#歴史ミステリー` `#悲劇の世子` `#歴史動画` `#朝鮮王朝`
+
+---
+
+## **[📝 YouTube 3개 국어 업로드용 설명글 (YouTube Descriptions)]**
+
+### **KOR (한국어 설명)**
+조선 왕실 사상 가장 거대한 비밀 문서, '금등지사'.
+자신의 친아들 사도세자를 뒤주에 가둬 굶겨 죽인 영조. 하지만 아들의 죽음 직후 그가 흘린 눈물과 참회는 한 통의 밀서가 되어 깊이 봉인되었습니다.
+그리고 할아버지가 남긴 이 피눈물의 유언은, 훗날 반대파에 둘러싸인 정조의 목숨을 구하고 조정을 뒤엎는 강력한 복수의 무기가 됩니다.
+
+정조의 즉위를 가능케 했던 피의 기록, 금등지사는 과연 조선의 구원이었을까요, 아니면 또 다른 비극의 시작이었을까요? 
+여러분의 생각을 댓글로 알려주세요! 👇
+
+### **ENG (영어 설명)**
+The most classified secret document in the Joseon royal history: the 'Geumdeungjisa.'
+King Yeongjo locked his own son, Prince Sado, in a wooden chest to starve to death. Yet, his immediate, agonizing regret was sealed into a blood-stained confession and hidden deep within the palace.
+Decades later, this secret inheritance becomes a weapon of vengeance for his grandson, King Jeongjo, to silence his enemies and rewrite history.
+
+Was this secret scroll a savior of the throne, or the beginning of another tragedy?
+Share your thoughts in the comments below! 👇
+
+### **JPN (일본어 설명)**
+朝鮮王室の歴史上、最も偉大な秘密文書『金滕之詞（クムドゥンジサ）』。
+実の息子・思悼世子を米びつに閉じ込め餓死させた非情な王、英祖。しかし息子の死後、彼が流した血の涙と後悔は、密書として深く封印されました。
+そして、祖父が残したこの遺言は、後に敵対勢力に包囲された孫・正祖の命を救い、朝廷を揺るがす強力な復讐の武器となります。
+
+正祖의 목숨을 구한 피의 기록 『金滕之詞』는 과연 구원이었을까요, 아니면 새로운 비극의 시작이었을까요?
+あなたの考えをコメント欄で教えてください！👇

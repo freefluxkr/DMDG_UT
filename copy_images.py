@@ -1,27 +1,26 @@
-import glob, os, shutil
+import os
+import shutil
 
-src_dir = r'C:\Users\tuesvonita\.gemini\antigravity\brain\2ee4d8d7-d6f4-4f6a-9967-53bd8300b878'
-dest_act3 = r'D:\DMDG_UT\YOUTUBE\result\webtoon_30cuts\Act3'
-dest_act4 = r'D:\DMDG_UT\YOUTUBE\result\webtoon_30cuts\Act4'
+src_dir = r"C:\Users\user\.gemini\antigravity-ide\brain\c6683569-69ce-4e06-9853-2a29ec207822"
+dest_dir = r"c:\Users\user\Documents\DMDG_UT\YOUTUBE\Projects\Geumdeungjisa\assets_image"
 
-os.makedirs(dest_act3, exist_ok=True)
-os.makedirs(dest_act4, exist_ok=True)
+mapping = {
+    "geumdeung_box_1780360502692.png": "geumdeung_shorts_box.png",
+    "geumdeung_sad_1780360486412.png": "geumdeung_shorts_sad.png",
+    "geumdeung_write_1780360522739.png": "geumdeung_shorts_write.png",
+    "geumdeung_jeongjo_1780360466705.png": "geumdeung_shorts_jeongjo.png"
+}
 
-for f in glob.glob(os.path.join(src_dir, 'cut*.png')):
-    base = os.path.basename(f)
-    # base is like cut16_12345.png
-    num_str = base.split('_')[0].replace('cut', '')
-    if not num_str.isdigit():
-        continue
-    num = int(num_str)
+os.makedirs(dest_dir, exist_ok=True)
+
+for src_name, dest_name in mapping.items():
+    src_path = os.path.join(src_dir, src_name)
+    dest_path = os.path.join(dest_dir, dest_name)
     
-    if num >= 16 and num <= 25:
-        dest_dir = dest_act3
-    elif num >= 26 and num <= 30:
-        dest_dir = dest_act4
+    if os.path.exists(src_path):
+        shutil.copy(src_path, dest_path)
+        print(f"Copied {src_name} to {dest_name}")
     else:
-        continue
-        
-    new_name = f"{num:03d}_cut{num}.png"
-    shutil.copy(f, os.path.join(dest_dir, new_name))
-    print(f"Copied {base} to {new_name}")
+        print(f"Source not found: {src_path}")
+
+print("Image copy process completed!")

@@ -59,7 +59,48 @@
 
 ---
 **[📺 YouTube 전용 메타데이터 & 어그로 전략]**
+
+#### **KOR (한국어)**
 * **후킹(Hooking) 포인트**: 첫 5초 노량진역 '당구공(어깨빵)' 씬과 일본의 '부츠카리 오토코' 현상을 교차 편집하여, 국경을 넘나드는 보편적인 대중교통 스트레스를 자극. 누구나 겪었을 법한 억울함을 끌어올려 이탈률 최소화.
 * **어그로(Aggro) 전략**: "미안하다는 말은 사치품", "집단 최면", "에어팟 귀족" 등 다소 자극적이고 단정적인 워딩을 사용하여 시청자의 반발 혹은 강한 공감을 유도함. 이는 즉각적인 댓글(반박, 옹호, 경험담 공유)로 이어져 유튜브 알고리즘의 '높은 참여도' 점수를 획득.
 * **해시태그 (Hashtags)**: 
   `#지옥철` `#어깨빵` `#부츠카리오토코` `#지하철매너` `#새치기` `#GTX` `#빌런` `#분노유발` `#공감쇼츠` `#한국지하철`
+
+#### **ENG (영어)**
+* **Hooking Point**: Cross-edit the first 5 seconds of the Noryangjin Station 'billiard ball (shoulder-bumping)' scene with Tokyo's 'Butsukari Otoko' phenomenon to trigger universal public transport stress that crosses borders. Maximize retention by highlighting relatable frustration.
+* **Aggro Strategy**: Use provocative and assertive phrasing like "saying sorry is a luxury", "mass hypnosis", and "AirPod nobles" to trigger strong agreement or disagreement. This encourages immediate comments (rebuttals, support, sharing experiences) to gain high engagement points in the YouTube algorithm.
+* **Hashtags**:
+  `#Subway` `#Bumping` `#ButsukariOtoko` `#SubwayEtiquette` `#LineCutting` `#CommuterStress` `#RudeBehavior` `#KoreaTravel` `#PublicTransport` `#Rant`
+
+#### **JPN (일본어)**
+* **フッキングポイント**: 最初の5秒間でノリャンジン駅の「ビリヤード球（ぶつかり）」シーンと日本の「ぶつかり男」現象をクロス編集し、国境を越えた普遍的な公共交通機関のストレスを刺激。誰もが経験したことのある理不尽さを引き出し、離脱率を最小限に抑える。
+* **アグロ戦略**: 「ごめんなさいは贅沢品」「集団催眠」「エアーポッズ貴族」など、やや刺激的で断定的なワードを使用し、視聴者の反発や強い共感を誘導する。これにより即座のコメント（反論、擁護、体験談の共有）を促し、YouTubeアルゴリズムの「高エンゲージメント」スコアを獲得する。
+* **ハッシュタグ (Hashtags)**:
+  `#満員電車` `#ぶつかり男` `#駅マナー` `#割り込み` `#地下鉄` `#怒り誘発` `#共感動画` `#韓国地下철` `#満員電車の日常` `#満員電車ストレス`
+
+
+---
+
+### **[📝 YouTube 3개 국어 업로드용 설명글 (YouTube Descriptions)]**
+
+#### **KOR (한국어 설명)**
+매일 아침 우리가 몸을 던지는 지하철, 그곳은 과연 평범한 대중교통일까요, 아니면 무언의 전쟁터일까요? 
+서로의 어깨를 사정없이 부딪치는 '어깨빵', 연어 떼처럼 계단 틈새를 파고드는 '새치기 장벽', 그리고 노인들의 시선을 차갑게 외면하는 '노이즈 캔슬링 귀족들'까지.
+우리가 너무 빨리 달리기 위해 지하철 승강장에 떨어뜨리고 온 소중한 가치는 과연 무엇일까요?
+
+여러분이 지하철에서 겪은 최악의 매너나 꼴불견은 무엇인가요? 댓글로 자유롭게 공유해주세요! 👇
+
+#### **ENG (영어 설명)**
+The subway we plunge into every single morning—is it just public transportation, or a silent battlefield?
+From the aggressive shoulder-bumping, to the salmon-like stampede of line-cutters on the transfer stairs, and the "noise-canceling nobles" ignoring those in need.
+In our rush to move forward, what crucial values have we left behind on the platform?
+
+What is the worst subway behavior you've ever witnessed? Share your thoughts and stories in the comments below! 👇
+
+#### **JPN (일본어 설명)**
+毎朝私たちが乗り込む地下鉄。それはただの公共交通機関でしょうか、それとも無言の戦場でしょうか？
+容赦なく肩をぶつけ合う「ぶつかり男」の影、鮭の群れのように階段に押し寄せる割り込み行為、そして助けを求める視線を無視する「ノイズキャンセリング貴族」たち。
+急ぐあまり、私たちは駅のホームに何か大切なものを落としてきてしまったのではないでしょうか。
+
+あなたが地下鉄で経験した最悪のマナーは何ですか？ぜひコメント欄で教えてください！👇
+
