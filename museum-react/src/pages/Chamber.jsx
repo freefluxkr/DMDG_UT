@@ -62,6 +62,7 @@ function Chamber() {
   
   // TTS Playing State
   const [ttsPlayingKey, setTtsPlayingKey] = useState(null);
+  const [isFetchingText, setIsFetchingText] = useState(false);
   
   // Audiobook Player Mock States
   const [showAudiobookAlert, setShowAudiobookAlert] = useState(false);
@@ -318,9 +319,14 @@ function Chamber() {
         
         {/* Chamber Topbar */}
         <div className="flex justify-between items-center pb-6 border-b border-slate-200 mt-4">
-          <div>
-            <span className={`text-xs uppercase tracking-widest font-extrabold ${currentTheme.accent}`}>{currentTheme.name} 전시관</span>
-            <h1 className="serif text-3xl sm:text-4xl mt-1 font-bold text-blue-950">{currentTheme.subtitle}</h1>
+          <div 
+            onClick={() => navigate('/gallery/' + palaceId)} 
+            className="cursor-pointer group"
+          >
+            <span className={`text-xs uppercase tracking-widest font-extrabold transition mb-1 block group-hover:brightness-110 ${currentTheme.accent}`}>
+              {currentTheme.name} 전시관 (영상실 입장)
+            </span>
+            <h1 className="serif text-3xl sm:text-4xl mt-1 font-bold text-blue-950 group-hover:text-blue-800 transition">{currentTheme.subtitle}</h1>
           </div>
           <button onClick={() => navigate('/')} className="px-6 py-2.5 bg-white border border-slate-300 hover:border-blue-900 rounded-full text-xs text-blue-950 tracking-wider transition font-bold shadow-sm">
             ← 대문으로 돌아가기
@@ -384,8 +390,12 @@ function Chamber() {
                         <span>{ttsPlayingKey === 'reading' ? '🔊 낭독 중...' : '🔊 낭독 듣기'}</span>
                       </button>
                       <button 
-                        onClick={() => alert('Gemini AI가 새로운 마중물을 엮어내고 있습니다... (로컬 스토리지 연동과 함께 곧 업데이트됩니다!)')}
-                        className={`px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white border border-slate-700 rounded-full text-[11px] transition flex items-center space-x-1 font-bold shadow-sm`}
+                        onClick={() => {
+                          setIsFetchingText(true);
+                          setTimeout(() => setIsFetchingText(false), 2500);
+                        }}
+                        disabled={isFetchingText}
+                        className={`px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white border border-slate-700 rounded-full text-[11px] transition flex items-center space-x-1 font-bold shadow-sm disabled:opacity-50`}
                       >
                         <span>✨ 새 글 가져오기 (Gemini)</span>
                       </button>
@@ -393,8 +403,16 @@ function Chamber() {
                   </div>
                   
                   {/* Active Essay Reading Text Block */}
-                  <div className="serif text-lg sm:text-xl text-slate-700 leading-loose tracking-wide h-56 overflow-y-auto custom-scroll pr-4 font-medium italic">
-                    "비는 대지를 적시고, 내 목소리는 누군가의 마음에 가닿아 따뜻한 위로가 됩니다. {currentTheme.name}의 깊은 전각에서 과거의 슬픔을 달래는 나만의 향기를 엮어냅니다."
+                  <div className="relative h-56">
+                    <div className="serif text-lg sm:text-xl text-slate-700 leading-loose tracking-wide h-full overflow-y-auto custom-scroll pr-4 font-medium italic">
+                      "비는 대지를 적시고, 내 목소리는 누군가의 마음에 가닿아 따뜻한 위로가 됩니다. {currentTheme.name}의 깊은 전각에서 과거의 슬픔을 달래는 나만의 향기를 엮어냅니다."
+                    </div>
+                    {isFetchingText && (
+                      <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center z-10 rounded-2xl">
+                        <div className="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
+                        <p className="text-sm text-blue-950 mt-4 serif font-bold text-center px-4 leading-relaxed">수필을 지어내는 중...</p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
