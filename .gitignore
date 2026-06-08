@@ -32,3 +32,4 @@ Thumbs.db
 # IDE Files
 .vscode/
 .idea/
+client_secret*.json
