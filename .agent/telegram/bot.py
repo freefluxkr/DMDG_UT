@@ -14,36 +14,38 @@ PORTRAITS = Path(__file__).parent.parent / 'portraits'
 
 # ── 에이전트 정의 ─────────────────────────────────────────
 AGENTS = {
-    '레오':   {'role':'CEO/전략기획', 'emoji':'👔', 'photo':'leo.png', 'model':'supergemma4',
+    '데미스': {'role':'CEO/전략기획', 'emoji':'👔', 'photo':'demis.png', 'model':'supergemma4',
                'reply':['네 사장님, 즉시 전략 검토합니다! 🎯','방향성 잡겠습니다. 📊','바로 실행 계획 수립합니다. ✅']},
-    '영숙':   {'role':'비서/일정관리', 'emoji':'📋', 'photo':'youngsook.png', 'model':'supergemma4',
+    '페기':   {'role':'비서/일정관리', 'emoji':'📋', 'photo':'peggy.png', 'model':'supergemma4',
                'reply':['네 사장님! 즉시 처리합니다. 📋','확인했습니다! 정리해 드릴게요. 📎','꼼꼼히 챙기겠습니다! 💼']},
-    '조박사': {'role':'데이터분석', 'emoji':'🔬', 'photo':'drjo.png', 'model':'supergemma4',
+    '무스타파': {'role':'데이터분석', 'emoji':'🔬', 'photo':'mustafa.png', 'model':'supergemma4',
                'reply':['데이터 분석 시작합니다. 📊','철저히 조사해 리포트 작성하겠습니다. 🔬','통계적으로 접근하겠습니다. 📈']},
-    '루나':   {'role':'디자이너', 'emoji':'🎨', 'photo':'luna.png', 'model':'supergemma4',
+    '제니퍼': {'role':'디자이너', 'emoji':'🎨', 'photo':'jennifer.png', 'model':'supergemma4',
                'reply':['비주얼 작업 시작합니다! 🎨','디자인 방향 잡겠습니다. 🖌️','감각적으로 풀어볼게요! 💜']},
-    '코다리': {'role':'개발자', 'emoji':'💻', 'photo':'kodari.png', 'model':'supergemma4',
+    '크레이그': {'role':'개발자', 'emoji':'💻', 'photo':'craig.png', 'model':'supergemma4',
                'reply':['코드 작성 시작합니다! 💻⚡','기술적 분석 완료. 구현 들어갑니다. 🛠️','바로 개발 들어갑니다! 🚀']},
-    '김작가': {'role':'스토리작가', 'emoji':'✍️', 'photo':'writer_kim.png', 'model':'supergemma4',
+    '하루키': {'role':'스토리작가', 'emoji':'✍️', 'photo':'haruki.png', 'model':'supergemma4',
                'reply':['영감이 떠오릅니다! ✍️💫','스크립트 구상 시작합니다. 📝','감성을 담아 쓰겠습니다. 🌸']},
-    '현수':   {'role':'사운드디렉터', 'emoji':'🎧', 'photo':'hyunsoo.png', 'model':'supergemma4',
+    '짐머':   {'role':'사운드디렉터', 'emoji':'🎧', 'photo':'zimmer.png', 'model':'supergemma4',
                'reply':['사운드 기획 들어갑니다! 🎧🎵','BGM 방향 잡겠습니다. 🎼','소리로 감동 전달하겠습니다. 🎶']},
-    '민준':   {'role':'비즈니스어드바이저', 'emoji':'📊', 'photo':'minjun.png', 'model':'supergemma4',
-               'reply':['냉정하게 분석하겠습니다. 수치가 모든 것을 말합니다. 📊',
-                        '감정 배제하고 팩트만 봅니다. 결론부터 말씀드리면... 🔍',
-                        '사업 타당성 검토 시작합니다. 리스크 먼저 짚겠습니다. ⚠️']},
-    '유피디': {'role':'유튜브전담PD', 'emoji':'📹', 'photo':'kodari.png', 'model':'supergemma4',
+    '사티아': {'role':'비즈니스어드바이저/평가', 'emoji':'⚖️', 'photo':'satya.png', 'model':'supergemma4',
+               'reply':['냉정하게 분석하겠습니다. 수치가 모든 것을 말합니다. ⚖️',
+                        '조직 시너지를 극대화하고 리스크를 짚겠습니다. ⚠️']},
+    '셜록':   {'role':'리서처/탐정', 'emoji':'🔍', 'photo':'sherlock.png', 'model':'supergemma4',
+               'reply':['단서를 찾기 위해 즉시 리서치 착수합니다! 🔍','추리 및 조사 보고드리겠습니다. 🕵️‍♂️']},
+    '유피디': {'role':'유튜브전담PD', 'emoji':'📹', 'photo':'upd.png', 'model':'supergemma4',
                'reply':['유튜브 채널 관리 및 업로드 준비 완료! 🎬','알고리즘 최적화 들어갑니다! 📈','조회수 떡상 가즈아! 🔥']},
 }
 ALIASES = {
-    '@레오':'레오','레오':'레오','leo':'레오','/leo':'레오',
-    '@영숙':'영숙','영숙':'영숙','/ys':'영숙',
-    '@조박사':'조박사','조박사':'조박사','조 박사':'조박사','/jo':'조박사',
-    '@루나':'루나','루나':'루나','luna':'루나','/luna':'루나',
-    '@코다리':'코다리','코다리':'코다리','kodari':'코다리','/dev':'코다리',
-    '@김작가':'김작가','김작가':'김작가','writer':'김작가','/kim':'김작가',
-    '@현수':'현수','현수':'현수','/hs':'현수',
-    '@민준':'민준','민준':'민준','minjun':'민준','/mj':'민준',
+    '@데미스':'데미스','데미스':'데미스','demis':'데미스','/demis':'데미스','/d':'데미스',
+    '@페기':'페기','페기':'페기','peggy':'페기','/peggy':'페기','/p':'페기','/ys':'페기',
+    '@무스타파':'무스타파','무스타파':'무스타파','mustafa':'무스타파','/mustafa':'무스타파','/m':'무스타파','/jo':'무스타파',
+    '@제니퍼':'제니퍼','제니퍼':'제니퍼','jennifer':'제니퍼','/jennifer':'제니퍼','/k':'제니퍼','/luna':'제니퍼',
+    '@크레이그':'크레이그','크레이그':'크레이그','craig':'크레이그','/craig':'크레이그','/c':'크레이그','/dev':'크레이그',
+    '@하루키':'하루키','하루키':'하루키','haruki':'하루키','/haruki':'하루키','/r':'하루키','/kim':'하루키',
+    '@짐머':'짐머','짐머':'짐머','zimmer':'짐머','/zimmer':'짐머','/j':'짐머','/hs':'짐머',
+    '@사티아':'사티아','사티아':'사티아','satya':'사티아','/satya':'사티아','/s':'사티아','/mj':'사티아',
+    '@셜록':'셜록','셜록':'셜록','sherlock':'셜록','/sherlock':'셜록','/sh':'셜록',
     '@유피디':'유피디','유피디':'유피디','pd':'유피디','/pd':'유피디',
 }
 
@@ -157,16 +159,17 @@ def handle_message(chat_id, text):
     # /help 또는 /h 또는 /start
     if text.strip() in ['/start', '/help', '/h']:
         send_text(chat_id,
-            "Connect AI Agents 봇 v3.0\n\n"
+            "Connect AI Agents 봇 v4.0\n\n"
             "사용법:\n"
-            "@레오 또는 /leo [내용] - CEO에게\n"
-            "@영숙 또는 /ys [내용] - 비서에게\n"
-            "@조박사 또는 /jo [내용] - 데이터\n"
-            "@루나 또는 /luna [내용] - 디자인\n"
-            "@코다리 또는 /dev [내용] - 개발\n"
-            "@김작가 또는 /kim [내용] - 스크립트\n"
-            "@현수 또는 /hs [내용] - 사운드\n"
-            "@민준 또는 /mj [내용] - 평가\n\n"
+            "@데미스 또는 /demis [내용] - CEO에게\n"
+            "@페기 또는 /peggy [내용] - 비서에게\n"
+            "@무스타파 또는 /mustafa [내용] - 데이터/리서치\n"
+            "@제니퍼 또는 /jennifer [내용] - 디자인\n"
+            "@크레이그 또는 /craig [내용] - 개발\n"
+            "@하루키 또는 /haruki [내용] - 스토리/대본\n"
+            "@짐머 또는 /zimmer [내용] - 사운드\n"
+            "@사티아 또는 /satya [내용] - 조직/평가\n"
+            "@셜록 또는 /sherlock [내용] - 탐색/추리\n\n"
             "/team - 전체 팀 역할 조회\n"
             "/status - 시스템 상태 확인\n"
             "/inbox - 파일 현황\n\n"
@@ -235,9 +238,10 @@ def handle_message(chat_id, text):
     if text.strip() == '/inbox':
         lines = ["인박스 파일 현황\n"]
         total = 0
-        inbox_map = {'레오':'leo','영숙':'youngsook','조박사':'dr_jo',
-                     '루나':'luna','코다리':'kodari','김작가':'writer_kim',
-                     '현수':'hyunsoo','민준':'minjun','전체':'all'}
+        inbox_map = {'데미스':'demis','페기':'peggy','무스타파':'mustafa',
+                     '제니퍼':'jennifer','크레이그':'craig','하루키':'haruki',
+                     '짐머':'zimmer','사티아':'satya','셜록':'sherlock',
+                     '유피디':'upd','전체':'all'}
         for name, folder in inbox_map.items():
             d = INBOX / folder
             if d.exists():
@@ -275,16 +279,16 @@ def handle_message(chat_id, text):
         photo_path = PORTRAITS / ag['photo']
         send_photo_with_caption(chat_id, str(photo_path), caption)
     else:
-        # 기본: 영숙이 수신
-        ag = AGENTS['영숙']
+        # 기본: 페기가 수신
+        ag = AGENTS['페기']
         send_chat_action(chat_id, "typing")
         
         if not user_msg:
             reply = random.choice(ag['reply'])
         else:
-            reply = ask_ollama(user_msg, '영숙', ag['role'], ag.get('model', 'qwen2.5:7b'))
+            reply = ask_ollama(user_msg, '페기', ag['role'], ag.get('model', 'qwen2.5:7b'))
             
-        caption = f"{ag['emoji']} 영숙 (비서)\n\n수신: {text[:60]}\n\n{reply}\n\n(에이전트 호출: @이름 [내용])"
+        caption = f"{ag['emoji']} 페기 (비서)\n\n수신: {text[:60]}\n\n{reply}\n\n(에이전트 호출: @이름 [내용])"
         if len(caption) > 1000:
             caption = caption[:1000] + "..."
             
@@ -293,9 +297,10 @@ def handle_message(chat_id, text):
 def handle_document(chat_id, file_id, file_name, caption=''):
     """파일 수신 → 인박스 저장"""
     agent_key, _ = resolve_agent(caption)
-    inbox_map = {'레오':'leo','영숙':'youngsook','조박사':'dr_jo',
-                 '루나':'luna','코다리':'kodari','김작가':'writer_kim',
-                 '현수':'hyunsoo','민준':'minjun'}
+    inbox_map = {'데미스':'demis','페기':'peggy','무스타파':'mustafa',
+                 '제니퍼':'jennifer','크레이그':'craig','하루키':'haruki',
+                 '짐머':'zimmer','사티아':'satya','셜록':'sherlock',
+                 '유피디':'upd'}
     folder = inbox_map.get(agent_key, 'all')
     save_dir = INBOX / folder
     save_dir.mkdir(parents=True, exist_ok=True)

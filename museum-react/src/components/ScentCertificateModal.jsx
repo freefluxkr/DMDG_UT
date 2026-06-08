@@ -9,12 +9,14 @@ function ScentCertificateModal({ isOpen, onClose, theme }) {
   // Create TTS
   const playTTS = (text) => {
     if (!window.speechSynthesis) return;
-    if (isPlaying) return;
+    if (isPlaying) {
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
+      return;
+    }
     setIsPlaying(true);
     
-    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-      window.speechSynthesis.cancel();
-    }
+    window.speechSynthesis.cancel();
     setTimeout(() => {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ko-KR';

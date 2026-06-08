@@ -47,7 +47,7 @@ specialist 에이전트들의 산출물을 보고 3~5턴 대화 생성.
 }
 ```
 
-규칙: from/to는 youtube/instagram/designer/developer/business/secretary 중 하나. CEO 제외. JSON 외 텍스트 금지.
+규칙: from/to는 demis/peggy/mustafa/jennifer/craig/haruki/zimmer/satya/sherlock/upd 중 하나. JSON 외 텍스트 금지.
 
 ---
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScentCertificateModal from '../components/ScentCertificateModal';
@@ -7,68 +7,26 @@ import AudiobookPlayerModal from '../components/AudiobookPlayerModal';
 const playTTS = (text, rate = 0.85, pitch = 0.9, onEndCallback = null) => {
   if (!window.speechSynthesis) return;
   
-  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-    window.speechSynthesis.cancel();
-  }
+  window.speechSynthesis.cancel();
   
   // Use a slight delay to ensure cancel finishes
   setTimeout(() => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ko-KR';
-    utterance.rate = rate;
-    utterance.pitch = pitch;
+    window.currentUtterance = new SpeechSynthesisUtterance(text);
+    window.currentUtterance.lang = 'ko-KR';
+    window.currentUtterance.rate = rate;
+    window.currentUtterance.pitch = pitch;
     if (onEndCallback) {
-      utterance.onend = onEndCallback;
-      utterance.onerror = onEndCallback;
+      window.currentUtterance.onend = onEndCallback;
+      window.currentUtterance.onerror = onEndCallback;
     }
-    window.speechSynthesis.speak(utterance);
-  }, 50);
+    window.speechSynthesis.speak(window.currentUtterance);
+  }, 100);
 };
 
 function Chamber() {
   const { palaceId } = useParams();
   const navigate = useNavigate();
 
-  const [activeMode, setActiveMode] = useState('docent'); // 'docent' or 'mirror'
-  const handleTabSwitch = (mode) => {
-    setActiveMode(mode);
-    setChatHistory([]); // 채팅 기록 초기화
-  };
-  
-  const [activeTab, setActiveTab] = useState('reading'); // 'reading', 'letter', 'lantern'
-  const [showScentModal, setShowScentModal] = useState(false);
-  
-  // New States
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingProgress, setRecordingProgress] = useState(0);
-  const [isRecordingComplete, setIsRecordingComplete] = useState(false);
-  const [chatMessage, setChatMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
-  const [letterText, setLetterText] = useState("");
-  const [isLetterSent, setIsLetterSent] = useState(false);
-  const [letterReply, setLetterReply] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  
-  // Lantern Tab States
-  const [lanternText, setLanternText] = useState("");
-  const [sijoReply, setSijoReply] = useState("");
-  const [isLanternSending, setIsLanternSending] = useState(false);
-  const [lanterns, setLanterns] = useState([]);
-
-  // Subscription States
-  const [subscriptionEmail, setSubscriptionEmail] = useState("");
-  const [isSubscribing, setIsSubscribing] = useState(false);
-  const [subscriptionDone, setSubscriptionDone] = useState(false);
-  
-  // TTS Playing State
-  const [ttsPlayingKey, setTtsPlayingKey] = useState(null);
-  const [isFetchingText, setIsFetchingText] = useState(false);
-  
-  // Audiobook Player Mock States
-  const [showAudiobookAlert, setShowAudiobookAlert] = useState(false);
-  const [showAudiobookPlayer, setShowAudiobookPlayer] = useState(false);
-
-  // Theme map
   const themeMap = {
     gwanghwa: { 
       name: "광화문", subtitle: "정궁의 메아리", spirit: "단종", season: "따뜻한 봄",
@@ -106,6 +64,57 @@ function Chamber() {
   };
 
   const currentTheme = themeMap[palaceId] || themeMap['gwanghwa'];
+  const primerText = `비는 대지를 적시고, 내 목소리는 누군가의 마음에 가닿아 따뜻한 위로가 됩니다. ${currentTheme.name}의 깊은 전각에서 과거의 슬픔을 달래는 나만의 향기를 엮어냅니다.`;
+
+  const [activeMode, setActiveMode] = useState('docent'); // 'docent' or 'mirror'
+  const handleTabSwitch = (mode) => {
+    setActiveMode(mode);
+    setChatHistory([]); // 채팅 기록 초기화
+  };
+  
+  const [activeTab, setActiveTab] = useState('reading'); // 'reading', 'letter', 'lantern'
+  const [showScentModal, setShowScentModal] = useState(false);
+  
+  // New States
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingProgress, setRecordingProgress] = useState(0);
+  const [isRecordingComplete, setIsRecordingComplete] = useState(false);
+  const [audioData, setAudioData] = useState(null);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+
+  // 흔적 기록 시스템
+  const [savedRecords, setSavedRecords] = useState([]);
+  const addRecord = (type, title, detail, audio = null) => {
+    setSavedRecords(prev => [...prev, { type, title, detail, audio, time: new Date().toISOString() }]);
+  };
+  const [chatMessage, setChatMessage] = useState("");
+  const [chatHistory, setChatHistory] = useState([]);
+  const [letterText, setLetterText] = useState("");
+  const [isLetterSent, setIsLetterSent] = useState(false);
+  const [letterReply, setLetterReply] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  
+  // Lantern Tab States
+  const [lanternText, setLanternText] = useState("");
+  const [sijoReply, setSijoReply] = useState("");
+  const [isLanternSending, setIsLanternSending] = useState(false);
+  const [lanterns, setLanterns] = useState([]);
+
+  // Subscription States
+  const [subscriptionEmail, setSubscriptionEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscriptionDone, setSubscriptionDone] = useState(false);
+  
+  // TTS Playing State
+  const [ttsPlayingKey, setTtsPlayingKey] = useState(null);
+  const [isFetchingText, setIsFetchingText] = useState(false);
+  
+  // Audiobook Player Mock States
+  const [showAudiobookAlert, setShowAudiobookAlert] = useState(false);
+  const [showAudiobookPlayer, setShowAudiobookPlayer] = useState(false);
+
+
 
   const handleSubscribe = async () => {
     if (!subscriptionEmail.trim() || !subscriptionEmail.includes("@")) {
@@ -170,30 +179,65 @@ function Chamber() {
     }, 2000);
   };
 
-  const handleMicClick = () => {
+  const handleMicClick = async () => {
     if (isRecordingComplete) return;
     
     if (isRecording) {
+      // 녹음 중지
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        mediaRecorderRef.current.stop();
+      }
       setIsRecording(false);
       setIsRecordingComplete(true);
       setRecordingProgress(100);
       return;
     }
     
-    setIsRecording(true);
-    setRecordingProgress(0);
-    
-    const interval = setInterval(() => {
-      setRecordingProgress(prev => {
-        if (prev >= 99) {
-          clearInterval(interval);
-          setIsRecording(false);
-          setIsRecordingComplete(true);
-          return 100;
-        }
-        return prev + 6.6;
-      });
-    }, 1000);
+    // 실제 마이크 녹음 시작
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+      
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) audioChunksRef.current.push(event.data);
+      };
+      
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64 = reader.result;
+          setAudioData(base64);
+          addRecord('voice', `${currentTheme.name} 목소리 발자취`, primerText, base64);
+        };
+        reader.readAsDataURL(audioBlob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+      
+      mediaRecorder.start();
+      setIsRecording(true);
+      setRecordingProgress(0);
+      
+      const interval = setInterval(() => {
+        setRecordingProgress(prev => {
+          if (prev >= 99) {
+            clearInterval(interval);
+            if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+              mediaRecorderRef.current.stop();
+            }
+            setIsRecording(false);
+            setIsRecordingComplete(true);
+            return 100;
+          }
+          return prev + 6.6;
+        });
+      }, 1000);
+    } catch (err) {
+      console.error('마이크 접근 실패:', err);
+      alert('마이크 접근이 거부되었습니다. 브라우저 설정에서 마이크를 허용해 주세요.');
+    }
   };
 
   const handleSendLetter = () => {
@@ -295,6 +339,7 @@ function Chamber() {
         onClose={() => setShowAudiobookPlayer(false)} 
         theme={currentTheme}
         email={subscriptionEmail}
+        records={savedRecords}
       />
 
       {/* Floating Lanterns Layer */}
@@ -693,7 +738,27 @@ function Chamber() {
         <div className="glass-card-heavy p-8 rounded-3xl mt-8 border border-white shadow-xl mb-12">
           <h3 className="serif text-xl font-bold text-blue-950 mb-5">📜 내 기기에 저장된 나의 흔적들</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-h-60 overflow-y-auto custom-scroll pr-2">
-            <p className="text-sm text-slate-500 font-medium italic">오늘 남겨주신 소중한 흔적(조향, 편지, 추모)들은 안전하게 기기에 보관되었습니다. (다음 업데이트에 전체 목록이 제공됩니다 ✨)</p>
+            {savedRecords.length > 0 ? (
+              savedRecords.map((rec, idx) => (
+                <div key={idx} className="bg-slate-50/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                        {rec.type === 'voice' ? '🎙️ 목소리' : rec.type === 'scent' ? '🧪 조향' : '✉️ 편지'}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-medium">{new Date(rec.time).toLocaleTimeString()}</span>
+                    </div>
+                    <h4 className="text-sm font-bold text-slate-800 serif mb-1">{rec.title}</h4>
+                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">{rec.detail}</p>
+                  </div>
+                  {rec.audio && (
+                    <audio src={rec.audio} controls className="w-full mt-3 h-8 text-xs" />
+                  )}
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-slate-500 font-medium italic">오늘 남겨주신 소중한 흔적(조향, 편지, 추모)들이 여기에 보관됩니다. 먼저 목소리 녹음 등을 진행해 주세요. ✨</p>
+            )}
           </div>
         </div>
 

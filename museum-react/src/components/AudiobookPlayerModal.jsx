@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 let audiobookUtterance = null;
 
-function AudiobookPlayerModal({ isOpen, onClose, theme, email }) {
+function AudiobookPlayerModal({ isOpen, onClose, theme, email, records }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const userAudioRef = useRef(null);
 
   const rawAccent = theme?.accentHex || '#ea580c';
 
   useEffect(() => {
     if (!isOpen) {
       window.speechSynthesis.cancel();
+      if (userAudioRef.current) {
+        userAudioRef.current.pause();
+        userAudioRef.current = null;
+      }
       setIsPlaying(false);
       setProgress(0);
     }
@@ -19,7 +24,11 @@ function AudiobookPlayerModal({ isOpen, onClose, theme, email }) {
 
   const togglePlay = () => {
     if (isPlaying) {
-      window.speechSynthesis.pause();
+      window.speechSynthesis.cancel();
+      if (userAudioRef.current) {
+        userAudioRef.current.pause();
+        userAudioRef.current = null;
+      }
       setIsPlaying(false);
     } else {
       if (window.speechSynthesis.paused && audiobookUtterance) {
@@ -35,32 +44,76 @@ function AudiobookPlayerModal({ isOpen, onClose, theme, email }) {
     window.speechSynthesis.cancel();
 
     const spiritScript = theme.name === '광화문' ? '단종' : theme.name === '창경궁' ? '사도세자' : '고종 황제';
-    const script = `${theme.name}의 깊은 밤. ${email.split('@')[0]} 님께서 남겨주신 발자취를 따라 이야기가 시작됩니다. 
+    const themeRecords = (records || []).filter(r => r.type);
+
+    let traceText = "";
+    if (themeRecords.length > 0) {
+      const details = themeRecords.map(r => `[${r.title}]에서 남기신 흔적입니다. ${r.detail}`).join(" 그리고, ");
+      traceText = `당신이 이 곳에 남겨주신 소중한 흔적을 읽어드립니다. ${details}`;
+    } else {
+      traceText = "당신의 발자취가 이 곳에 새겨졌습니다.";
+    }
+
+    const introScript = `${theme.name}의 깊은 밤. ${email.split('@')[0]} 님께서 남겨주신 발자취를 따라 이야기가 시작됩니다. 
     수백 년 전, 닫힌 문틈 사이로 흘러나오던 ${spiritScript}의 슬픈 한숨은, 
-    오늘 당신이 남겨준 따뜻한 위로의 향기와 만나 비로소 평안을 얻습니다. 
-    비는 대지를 적시고, 당신의 목소리는 시공을 넘어 영혼의 마음에 가닿아 한 편의 아름다운 시가 되었습니다.`;
+    오늘 당신이 남겨준 따뜻한 위로의 향기와 만나 비로소 평안을 얻습니다. ${traceText}`;
 
-    const utterance = new SpeechSynthesisUtterance(script);
-    utterance.lang = 'ko-KR';
-    utterance.rate = 0.85;
-    utterance.pitch = 0.8;
+    const outroScript = `비는 대지를 적시고, 당신의 목소리는 시공을 넘어 영혼의 마음에 가닿아 한 편의 아름다운 시가 되었습니다.`;
 
-    audiobookUtterance = utterance;
+    // 녹음된 육성이 있는지 확인
+    const voiceRecord = themeRecords.find(r => r.type === 'voice' && r.audio);
 
-    utterance.onstart = () => setIsPlaying(true);
-    utterance.onend = () => {
-      setIsPlaying(false);
-      audiobookUtterance = null;
-      setProgress(0);
+    const introUtterance = new SpeechSynthesisUtterance(introScript);
+    introUtterance.lang = 'ko-KR';
+    introUtterance.rate = 0.85;
+    introUtterance.pitch = 0.8;
+    audiobookUtterance = introUtterance;
+
+    introUtterance.onstart = () => setIsPlaying(true);
+    introUtterance.onend = () => {
+      if (voiceRecord && voiceRecord.audio) {
+        // 육성 재생
+        const audio = new Audio(voiceRecord.audio);
+        userAudioRef.current = audio;
+        audio.onended = () => {
+          userAudioRef.current = null;
+          // 맺음말 TTS
+          const outroUtterance = new SpeechSynthesisUtterance(outroScript);
+          outroUtterance.lang = 'ko-KR';
+          outroUtterance.rate = 0.85;
+          outroUtterance.pitch = 0.8;
+          audiobookUtterance = outroUtterance;
+          outroUtterance.onend = () => {
+            setIsPlaying(false);
+            audiobookUtterance = null;
+            setProgress(0);
+          };
+          window.speechSynthesis.speak(outroUtterance);
+        };
+        audio.play().catch(console.error);
+      } else {
+        // 육성 없으면 바로 맺음말
+        const outroUtterance = new SpeechSynthesisUtterance(outroScript);
+        outroUtterance.lang = 'ko-KR';
+        outroUtterance.rate = 0.85;
+        outroUtterance.pitch = 0.8;
+        audiobookUtterance = outroUtterance;
+        outroUtterance.onend = () => {
+          setIsPlaying(false);
+          audiobookUtterance = null;
+          setProgress(0);
+        };
+        window.speechSynthesis.speak(outroUtterance);
+      }
     };
-    utterance.onerror = (e) => {
+    introUtterance.onerror = (e) => {
       console.error('TTS Error', e);
       setIsPlaying(false);
       audiobookUtterance = null;
     };
     
     setProgress(0);
-    window.speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(introUtterance);
     
     if (window.speechSynthesis.paused) {
       window.speechSynthesis.resume();
