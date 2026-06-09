@@ -7,7 +7,7 @@ import sys
 import subprocess
 from pathlib import Path
 
-# 1. Ensure runwayml SDK is installed
+# Ensure runwayml SDK is installed
 try:
     from runwayml import RunwayML
 except ImportError:
@@ -28,36 +28,6 @@ VIDEO_DIR = os.path.join(PROJECT_DIR, "assets_video")
 
 os.makedirs(IMG_DIR, exist_ok=True)
 os.makedirs(VIDEO_DIR, exist_ok=True)
-
-# Sources of the generated images in the brain folder
-BRAIN_DIR = r"C:\Users\user\.gemini\antigravity-ide\brain\d548359c-b1d4-4fb5-a3f4-57d851eaacc1"
-SOURCE_IMAGES = {
-    1: os.path.join(BRAIN_DIR, "temple_food_us_scene1_fixed_1780897563743.png"),
-    2: os.path.join(BRAIN_DIR, "temple_food_us_scene2_fixed_1780897578833.png"),
-    3: os.path.join(BRAIN_DIR, "temple_food_us_scene3_fixed_1780897592443.png"),
-    4: os.path.join(BRAIN_DIR, "temple_food_scene4_fixed_1780897057488.png"), # Fallback (Duffy by stove)
-    5: os.path.join(BRAIN_DIR, "temple_food_scene5_fixed_1780897078049.png")  # Fallback (Duffy and Seo-ssi veranda)
-}
-
-# Destinations
-SCENE_IMAGES = {
-    1: os.path.join(IMG_DIR, "scene1.png"),
-    2: os.path.join(IMG_DIR, "scene2.png"),
-    3: os.path.join(IMG_DIR, "scene3.png"),
-    4: os.path.join(IMG_DIR, "scene4.png"),
-    5: os.path.join(IMG_DIR, "scene5.png")
-}
-
-# Copy files
-print("Copying base images to project directory...")
-for num in range(1, 6):
-    src = SOURCE_IMAGES[num]
-    dest = SCENE_IMAGES[num]
-    if os.path.exists(src):
-        shutil.copy2(src, dest)
-        print(f"Copied Scene {num} -> {dest}")
-    else:
-        print(f"Warning: Source image not found for Scene {num}: {src}")
 
 # Load API Key from .env
 dotenv_path = os.path.join(BASE_DIR, ".env")
@@ -80,17 +50,20 @@ except Exception as e:
     print(f"Failed to initialize RunwayML client: {e}")
     sys.exit(1)
 
-# Prompt texts for Runway to direct the motion (Chef Duffy version)
+# Prompt texts for Runway to direct the motion (16:9 widescreen edition)
 SCENE_PROMPTS = {
-    1: "A cinematic, vertical 9:16 shot of a bright organic supermarket. A cute small Haetae mascot creature Duffy happily sits in the shopping cart, using its paw to pick up fresh green kale. Natural lighting, commercial film look.",
-    2: "Top-down vertical 9:16 shot of a modern kitchen island. The cute Haetae creature Duffy wearing a small apron sits on the counter, using its paws to mix blanched kale in a bowl while perilla oil is poured. Natural sunlight.",
-    3: "Close-up of Brussels sprouts searing in a black cast-iron skillet. The cute Haetae creature Duffy wearing a small apron holds a small wooden spatula to stir-fry the sprouts. Ginger-soy glaze bubbles and sizzles.",
-    4: "Vibrant yellow butternut squash soup bubbling in a pot. The cute Haetae creature Duffy stir-fries with a wooden ladle, sniffing the warm sweet aroma happily. Cozy kitchen lighting.",
-    5: "A wide shot of a dining room. The cute Haetae creature Duffy sits on a tall chair, holding a spoon and happily eating temple food. Golden hour sunlight, serene atmosphere."
+    1: "A cinematic widescreen 16:9 shot. Duffy sits happily in the shopping cart pointing its paw at fresh kale, while Seo-ssi pushes the cart in a bright organic store. Gentle camera pan.",
+    2: "Close-up 16:9 shot. Seo-ssi's rugged hands hold a butternut squash and green kale. Duffy raises its paws in joy inside the cart, tail wagging slowly.",
+    3: "A medium close-up 16:9 widescreen shot. Seo-ssi carefully trims green kale leaves on a cutting board, while Duffy wearing a tiny apron stacks them neatly into a basket.",
+    4: "A 16:9 widescreen shot. Duffy wearing a tiny apron peels the outer leaves of baby Brussels sprouts, while Seo-ssi trims the ends on a clean counter.",
+    5: "Close-up 16:9 shot. Seo-ssi's hands peel the skin of a butternut squash, while Duffy sits next to a pot, looking up hungrily. Squash cubes are arranged nearby.",
+    6: "A dynamic 16:9 widescreen shot. Steam rises from pots on the stove. Seo-ssi blanches green kale, while Duffy stands on a stool holding a spoon, looking inside the pot.",
+    7: "A cinematic 16:9 shot. Bobby and Heo Yong-joon sit at a table overlooking a garden, looking at plates of temple food. Seo-ssi and Duffy smile behind them.",
+    8: "A medium close-up 16:9 shot. Bobby eats yellow soup and gives a thumbs-up. Heo Yong-joon smiles eating kale namul. Duffy wags its tail, leaning on Heo Yong-joon's arm."
 }
 
 def generate_video_for_scene(scene_num):
-    image_path = SCENE_IMAGES[scene_num]
+    image_path = os.path.join(IMG_DIR, f"scene{scene_num}.png")
     prompt_text = SCENE_PROMPTS[scene_num]
     output_path = os.path.join(VIDEO_DIR, f"scene{scene_num}_motion.mp4")
     
@@ -110,7 +83,7 @@ def generate_video_for_scene(scene_num):
             model="gen3a_turbo",
             prompt_image=runway_uri,
             prompt_text=prompt_text,
-            ratio="768:1280", # Vertical ratio for Shorts
+            ratio="1280:768", # Widescreen 16:9 ratio
             duration=5
         )
         task_id = task.id
@@ -143,10 +116,10 @@ def generate_video_for_scene(scene_num):
         return False
 
 def main():
-    print("=== STARTING TEMPLE FOOD US KITCHEN VIDEO GENERATION PIPELINE ===")
+    print("=== STARTING TEMPLE FOOD US KITCHEN 16:9 VIDEO PIPELINE ===")
     
     success_count = 0
-    total_scenes = [1, 2, 3, 4, 5]
+    total_scenes = [1, 2, 3, 4, 5, 6, 7, 8]
     
     for scene_num in total_scenes:
         output_path = os.path.join(VIDEO_DIR, f"scene{scene_num}_motion.mp4")

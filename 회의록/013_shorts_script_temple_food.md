@@ -68,7 +68,7 @@
 * **후킹(Hooking) 포인트**: K-Demon Hunter 본편의 어둡고 강렬한 이미지와 대비되는, 산속 암자에서의 서씨와 더피의 고요한 일상 외전(Spinoff)으로 시선 집중. 팬들에게 예상치 못한 힐링과 따뜻한 비주얼 선사.
 * **감성 브랜딩 전략**: 퇴마의 긴장 속에서 쉼을 찾는 캐릭터들의 내면을 사찰음식을 통해 시각적으로 묘사. 캐릭터 IP를 활용하여 힐링 및 스토리 콘텐츠 몰입도 극대화.
 * **해시태그 (Hashtags)**: 
-  `#사찰음식` `#K데헌외전` `#서씨와더피` `#발우공양` `#취나물무침` `#표고버섯조림` `#단호박들깨탕` `#한옥부엌` `#마인드풀니스` `#힐링요리ASMR`
+  ` 
 
 #### **ENG (영어)**
 * **Hooking Point**: Feature a spin-off of the main K-Demon Hunter characters, showing their peaceful daily life in a misty mountain temple. Offers fans an unexpected, warm, and healing visual break.

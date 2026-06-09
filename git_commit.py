@@ -10,7 +10,7 @@ subprocess.run(["git", "status"])
 print("\nExecuting git add...")
 subprocess.run(["git", "add", "."])
 
-commit_message = "feat: add Soso Table temple food scripts, TTS audio scripts, and Google Flow/Omni prompts"
+commit_message = "feat: add 16:9 widescreen US temple food scripts, guest outline, and corrected characters description"
 print(f"\nExecuting git commit -m '{commit_message}'...")
 subprocess.run(["git", "commit", "-m", commit_message])
 
