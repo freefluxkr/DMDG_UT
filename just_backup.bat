@@ -1,6 +1,6 @@
 @echo off
 title Demis Git Backup Only
-cd /d "c:\Users\user\Documents\DMDG_UT"
+cd /d "%~dp0"
 
 echo ==========================================
 echo   Demis Auto Git Backup Only (No Shutdown)

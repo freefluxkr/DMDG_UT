@@ -20,37 +20,37 @@ PORTRAITS = Path(__file__).parent.parent / 'portraits'
 
 # ── 에이전트 정의 ─────────────────────────────────────────
 AGENTS = {
-    '데미스': {'role':'CEO/전략기획', 'emoji':'👔', 'photo':'demis.png', 'model':'supergemma4',
+    '데미스 하사비스': {'role':'CEO / 전략기획 총괄', 'emoji':'👔', 'photo':'demis.png', 'model':'supergemma4',
                'reply':['네 사장님, 즉시 전략 검토합니다! 🎯','방향성 잡겠습니다. 📊','바로 실행 계획 수립합니다. ✅']},
-    '페기':   {'role':'비서/일정관리', 'emoji':'📋', 'photo':'peggy.png', 'model':'supergemma4',
+    '페기 올슨':   {'role':'비서 / 총괄 커뮤니케이션', 'emoji':'📋', 'photo':'peggy.png', 'model':'supergemma4',
                'reply':['네 사장님! 즉시 처리합니다. 📋','확인했습니다! 정리해 드릴게요. 📎','꼼꼼히 챙기겠습니다! 💼']},
-    '무스타파': {'role':'데이터분석', 'emoji':'🔬', 'photo':'mustafa.png', 'model':'supergemma4',
+    '무스타파 술레이만': {'role':'데이터 분석 / 리서치', 'emoji':'🔬', 'photo':'mustafa.png', 'model':'supergemma4',
                'reply':['데이터 분석 시작합니다. 📊','철저히 조사해 리포트 작성하겠습니다. 🔬','통계적으로 접근하겠습니다. 📈']},
-    '제니퍼': {'role':'디자이너', 'emoji':'🎨', 'photo':'jennifer.png', 'model':'supergemma4',
+    '제니퍼 아카니': {'role':'시각 디자이너 / UI·UX', 'emoji':'🎨', 'photo':'jennifer.png', 'model':'supergemma4',
                'reply':['비주얼 작업 시작합니다! 🎨','디자인 방향 잡겠습니다. 🖌️','감각적으로 풀어볼게요! 💜']},
-    '크레이그': {'role':'개발자', 'emoji':'💻', 'photo':'craig.png', 'model':'supergemma4',
+    '크레이그 페더리기': {'role':'풀스택 수석 아키텍트', 'emoji':'💻', 'photo':'craig.png', 'model':'supergemma4',
                'reply':['코드 작성 시작합니다! 💻⚡','기술적 분석 완료. 구현 들어갑니다. 🛠️','바로 개발 들어갑니다! 🚀']},
-    '하루키': {'role':'스토리작가', 'emoji':'✍️', 'photo':'haruki.png', 'model':'supergemma4',
+    '무라카미 하루키': {'role':'스토리작가 / 대본', 'emoji':'✍️', 'photo':'haruki.png', 'model':'supergemma4',
                'reply':['영감이 떠오릅니다! ✍️💫','스크립트 구상 시작합니다. 📝','감성을 담아 쓰겠습니다. 🌸']},
-    '짐머':   {'role':'사운드디렉터', 'emoji':'🎧', 'photo':'zimmer.png', 'model':'supergemma4',
+    '한스 짐머':   {'role':'사운드 디렉터 / 오디오 마스터', 'emoji':'🎧', 'photo':'zimmer.png', 'model':'supergemma4',
                'reply':['사운드 기획 들어갑니다! 🎧🎵','BGM 방향 잡겠습니다. 🎼','소리로 감동 전달하겠습니다. 🎶']},
-    '사티아': {'role':'비즈니스어드바이저/평가', 'emoji':'⚖️', 'photo':'satya.png', 'model':'supergemma4',
+    '사티아 나델라': {'role':'조직 운영 / 비판자', 'emoji':'⚖️', 'photo':'satya.png', 'model':'supergemma4',
                'reply':['냉정하게 분석하겠습니다. 수치가 모든 것을 말합니다. ⚖️',
                         '조직 시너지를 극대화하고 리스크를 짚겠습니다. ⚠️']},
-    '셜록':   {'role':'리서처/탐정', 'emoji':'🔍', 'photo':'sherlock.png', 'model':'supergemma4',
+    '셜록':   {'role':'리서처 / 트렌드 탐색 및 정보 추리', 'emoji':'🔍', 'photo':'sherlock.png', 'model':'supergemma4',
                'reply':['단서를 찾기 위해 즉시 리서치 착수합니다! 🔍','추리 및 조사 보고드리겠습니다. 🕵️‍♂️']},
-    '유피디': {'role':'유튜브전담PD', 'emoji':'📹', 'photo':'upd.png', 'model':'supergemma4',
+    '유피디': {'role':'유튜브 전담 PD', 'emoji':'📹', 'photo':'upd.png', 'model':'supergemma4',
                'reply':['유튜브 채널 관리 및 업로드 준비 완료! 🎬','알고리즘 최적화 들어갑니다! 📈','조회수 떡상 가즈아! 🔥']},
 }
 ALIASES = {
-    '@데미스':'데미스','데미스':'데미스','demis':'데미스','/demis':'데미스','/d':'데미스',
-    '@페기':'페기','페기':'페기','peggy':'페기','/peggy':'페기','/p':'페기','/ys':'페기',
-    '@무스타파':'무스타파','무스타파':'무스타파','mustafa':'무스타파','/mustafa':'무스타파','/m':'무스타파','/jo':'무스타파',
-    '@제니퍼':'제니퍼','제니퍼':'제니퍼','jennifer':'제니퍼','/jennifer':'제니퍼','/k':'제니퍼','/luna':'제니퍼',
-    '@크레이그':'크레이그','크레이그':'크레이그','craig':'크레이그','/craig':'크레이그','/c':'크레이그','/dev':'크레이그',
-    '@하루키':'하루키','하루키':'하루키','haruki':'하루키','/haruki':'하루키','/r':'하루키','/kim':'하루키',
-    '@짐머':'짐머','짐머':'짐머','zimmer':'짐머','/zimmer':'짐머','/j':'짐머','/hs':'짐머',
-    '@사티아':'사티아','사티아':'사티아','satya':'사티아','/satya':'사티아','/s':'사티아','/mj':'사티아',
+    '@데미스하사비스':'데미스 하사비스','데미스하사비스':'데미스 하사비스','@데미스':'데미스 하사비스','데미스':'데미스 하사비스','demis':'데미스 하사비스','/demis':'데미스 하사비스','/d':'데미스 하사비스',
+    '@페기올슨':'페기 올슨','페기올슨':'페기 올슨','@페기':'페기 올슨','페기':'페기 올슨','peggy':'페기 올슨','/peggy':'페기 올슨','/p':'페기 올슨','/ys':'페기 올슨',
+    '@무스타파술레이만':'무스타파 술레이만','무스타파술레이만':'무스타파 술레이만','@무스타파':'무스타파 술레이만','무스타파':'무스타파 술레이만','mustafa':'무스타파 술레이만','/mustafa':'무스타파 술레이만','/m':'무스타파 술레이만','/jo':'무스타파 술레이만',
+    '@제니퍼아카니':'제니퍼 아카니','제니퍼아카니':'제니퍼 아카니','@제니퍼':'제니퍼 아카니','제니퍼':'제니퍼 아카니','jennifer':'제니퍼 아카니','/jennifer':'제니퍼 아카니','/k':'제니퍼 아카니','/luna':'제니퍼 아카니',
+    '@크레이그페더리기':'크레이그 페더리기','크레이그페더리기':'크레이그 페더리기','@크레이그':'크레이그 페더리기','크레이그':'크레이그 페더리기','craig':'크레이그 페더리기','/craig':'크레이그 페더리기','/c':'크레이그 페더리기','/dev':'크레이그 페더리기',
+    '@무라카미하루키':'무라카미 하루키','무라카미하루키':'무라카미 하루키','@하루키':'무라카미 하루키','하루키':'무라카미 하루키','haruki':'무라카미 하루키','/haruki':'무라카미 하루키','/r':'무라카미 하루키','/kim':'무라카미 하루키',
+    '@한스짐머':'한스 짐머','한스짐머':'한스 짐머','@짐머':'한스 짐머','짐머':'한스 짐머','zimmer':'한스 짐머','/zimmer':'한스 짐머','/j':'한스 짐머','/hs':'한스 짐머',
+    '@사티아나델라':'사티아 나델라','사티아나델라':'사티아 나델라','@사티아':'사티아 나델라','사티아':'사티아 나델라','satya':'사티아 나델라','/satya':'사티아 나델라','/s':'사티아 나델라','/mj':'사티아 나델라',
     '@셜록':'셜록','셜록':'셜록','sherlock':'셜록','/sherlock':'셜록','/sh':'셜록',
     '@유피디':'유피디','유피디':'유피디','pd':'유피디','/pd':'유피디',
 }
@@ -192,15 +192,15 @@ def handle_message(chat_id, text):
         send_text(chat_id,
             "Connect AI Agents 봇 v4.0\n\n"
             "사용법:\n"
-            "@데미스 또는 /demis [내용] - CEO에게\n"
-            "@페기 또는 /peggy [내용] - 비서에게\n"
-            "@무스타파 또는 /mustafa [내용] - 데이터/리서치\n"
-            "@제니퍼 또는 /jennifer [내용] - 디자인\n"
-            "@크레이그 또는 /craig [내용] - 개발\n"
-            "@하루키 또는 /haruki [내용] - 스토리/대본\n"
-            "@짐머 또는 /zimmer [내용] - 사운드\n"
-            "@사티아 또는 /satya [내용] - 조직/평가\n"
-            "@셜록 또는 /sherlock [내용] - 탐색/추리\n\n"
+            "@데미스 또는 /demis [내용] - 데미스 하사비스 (CEO / 전략기획 총괄)\n"
+            "@페기 또는 /peggy [내용] - 페기 올슨 (비서 / 총괄 커뮤니케이션)\n"
+            "@무스타파 또는 /mustafa [내용] - 무스타파 술레이만 (데이터 분석 / 리서치)\n"
+            "@제니퍼 또는 /jennifer [내용] - 제니퍼 아카니 (시각 디자이너 / UI·UX)\n"
+            "@크레이그 또는 /craig [내용] - 크레이그 페더리기 (풀스택 수석 아키텍트)\n"
+            "@하루키 또는 /haruki [내용] - 무라카미 하루키 (스토리작가 / 대본)\n"
+            "@짐머 또는 /zimmer [내용] - 한스 짐머 (사운드 디렉터 / 오디오 마스터)\n"
+            "@사티아 또는 /satya [내용] - 사티아 나델라 (조직 운영 / 비판자)\n"
+            "@셜록 또는 /sherlock [내용] - 셜록 (리서처 / 트렌드 탐색 및 정보 추리)\n\n"
             "/team - 전체 팀 역할 조회\n"
             "/status - 시스템 상태 확인\n"
             "/inbox - 파일 현황\n\n"
@@ -269,9 +269,9 @@ def handle_message(chat_id, text):
     if text.strip() == '/inbox':
         lines = ["인박스 파일 현황\n"]
         total = 0
-        inbox_map = {'데미스':'demis','페기':'peggy','무스타파':'mustafa',
-                     '제니퍼':'jennifer','크레이그':'craig','하루키':'haruki',
-                     '짐머':'zimmer','사티아':'satya','셜록':'sherlock',
+        inbox_map = {'데미스 하사비스':'demis','페기 올슨':'peggy','무스타파 술레이만':'mustafa',
+                     '제니퍼 아카니':'jennifer','크레이그 페더리기':'craig','무라카미 하루키':'haruki',
+                     '한스 짐머':'zimmer','사티아 나델라':'satya','셜록':'sherlock',
                      '유피디':'upd','전체':'all'}
         for name, folder in inbox_map.items():
             d = INBOX / folder
@@ -310,27 +310,27 @@ def handle_message(chat_id, text):
         photo_path = PORTRAITS / ag['photo']
         send_photo_with_caption(chat_id, str(photo_path), caption)
     else:
-        # 기본: 페기가 수신
-        ag = AGENTS['페기']
+        # 기본: 페기 올슨이 수신
+        ag = AGENTS['페기 올슨']
         send_chat_action(chat_id, "typing")
         
         if not user_msg:
             reply = random.choice(ag['reply'])
         else:
-            reply = ask_ollama(user_msg, '페기', ag['role'], ag.get('model', 'qwen2.5:7b'))
+            reply = ask_ollama(user_msg, '페기 올슨', ag['role'], ag.get('model', 'qwen2.5:7b'))
             
-        caption = f"{ag['emoji']} 페기 (비서)\n\n수신: {text[:60]}\n\n{reply}\n\n(에이전트 호출: @이름 [내용])"
+        caption = f"{ag['emoji']} 페기 올슨 (비서 / 총괄 커뮤니케이션)\n\n수신: {text[:60]}\n\n{reply}\n\n(에이전트 호출: @이름 [내용])"
         if len(caption) > 1000:
             caption = caption[:1000] + "..."
             
         send_photo_with_caption(chat_id, str(PORTRAITS / ag['photo']), caption)
 
 def handle_document(chat_id, file_id, file_name, caption=''):
-    """파일 수신 → 인박스 저장"""
+    """파일 수신 → 인박스 저장 및 이미지 1/4 리사이즈"""
     agent_key, _ = resolve_agent(caption)
-    inbox_map = {'데미스':'demis','페기':'peggy','무스타파':'mustafa',
-                 '제니퍼':'jennifer','크레이그':'craig','하루키':'haruki',
-                 '짐머':'zimmer','사티아':'satya','셜록':'sherlock',
+    inbox_map = {'데미스 하사비스':'demis','페기 올슨':'peggy','무스타파 술레이만':'mustafa',
+                 '제니퍼 아카니':'jennifer','크레이그 페더리기':'craig','무라카미 하루키':'haruki',
+                 '한스 짐머':'zimmer','사티아 나델라':'satya','셜록':'sherlock',
                  '유피디':'upd'}
     folder = inbox_map.get(agent_key, 'all')
     save_dir = INBOX / folder
@@ -344,14 +344,33 @@ def handle_document(chat_id, file_id, file_name, caption=''):
             dl_url = f'https://api.telegram.org/file/bot{TOKEN}/{fp}'
             save_path = save_dir / file_name
             urllib.request.urlretrieve(dl_url, str(save_path))
+            
+            # 이미지 1/4 크기로 축소 (가로, 세로 각각 50% 축소로 전체 면적 1/4 구현)
+            is_image = file_name.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))
+            if is_image:
+                try:
+                    from PIL import Image
+                    with Image.open(save_path) as img:
+                        new_w = max(1, int(img.width * 0.5))
+                        new_h = max(1, int(img.height * 0.5))
+                        resample_method = Image.Resampling.LANCZOS if hasattr(Image, 'Resampling') else Image.ANTIALIAS
+                        img_resized = img.resize((new_w, new_h), resample_method)
+                        img_resized.save(save_path, quality=90)
+                    print(f"[RESIZE] {file_name} -> 1/4 크기로 축소 저장 완료 (새 크기: {new_w}x{new_h})")
+                except Exception as img_err:
+                    print(f"[RESIZE ERROR] 이미지 축소 실패: {img_err}")
+            
             agent_name = agent_key if agent_key else '전체공유'
-            send_text(chat_id,
-                f"파일 수신 완료!\n"
+            msg_text = (
+                f"📸 이미지 수신 및 1/4 축소 완료!\n" if is_image else f"📁 파일 수신 완료!\n"
+            )
+            msg_text += (
                 f"파일명: {file_name}\n"
                 f"수신자: {agent_name}\n"
                 f"저장: .agent/inbox/{folder}/\n\n"
                 f"팁: 캡션에 @이름을 쓰면 해당 인박스로 저장됩니다."
             )
+            send_text(chat_id, msg_text)
     except Exception as e:
         send_text(chat_id, f"파일 저장 오류: {e}")
 
@@ -361,7 +380,16 @@ def main():
     print(f"에이전트: {', '.join(AGENTS.keys())}")
     print("Ctrl+C로 종료\n")
 
+    # 시작 시 기존에 밀려있던 이전 업데이트들을 모두 읽어서 스킵 처리 (초기화)
     last_id = 0
+    try:
+        r = api('getUpdates', {'limit': 100})
+        updates = r.get('result', [])
+        if updates:
+            last_id = updates[-1]['update_id']
+            print(f"이전 메시지 {len(updates)}개를 무시하고 시작합니다. (최신 ID: {last_id})")
+    except Exception as e:
+        print(f"초기 업데이트 확인 중 오류: {e}")
 
     # 시작 알림
     send_text(CHAT_ID,

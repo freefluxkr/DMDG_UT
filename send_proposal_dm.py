@@ -5,6 +5,8 @@ import urllib.request
 import urllib.parse
 import time
 from pathlib import Path
+from PIL import Image
+import io
 
 # ── 설정 ─────────────────────────────────────
 TOKEN   = '8837085399:AAHDcjtBpBF04yiQTOukpmmSoXryRdtnQ0A'
@@ -37,8 +39,17 @@ def send_photo(chat_id, photo_path, caption):
         return
 
     boundary = 'DMDGBoundary2026'
-    with open(photo_path, 'rb') as f:
-        file_data = f.read()
+    try:
+        with Image.open(photo_path) as img:
+            new_size = (img.width // 4, img.height // 4)
+            img_resized = img.resize(new_size, Image.Resampling.LANCZOS if hasattr(Image, 'Resampling') else Image.ANTIALIAS)
+            img_byte_arr = io.BytesIO()
+            img_resized.save(img_byte_arr, format='PNG')
+            file_data = img_byte_arr.getvalue()
+    except Exception as e:
+        print(f"이미지 리사이즈 실패: {e}")
+        with open(photo_path, 'rb') as f:
+            file_data = f.read()
 
     parts = []
     parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="chat_id"\r\n\r\n{chat_id}\r\n'.encode())

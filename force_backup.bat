@@ -1,6 +1,6 @@
 @echo off
 title Demis Force Git Backup
-cd /d "c:\Users\user\Documents\DMDG_UT"
+cd /d "%~dp0"
 
 echo ==========================================
 echo   Demis Force Git Backup (Overwrite Remote)
