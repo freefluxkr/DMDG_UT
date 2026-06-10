@@ -1,4 +1,4 @@
-두 유튜브 채널 @dmdg-free와 @anti-korea에 대한 분석 내용입니다.
+두 유튜브 채널 @dmdg-free와 @koreans-culture에 대한 분석 내용입니다.
 
 1. @dmdg-free (당목담글)
 🔗 채널 링크: youtube.com/channel/UC6tcqStNeSzoe7Kv0iFECUA
@@ -9,7 +9,7 @@
 
 플랫폼 확장 잠재력: 이 채널의 세계관은 단순한 영상 시청을 넘어, 사용자 참여형 플랫폼(Flutter 기반 모바일 앱이나 PWA 등)으로 진화하기에 최적화되어 있습니다. 향후 사용자의 상황을 인지하여 목소리를 기부받고 이를 수필 기반의 이어읽기로 연결하는 시스템으로 발전할 때, 글로벌 사용자들에게 절대적인 신뢰를 얻는 것이 중요합니다. 따라서 사용자의 민감한 음성 기록과 데이터를 서버에 남기지 않고 오직 개인의 기기에만 저장(On-device)하는 강력한 프라이버시 정책을 채택한다면, 채널이 가진 '따뜻함'이라는 본질을 기술적으로 완벽하게 뒷받침할 수 있을 것입니다.
 
-2. @anti-korea (duffy & Mr seo의 Anti-Korea)
+2. @koreans-culture (duffy & Mr seo의 Koreans-culture)
 🔗 채널 링크: youtube.com/channel/UCW8OsY6gfQn4z0sLRS-ErOw
 
 채널 정체성 및 방향성: 채널 이름이 주는 강렬한 인상과 달리, 이 채널은 무조건적인 혐오를 조장하는 곳이 아니라 더피(Duffy)와 서씨의 시선으로 한국 사회의 가감 없는 진짜 '민낯'을 다루는 공간입니다.

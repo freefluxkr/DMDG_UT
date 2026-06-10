@@ -28,7 +28,7 @@ export const youtubeData = {
     },
     "deoksu": {
         title: "덕수궁 전시관",
-        subtitle: "근대의 아픔 (@Anti-korea)",
+        subtitle: "근대의 아픔 (@Koreans-culture)",
         shorts: [
             { id: "s1", title: "고종 황제의 마지막 커피, 독살설의 배후는?", viewCount: 154200, thumbnail: "https://i.ytimg.com/vi/WotPxivUD7c/hqdefault.jpg", videoId: "WotPxivUD7c" },
             { id: "s2", title: "을사늑약, 그날의 통곡이 서린 덕수궁 중명전", viewCount: 89000, thumbnail: "https://i.ytimg.com/vi/jmDe2Nr2wcY/hqdefault.jpg", videoId: "jmDe2Nr2wcY" },

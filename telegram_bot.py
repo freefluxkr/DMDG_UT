@@ -98,14 +98,15 @@ def cmd_help(chat_id, _):
     send(chat_id, """🤖 <b>Connect AI Agents (어벤져스 팀) 도움말</b>
 
 단축어를 사용하여 거장들에게 직접 지시하세요:
-/d : 데미스(CEO) - 전략/기획
-/p : 페기(비서) - 커뮤니케이션
-/m : 무스타파(데이터) - 분석/리서치
-/k : 제니퍼(디자인) - UI/UX
-/c : 크레이그(개발) - 풀스택
-/r : 하루키(스토리) - 대본
-/j : 짐머(사운드) - BGM/효과음
-/s : 사티아(조직) - 비판 및 조율
+/d (또는 /demis) : 데미스(CEO) - 전략/기획
+/p (또는 /peggy) : 페기(비서) - 커뮤니케이션
+/m (또는 /mustafa) : 무스타파(데이터) - 분석/리서치
+/k (또는 /jennifer) : 제니퍼(디자인) - UI/UX
+/c (또는 /craig) : 크레이그(개발) - 풀스택
+/r (또는 /haruki) : 하루키(스토리) - 대본
+/j (또는 /zimmer) : 짐머(사운드) - BGM/효과음
+/s (또는 /satya) : 사티아(조직) - 비판 및 조율
+/sh (또는 /sherlock) : 셜록(탐정) - 트렌드 분석 및 팩트체크
 
 시스템 명령어:
 /start : 봇 시작 인사
@@ -121,14 +122,15 @@ def cmd_team(chat_id, _):
     send(chat_id, """👥 <b>Connect AI Agents (어벤져스 팀) 최종 명단</b>
 ━━━━━━━━━━━━━━━━━━━━━
 
-👔 <b>데미스</b> (/d) — CEO / 전략기획 (레벨 99)
-📋 <b>페기</b> (/p) — 비서 / 총괄 커뮤니케이션 (레벨 99)
-🔬 <b>무스타파</b> (/m) — 데이터 분석 / 리서치 (레벨 99)
-🎨 <b>제니퍼</b> (/k) — 시각 디자이너 / UI·UX (레벨 99)
-💻 <b>크레이그</b> (/c) — 풀스택 수석 아키텍트 (레벨 99)
-✍️ <b>하루키</b> (/r) — 스토리작가 / 대본 (레벨 99)
-🎧 <b>짐머</b> (/j) — 사운드 디렉터 / 오디오 마스터 (레벨 99)
-⚖️ <b>사티아</b> (/s) — 조직 운영 비판자 / 서번트 리더십 (레벨 99)
+👔 <b>데미스</b> (/d, /demis) — CEO / 전략기획 (레벨 99)
+📋 <b>페기</b> (/p, /peggy) — 비서 / 총괄 커뮤니케이션 (레벨 99)
+🔬 <b>무스타파</b> (/m, /mustafa) — 데이터 분석 / 리서치 (레벨 99)
+🎨 <b>제니퍼</b> (/k, /jennifer) — 시각 디자이너 / UI·UX (레벨 99)
+💻 <b>크레이그</b> (/c, /craig) — 풀스택 수석 아키텍트 (레벨 99)
+✍️ <b>하루키</b> (/r, /haruki) — 스토리작가 / 대본 (레벨 99)
+🎧 <b>짐머</b> (/j, /zimmer) — 사운드 디렉터 / 오디오 마스터 (레벨 99)
+⚖️ <b>사티아</b> (/s, /satya) — 조직 운영 비판자 / 서번트 리더십 (레벨 99)
+🔍 <b>셜록</b> (/sh, /sherlock) — 탐정 / 트렌드 분석 및 리서치 (레벨 99)
 
 ━━━━━━━━━━━━━━━━━━━━━
 <i>모든 거장들이 사장님의 지시(/job)를 대기 중입니다! 💪</i>""")
@@ -223,7 +225,7 @@ def cmd_youtube(chat_id, _):
         "1. @DMDG-FREE (미스터리 역사 쇼츠)\n"
         "  - 세종대왕 매사냥, 광해군 UFO 등 조회수 폭등 중\n"
         "  - 쇼츠 알고리즘 적중률: 95%\n\n"
-        "2. @ANTI-KOREA (한국의 이면 롱폼)\n"
+        "2. @KOREANS-CULTURE (한국의 이면 롱폼)\n"
         "  - 묵직한 다큐멘터리로 시청 시간 유지 중\n"
         "  - 더피의 쿠킹클래스처럼 ASMR, 넌버벌 요소 추가 시 시너지 예상\n\n"
         "━━━━━━━━━━━━━━━━━━━━━\n"
@@ -250,6 +252,7 @@ def cmd_c(chat_id, text): send(chat_id, "💻 <b>크레이그(개발)</b>\n💬 
 def cmd_r(chat_id, text): send(chat_id, "✍️ <b>하루키(스토리)</b>\n💬 시청자를 홀리는 도파민 가득한 대본 초안 쓰겠습니다. 📝")
 def cmd_j(chat_id, text): send(chat_id, "🎧 <b>짐머(사운드)</b>\n💬 심박수를 지배하는 완벽한 사운드 믹싱 들어가겠습니다. 🎵")
 def cmd_s(chat_id, text): send(chat_id, "⚖️ <b>사티아(조직)</b>\n💬 잠시만요, 우리 팀의 목표와 방향성을 객관적으로 짚어봅시다. 🤝")
+def cmd_sh(chat_id, text): send(chat_id, "🔍 <b>셜록(탐정)</b>\n💬 단서 하나 놓치지 않고 팩트와 트렌드를 집요하게 추적하겠습니다. 🕵️‍♂️")
 
 def cmd_unknown(chat_id, text):
     send(chat_id, f'❓ 알 수 없는 명령어입니다: <code>{text}</code>\n\n/h 를 입력하면 사용 가능한 명령어 목록을 보실 수 있습니다.')
@@ -265,13 +268,23 @@ COMMANDS = {
     '/yt'     : cmd_youtube,
     '/job'    : cmd_job,
     '/d'      : cmd_d,
+    '/demis'  : cmd_d,
     '/p'      : cmd_p,
+    '/peggy'  : cmd_p,
     '/m'      : cmd_m,
+    '/mustafa': cmd_m,
     '/k'      : cmd_k,
+    '/jennifer': cmd_k,
     '/c'      : cmd_c,
+    '/craig'  : cmd_c,
     '/r'      : cmd_r,
+    '/haruki' : cmd_r,
     '/j'      : cmd_j,
+    '/zimmer' : cmd_j,
     '/s'      : cmd_s,
+    '/satya'  : cmd_s,
+    '/sh'     : cmd_sh,
+    '/sherlock': cmd_sh,
 }
 
 def handle_message(message):
@@ -304,16 +317,26 @@ def handle_message(message):
         if file_id and text:
             cmd = text.split('@')[0].split(' ')[0].lower()
             agent_map = {
-                '/d': 'demis', '/p': 'peggy', '/m': 'mustafa', '/k': 'jennifer',
-                '/c': 'craig', '/r': 'haruki', '/j': 'zimmer', '/s': 'satya',
+                '/d': 'demis', '/demis': 'demis',
+                '/p': 'peggy', '/peggy': 'peggy',
+                '/m': 'mustafa', '/mustafa': 'mustafa',
+                '/k': 'jennifer', '/jennifer': 'jennifer',
+                '/c': 'craig', '/craig': 'craig',
+                '/r': 'haruki', '/haruki': 'haruki',
+                '/j': 'zimmer', '/zimmer': 'zimmer',
+                '/s': 'satya', '/satya': 'satya',
+                '/sh': 'sherlock', '/sherlock': 'sherlock',
                 '@demis': 'demis', '@peggy': 'peggy', '@mustafa': 'mustafa', '@jennifer': 'jennifer',
                 '@craig': 'craig', '@haruki': 'haruki', '@zimmer': 'zimmer', '@satya': 'satya',
+                '@sherlock': 'sherlock', '@sh': 'sherlock',
                 '@데미스': 'demis', '@페기': 'peggy', '@무스타파': 'mustafa', '@제니퍼': 'jennifer',
-                '@크레이그': 'craig', '@하루키': 'haruki', '@짐머': 'zimmer', '@사티아': 'satya'
+                '@크레이그': 'craig', '@하루키': 'haruki', '@짐머': 'zimmer', '@사티아': 'satya',
+                '@셜록': 'sherlock'
             }
             dest_agent = agent_map.get(cmd)
             if dest_agent:
-                inbox_dir = os.path.join('d:/connect_dmdg/.agent/inbox', dest_agent)
+                script_dir = os.path.dirname(os.path.abspath(__file__))
+                inbox_dir = os.path.join(script_dir, '.agent', 'inbox', dest_agent)
                 os.makedirs(inbox_dir, exist_ok=True)
                 dest_path = os.path.join(inbox_dir, file_name)
                 

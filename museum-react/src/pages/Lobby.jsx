@@ -22,7 +22,7 @@ const gates = [
     id: 'deoksu',
     title: '덕수궁 (근대의 아픔)',
     desc: '간도와 관동 학살 등 아픈 역사의 현장',
-    tag: '@anti-korea',
+    tag: '@koreans-culture',
     tagClass: 'text-teal-600 bg-teal-50',
     titleClass: 'text-blue-950',
     bgImage: 'deoksu_autumn.png',

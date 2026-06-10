@@ -48,7 +48,7 @@ function Chamber() {
       bgSoft: "bg-teal-50",
       borderSoft: "border-teal-200",
       bgActive: "bg-teal-100",
-      tagCode: "@Anti-korea"
+      tagCode: "@Koreans-culture"
     },
     changgyeong: { 
       name: "창경궁", subtitle: "비극의 전각", spirit: "사도세자", season: "하얀 눈이 쌓이는 겨울",
