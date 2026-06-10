@@ -22,4 +22,9 @@ export const db = getFirestore(app);
 // Initialize Cloud Storage and get a reference to the service
 export const storage = getStorage(app);
 
+// Legacy compat exposure
+if (typeof window !== "undefined") {
+  window.db = db;
+}
+
 export default app;

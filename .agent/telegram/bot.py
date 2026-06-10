@@ -6,6 +6,12 @@ import urllib.request, urllib.parse, json, time, os, sys, subprocess, re
 from pathlib import Path
 from datetime import datetime
 
+# Windows 콘솔 cp949 인코딩으로 인한 이모지 출력 오류 우회
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
+
 TOKEN   = '8837085399:AAHDcjtBpBF04yiQTOukpmmSoXryRdtnQ0A'
 CHAT_ID = '8294524472'
 BASE    = f'https://api.telegram.org/bot{TOKEN}'
@@ -71,6 +77,10 @@ def send_chat_action(chat_id, action="typing"):
     api('sendChatAction', {'chat_id': chat_id, 'action': action})
 
 def ask_ollama(prompt, agent_name, agent_role, model_name="supergemma4"):
+    # 대표님이 다운로드 받으신 gemma4:12b로 기본 매핑 처리
+    if model_name == "supergemma4":
+        model_name = "gemma4:12b"
+
     system_prompt = (
         f"당신은 'Connect AI Agents'의 팀원 '{agent_name}'입니다. 당신의 역할은 '{agent_role}'입니다.\n"
         "【절대 원칙: DMDG_UT 사무실 행동 강령】\n"
@@ -109,12 +119,33 @@ def ask_ollama(prompt, agent_name, agent_role, model_name="supergemma4"):
     req = urllib.request.Request(url, data=body, method='POST')
     req.add_header('Content-Type', 'application/json')
     try:
-        with urllib.request.urlopen(req, timeout=120) as r:
+        # 타임아웃을 8초로 설정하여 반응이 없으면 빠르게 외부 API로 폴백
+        with urllib.request.urlopen(req, timeout=8) as r:
             result = json.loads(r.read())
             return result.get('response', '오류: 빈 응답')
     except Exception as e:
-        print(f"Ollama 연동 오류: {e}")
-        return "죄송합니다, 지금 제 로컬 두뇌(Ollama)에 접속할 수 없습니다. 모델 서버가 켜져 있는지 확인해 주세요."
+        print(f"Ollama 연동 오류(모델 {model_name} 호출 실패): {e}")
+        print("Gemini API 폴백 작동 중...")
+        try:
+            api_key = "AIzaSyAnISNciX3r53A3oLR4FaLUNpmyKkiharc"
+            gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+            payload = {
+                "contents": [{"parts": [{"text": prompt}]}],
+                "systemInstruction": {"parts": [{"text": system_prompt}]},
+                "generationConfig": {
+                    "maxOutputTokens": 400,
+                    "temperature": 0.7
+                }
+            }
+            body_gemini = json.dumps(payload).encode('utf-8')
+            req_gemini = urllib.request.Request(gemini_url, data=body_gemini, method='POST')
+            req_gemini.add_header('Content-Type', 'application/json')
+            with urllib.request.urlopen(req_gemini, timeout=15) as r_gemini:
+                res_data = json.loads(r_gemini.read().decode('utf-8'))
+                return res_data['candidates'][0]['content']['parts'][0]['text'].strip()
+        except Exception as gemini_err:
+            print(f"Gemini 폴백 에러: {gemini_err}")
+            return f"죄송합니다. 현재 로컬 모델({model_name})과 외부 모델(Gemini)에 모두 문제가 발생했습니다: {e}"
 
 def send_photo_with_caption(chat_id, photo_path, caption):
     if not Path(photo_path).exists():

@@ -5,7 +5,7 @@ import subprocess
 import edge_tts
 
 # 1. 설정 및 경로 지정
-BASE_DIR = r"c:\Users\user\Documents\DMDG_UT"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 YOUTUBE_DIR = os.path.join(BASE_DIR, "YOUTUBE")
 PROJECT_DIR = os.path.join(YOUTUBE_DIR, r"Projects\Subway_Smell")
 IMAGE_DIR = os.path.join(PROJECT_DIR, "assets_image")

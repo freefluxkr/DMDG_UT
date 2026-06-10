@@ -23,6 +23,11 @@ import os
 import sys
 import datetime
 import threading
+import io
+
+# Windows 콘솔 cp949 인코딩으로 인한 이모지 출력 오류 우회
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
 # ── 설정 ─────────────────────────────────────
 TOKEN   = '8837085399:AAHDcjtBpBF04yiQTOukpmmSoXryRdtnQ0A'

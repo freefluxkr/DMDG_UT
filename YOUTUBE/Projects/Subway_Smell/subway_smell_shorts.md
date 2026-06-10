@@ -175,3 +175,45 @@
 > 
 > 👉 役立つ日常マナーや生活の裏ワザを毎週チェックしたい方は、ぜひ**【チャンネル登録】**と**【高評価】**をお願いします！
 > あなたが電車内で遭遇した最悪の臭いは何ですか？ コメント欄で教えてください！ 👇
+
+---
+
+## 📝 추가 설명: 옷 쉰내의 원인과 해결책 (대본 외 지식)
+
+### 1. 섬유유연제 떡칠해도 쉰내가 안 없어지는 진짜 이유 (심화)
+옷에서 나는 퀴퀴한 '걸레 빤 냄새' 혹은 '쉰내'의 근본적인 원인은 습한 환경에서 폭발적으로 증식하는 **모락셀라균(Moraxella)** 때문입니다. 이 균 자체는 냄새가 없지만, 피지나 땀과 같은 노폐물을 분해하면서 배출하는 유기산 대사 산물이 지독한 악취를 유발합니다. 
+문제는 이 균이 끈적한 생물막(바이오필름)을 형성하여 섬유 깊숙이 자리 잡기 때문에 일반 세제로는 세척되지 않는다는 점입니다. 이때 좋은 냄새로 덮어보겠다고 섬유유연제를 듬뿍 넣으면 큰 역효과가 발생합니다. 섬유유연제에 포함된 양이온 계면활성제나 인공 향료 찌꺼기가 오히려 모락셀라균의 영양분이 되어 균 증식을 폭발적으로 돕고, 섬유의 통기성과 흡수성을 떨어뜨려 건조를 방해하기 때문에 악취가 향수 냄새와 섞여 구역질 나는 역한 냄새로 진화하게 됩니다.
+
+### 2. 타인을 배려하는 올바른 세탁 관리법 (베이킹소다/온수/구연산 활용 심화)
+* **과탄산소다 및 베이킹소다 활용법**: 이미 쉰내가 밴 옷이라면 약알칼리성인 세제에 추가로 **베이킹소다(반 컵)**나 **과탄산소다(산소계 표백제)**를 따뜻한 물에 녹여 30분 정도 옷을 불려두면, 산성인 악취 원인 물질을 완벽하게 중화하고 바이오필름을 파괴할 수 있습니다.
+* **60℃ 이상의 고온수 세탁**: 모락셀라균은 60도 이상의 열에서 사멸합니다. 수건이나 면 티셔츠의 경우 60도 이상의 온수로 세탁하면 균을 확실하게 박멸할 수 있습니다. (※ 반드시 의류 라벨을 확인하여 열에 약한 합성섬유, 니트, 실크 등은 피해야 합니다.)
+* **헹굼 단계에서의 구연산/식초 활용**: 섬유유연제 대신 헹굼 마지막 단계에서 식초 2~3스푼이나 구연산수를 넣어주면, 알칼리성이 된 섬유를 중화시키고 남은 세제 찌꺼기를 제거하여 살균 효과를 극대화할 수 있습니다.
+* **신속 건조의 법칙**: 세탁기가 멈춘 후 젖은 옷을 방치하는 10분 동안에도 균은 번식합니다. 즉시 꺼내어 건조기를 돌리거나, 바람이 잘 통하는 곳에서 선풍기/제습기를 활용해 수분을 단숨에 날려버리는 것이 가장 중요합니다. 빨래 건조 시에는 간격을 넉넉히 벌려 공기 순환을 원활하게 해주세요.
+
+---
+
+### 🇺🇸 ENG: Why Your Clothes Smell & How to Fix It (Bonus Tips!)
+
+**1. Why softening your clothes makes the smell WORSE**
+You know that funky, sour smell your clothes get when they don't dry properly? That's actually caused by a bacteria called *Moraxella*. The bacteria itself doesn't smell, but it feeds on leftover sweat and oils, and its "waste" is what causes that terrible odor. 
+The worst part? They build a sticky layer (biofilm) on your clothes that normal detergent can't wash away. If you try to cover it up by pouring in a ton of fabric softener, you're actually making a huge mistake! The leftover softener acts as an all-you-can-eat buffet for the bacteria, and it traps moisture. So, you end up with a mix of cheap perfume and sour sweat smell. Yuck!
+
+**2. How to actually wash your clothes right (Baking Soda & Hot Water Hacks)**
+* **The Baking Soda & Oxygen Bleach Trick**: If your clothes already stink, soak them in warm water with your regular detergent and add half a cup of baking soda or oxygen bleach for about 30 minutes. This breaks down that sticky bacteria shield and neutralizes the acidic odor!
+* **Wash it HOT (60°C/140°F)**: *Moraxella* bacteria can't survive high heat. Washing your towels and cotton tees in hot water (above 60°C) is a surefire way to kill them off. (Just make sure to check the care label first so you don't shrink your clothes!)
+* **Vinegar/Citric Acid Magic**: Skip the fabric softener! Instead, add 2-3 tablespoons of white vinegar or citric acid water during the final rinse cycle. It neutralizes the clothes, removes leftover detergent, and boosts the antibacterial effect!
+* **Dry it FAST**: The bacteria keeps growing even in the 10 minutes your wet laundry sits in the machine after it's done. Take it out immediately! Use a dryer, or spread them out well with a fan or dehumidifier to blast away the moisture fast.
+
+---
+
+### 🇯🇵 JPN: 服の生乾き臭の本当の理由と解決策（おまけの豆知識！）
+
+**1. 柔軟剤をドバドバ入れても臭いが消えない本当の理由**
+服からするあの「雑巾みたいな臭い」や「生乾き臭」、実は湿った環境で爆発的に増える**「モラクセラ菌」**が原因なんです。菌自体は無臭なんですが、皮脂や汗を分解して出す「フン」が、あの強烈な悪臭のもとになります。
+厄介なことに、この菌はネバネバしたバリア（バイオフィルム）を作って繊維の奥に住み着くので、普通の洗剤じゃ落ちないんです。ここで「良い香りでごまかそう！」と柔軟剤をたっぷり入れるのは大間違い！柔軟剤の残りカスが菌の最高のエサになり、さらに服の通気性を悪くして乾きにくくさせちゃうんです。その結果、香水の匂いと悪臭が混ざった最悪の臭いに進化してしまいます。
+
+**2. 周りに迷惑をかけない！正しい洗濯術（重曹＆お湯の活用法）**
+* **酸素系漂白剤と重曹の合わせ技**: すでに臭いが染み付いちゃった服は、弱アルカリ性の洗剤に**重曹（カップ半分）**か**酸素系漂白剤**を足して、お湯で30分くらいつけ置きしてみて！酸性の悪臭成分を中和して、菌のバリアを壊してくれますよ。
+* **60℃以上の熱湯で洗う**: モラクセラ菌は熱に弱いので、60度以上のお湯で洗えば確実にやっつけられます。タオルや綿のTシャツには効果バツグン！（※ただし、熱に弱いニットやシルクなんかは服のタグを絶対に確認してね！）
+* **すすぎの時のクエン酸・お酢マジック**: 柔軟剤の代わりに、最後のすすぎで「お酢」を大さじ2〜3杯か「クエン酸水」を入れてみて。アルカリ性に傾いた繊維を中和して、洗剤の残りカスも落としてくれるから、除菌効果が爆上がりします！
+* **とにかく「速乾」が命**: 洗濯機が止まってから放置している10分の間にも、菌はどんどん増殖します。終わったらすぐに出して乾燥機に入れるか、風通しのいい場所で扇風機や除湿機を使って一気に水分を飛ばすのが一番大事！干す時は間隔を広めにとって、風の通り道を作ってあげてね。
