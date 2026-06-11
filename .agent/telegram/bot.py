@@ -175,12 +175,15 @@ def send_photo_with_caption(chat_id, photo_path, caption):
 
 # ── 메시지 처리 ───────────────────────────────────────────
 def resolve_agent(text: str):
+    if not text:
+        return None, ''
     text_l = text.lower().strip()
-    for alias, key in ALIASES.items():
+    # 긴 alias부터 매칭하여 /pd가 /p보다 먼저 체크되도록 정렬
+    for alias in sorted(ALIASES.keys(), key=len, reverse=True):
         al = alias.lower()
         if text_l.startswith(al):
             msg = text[len(alias):].strip().lstrip(':').strip()
-            return key, msg
+            return ALIASES[alias], msg
     return None, text
 
 import random
@@ -357,20 +360,23 @@ def handle_document(chat_id, file_id, file_name, caption=''):
                         img_resized = img.resize((new_w, new_h), resample_method)
                         img_resized.save(save_path, quality=90)
                     print(f"[RESIZE] {file_name} -> 1/4 크기로 축소 저장 완료 (새 크기: {new_w}x{new_h})")
+                    
+                    # 축소된 이미지를 다시 텔레그램으로 출력
+                    agent_name = agent_key if agent_key else '전체공유'
+                    out_caption = f"📸 [{agent_name}] 1/4 크기 축소 완료!\n저장위치: .agent/inbox/{folder}/{file_name}"
+                    send_photo_with_caption(chat_id, str(save_path), out_caption)
                 except Exception as img_err:
                     print(f"[RESIZE ERROR] 이미지 축소 실패: {img_err}")
-            
-            agent_name = agent_key if agent_key else '전체공유'
-            msg_text = (
-                f"📸 이미지 수신 및 1/4 축소 완료!\n" if is_image else f"📁 파일 수신 완료!\n"
-            )
-            msg_text += (
-                f"파일명: {file_name}\n"
-                f"수신자: {agent_name}\n"
-                f"저장: .agent/inbox/{folder}/\n\n"
-                f"팁: 캡션에 @이름을 쓰면 해당 인박스로 저장됩니다."
-            )
-            send_text(chat_id, msg_text)
+            else:
+                agent_name = agent_key if agent_key else '전체공유'
+                msg_text = (
+                    f"📁 파일 수신 완료!\n"
+                    f"파일명: {file_name}\n"
+                    f"수신자: {agent_name}\n"
+                    f"저장: .agent/inbox/{folder}/\n\n"
+                    f"팁: 캡션에 @이름을 쓰면 해당 인박스로 저장됩니다."
+                )
+                send_text(chat_id, msg_text)
     except Exception as e:
         send_text(chat_id, f"파일 저장 오류: {e}")
 
