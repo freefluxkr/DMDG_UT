@@ -16,3 +16,12 @@
 [submodule "YOUTUBE/Projects/TempleFood"]
 	path = YOUTUBE/Projects/TempleFood
 	url = https://github.com/dmdg-official/MDG_UT_TempleFood.git
+[submodule "YOUTUBE/Projects/Hangeul_Meadow"]
+	path = YOUTUBE/Projects/Hangeul_Meadow
+	url = https://github.com/dmdg-official/DMDG_UT_Hangeul_Meadow.git
+[submodule "YOUTUBE/Projects/Subway_Smell"]
+	path = YOUTUBE/Projects/Subway_Smell
+	url = https://github.com/dmdg-official/DMDG_UT_Subway_Smell.git
+[submodule "YOUTUBE/Projects/SadoSeja"]
+	path = YOUTUBE/Projects/SadoSeja
+	url = https://github.com/dmdg-official/DMDG_UT_SadoSeja.git
