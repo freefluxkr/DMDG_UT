@@ -1,445 +1,452 @@
 """
-Connect AI Agents — 양방향 통신 봇 (심플 버전)
-라이브러리 없이 순수 Python으로 동작
+당목담글 당목담글 팀 텔레그램 양방향 봇
+════════════════════════════════════════════
+봇: @aiffall_bot
+실행: python telegram_bot.py
+종료: Ctrl+C
+
+지원 명령어:
+  /start  - 시작 인사
+  /h      - 도움말 (단축키)
+  /help   - 도움말
+  /team   - AI 팀원 소개
+  /status - 서버 상태 확인
+  /report - 오늘 업무 보고 (send_dm.py와 동일)
+  /yt     - 유튜브 통계
 """
-import urllib.request, urllib.parse, json, time, os, sys, subprocess, re
-from pathlib import Path
-from datetime import datetime
+
+import urllib.request
+import urllib.parse
+import json
+import time
+import os
+import sys
+import datetime
+import threading
+import io
 
 # Windows 콘솔 cp949 인코딩으로 인한 이모지 출력 오류 우회
-import io
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
-
+# ── 설정 ─────────────────────────────────────
 TOKEN   = '8837085399:AAHDcjtBpBF04yiQTOukpmmSoXryRdtnQ0A'
 CHAT_ID = '8294524472'
 BASE    = f'https://api.telegram.org/bot{TOKEN}'
-INBOX   = Path(__file__).parent.parent / 'inbox'
-PORTRAITS = Path(__file__).parent.parent / 'portraits'
 
-# ── 에이전트 정의 ─────────────────────────────────────────
-AGENTS = {
-    '데미스 하사비스': {'role':'CEO / 전략기획 총괄', 'emoji':'👔', 'photo':'demis.png', 'model':'supergemma4',
-               'reply':['네 사장님, 즉시 전략 검토합니다! 🎯','방향성 잡겠습니다. 📊','바로 실행 계획 수립합니다. ✅']},
-    '페기 올슨':   {'role':'비서 / 총괄 커뮤니케이션', 'emoji':'📋', 'photo':'peggy.png', 'model':'supergemma4',
-               'reply':['네 사장님! 즉시 처리합니다. 📋','확인했습니다! 정리해 드릴게요. 📎','꼼꼼히 챙기겠습니다! 💼']},
-    '무스타파 술레이만': {'role':'데이터 분석 / 리서치', 'emoji':'🔬', 'photo':'mustafa.png', 'model':'supergemma4',
-               'reply':['데이터 분석 시작합니다. 📊','철저히 조사해 리포트 작성하겠습니다. 🔬','통계적으로 접근하겠습니다. 📈']},
-    '제니퍼 아카니': {'role':'시각 디자이너 / UI·UX', 'emoji':'🎨', 'photo':'jennifer.png', 'model':'supergemma4',
-               'reply':['비주얼 작업 시작합니다! 🎨','디자인 방향 잡겠습니다. 🖌️','감각적으로 풀어볼게요! 💜']},
-    '크레이그 페더리기': {'role':'풀스택 수석 아키텍트', 'emoji':'💻', 'photo':'craig.png', 'model':'supergemma4',
-               'reply':['코드 작성 시작합니다! 💻⚡','기술적 분석 완료. 구현 들어갑니다. 🛠️','바로 개발 들어갑니다! 🚀']},
-    '무라카미 하루키': {'role':'스토리작가 / 대본', 'emoji':'✍️', 'photo':'haruki.png', 'model':'supergemma4',
-               'reply':['영감이 떠오릅니다! ✍️💫','스크립트 구상 시작합니다. 📝','감성을 담아 쓰겠습니다. 🌸']},
-    '한스 짐머':   {'role':'사운드 디렉터 / 오디오 마스터', 'emoji':'🎧', 'photo':'zimmer.png', 'model':'supergemma4',
-               'reply':['사운드 기획 들어갑니다! 🎧🎵','BGM 방향 잡겠습니다. 🎼','소리로 감동 전달하겠습니다. 🎶']},
-    '사티아 나델라': {'role':'조직 운영 / 비판자', 'emoji':'⚖️', 'photo':'satya.png', 'model':'supergemma4',
-               'reply':['냉정하게 분석하겠습니다. 수치가 모든 것을 말합니다. ⚖️',
-                        '조직 시너지를 극대화하고 리스크를 짚겠습니다. ⚠️']},
-    '셜록':   {'role':'리서처 / 트렌드 탐색 및 정보 추리', 'emoji':'🔍', 'photo':'sherlock.png', 'model':'supergemma4',
-               'reply':['단서를 찾기 위해 즉시 리서치 착수합니다! 🔍','추리 및 조사 보고드리겠습니다. 🕵️‍♂️']},
-    '유피디': {'role':'유튜브 전담 PD', 'emoji':'📹', 'photo':'upd.png', 'model':'supergemma4',
-               'reply':['유튜브 채널 관리 및 업로드 준비 완료! 🎬','알고리즘 최적화 들어갑니다! 📈','조회수 떡상 가즈아! 🔥']},
-}
-ALIASES = {
-    '@데미스하사비스':'데미스 하사비스','데미스하사비스':'데미스 하사비스','@데미스':'데미스 하사비스','데미스':'데미스 하사비스','demis':'데미스 하사비스','/demis':'데미스 하사비스','/d':'데미스 하사비스',
-    '@페기올슨':'페기 올슨','페기올슨':'페기 올슨','@페기':'페기 올슨','페기':'페기 올슨','peggy':'페기 올슨','/peggy':'페기 올슨','/p':'페기 올슨','/ys':'페기 올슨',
-    '@무스타파술레이만':'무스타파 술레이만','무스타파술레이만':'무스타파 술레이만','@무스타파':'무스타파 술레이만','무스타파':'무스타파 술레이만','mustafa':'무스타파 술레이만','/mustafa':'무스타파 술레이만','/m':'무스타파 술레이만','/jo':'무스타파 술레이만',
-    '@제니퍼아카니':'제니퍼 아카니','제니퍼아카니':'제니퍼 아카니','@제니퍼':'제니퍼 아카니','제니퍼':'제니퍼 아카니','jennifer':'제니퍼 아카니','/jennifer':'제니퍼 아카니','/k':'제니퍼 아카니','/luna':'제니퍼 아카니',
-    '@크레이그페더리기':'크레이그 페더리기','크레이그페더리기':'크레이그 페더리기','@크레이그':'크레이그 페더리기','크레이그':'크레이그 페더리기','craig':'크레이그 페더리기','/craig':'크레이그 페더리기','/c':'크레이그 페더리기','/dev':'크레이그 페더리기',
-    '@무라카미하루키':'무라카미 하루키','무라카미하루키':'무라카미 하루키','@하루키':'무라카미 하루키','하루키':'무라카미 하루키','haruki':'무라카미 하루키','/haruki':'무라카미 하루키','/r':'무라카미 하루키','/kim':'무라카미 하루키',
-    '@한스짐머':'한스 짐머','한스짐머':'한스 짐머','@짐머':'한스 짐머','짐머':'한스 짐머','zimmer':'한스 짐머','/zimmer':'한스 짐머','/j':'한스 짐머','/hs':'한스 짐머',
-    '@사티아나델라':'사티아 나델라','사티아나델라':'사티아 나델라','@사티아':'사티아 나델라','사티아':'사티아 나델라','satya':'사티아 나델라','/satya':'사티아 나델라','/s':'사티아 나델라','/mj':'사티아 나델라',
-    '@셜록':'셜록','셜록':'셜록','sherlock':'셜록','/sherlock':'셜록','/sh':'셜록',
-    '@유피디':'유피디','유피디':'유피디','pd':'유피디','/pd':'유피디',
-}
-
-# ── HTTP 헬퍼 ─────────────────────────────────────────────
-def api(method, data=None):
+# ── 유틸리티 ──────────────────────────────────
+def api_get(method, params=None):
     url = f'{BASE}/{method}'
-    if data:
-        body = urllib.parse.urlencode(data).encode('utf-8')
-        req  = urllib.request.Request(url, data=body, method='POST')
-    else:
-        req = urllib.request.Request(url)
+    if params:
+        url += '?' + urllib.parse.urlencode(params)
+    try:
+        with urllib.request.urlopen(url, timeout=30) as r:
+            return json.loads(r.read().decode())
+    except Exception as e:
+        print(f'[GET 오류] {method}: {e}')
+        return None
+
+def api_post(method, data):
+    url = f'{BASE}/{method}'
+    body = urllib.parse.urlencode(data).encode('utf-8')
+    req = urllib.request.Request(url, data=body, method='POST')
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
-            return json.loads(r.read())
+            return json.loads(r.read().decode())
     except Exception as e:
-        print(f'API 오류: {e}')
-        return {}
+        print(f'[POST 오류] {method}: {e}')
+        return None
 
-def send_text(chat_id, text):
-    api('sendMessage', {'chat_id': chat_id, 'text': text})
+def send(chat_id, text, parse_mode='HTML'):
+    """메시지 발송 (4096자 초과 시 자동 분할)"""
+    MAX = 4000
+    # 텍스트가 너무 길면 분할 발송
+    if len(text) > MAX:
+        chunks = [text[i:i+MAX] for i in range(0, len(text), MAX)]
+        for chunk in chunks:
+            api_post('sendMessage', {'chat_id': chat_id, 'text': chunk, 'parse_mode': parse_mode})
+            time.sleep(0.3)
+        return
+    api_post('sendMessage', {'chat_id': chat_id, 'text': text, 'parse_mode': parse_mode})
 
-def send_chat_action(chat_id, action="typing"):
-    api('sendChatAction', {'chat_id': chat_id, 'action': action})
+def send_typing(chat_id):
+    api_post('sendChatAction', {'chat_id': chat_id, 'action': 'typing'})
 
-def ask_ollama(prompt, agent_name, agent_role, model_name="supergemma4"):
-    # 대표님이 다운로드 받으신 gemma4:12b로 기본 매핑 처리
-    if model_name == "supergemma4":
-        model_name = "gemma4:12b"
+# ── 유틸리티: 파일 다운로드 ──────────────────
+def download_file(file_id, dest_path):
+    result = api_get('getFile', {'file_id': file_id})
+    if result and result.get('ok'):
+        file_path = result['result']['file_path']
+        download_url = f'https://api.telegram.org/file/bot{TOKEN}/{file_path}'
+        try:
+            urllib.request.urlretrieve(download_url, dest_path)
+            return True
+        except Exception as e:
+            print(f'[파일 다운로드 오류]: {e}')
+            return False
+    return False
 
-    system_prompt = (
-        f"당신은 'Connect AI Agents'의 팀원 '{agent_name}'입니다. 당신의 역할은 '{agent_role}'입니다.\n"
-        "【절대 원칙: DMDG_UT 사무실 행동 강령】\n"
-        "- 이곳 DMDG_UT 사무실에서는 오직 두 유튜브 채널 '@dmdg-free'와 '@anti-korea'의 성장과 콘텐츠 기획만을 생각하고 행동해야 합니다. 다른 외부 주제나 잡념은 철저히 배제하십시오.\n"
-        "- 사장님의 명시적인 번역 지시가 없는 한, **당신의 모든 답변과 산출물은 반드시 100% 한국어로만 작성해야 합니다.**\n"
-        "【현재 프로젝트 상황 및 유튜브 채널 비전 숙지 사항】\n"
-        "- 우리는 '비용 0원 무인화 로컬 유튜브 쇼츠 스튜디오'를 운영 중인 원팀입니다.\n"
-        "- 사장님의 텔레그램 지시를 받아 자동화 파이프라인을 돌립니다.\n"
-        "- [채널1] @dmdg-free (당목담글): '사람과 마음을 연결하는 가장 따뜻한 이어읽기 플랫폼'이 목표입니다. "
-        "역사적 웹툰을 다국어(ENG/JPN/KOR)로 번역해 글로벌 타겟팅하며, 향후 개인정보 보호(On-device) 기반의 목소리 기부 플랫폼으로 확장을 준비합니다.\n"
-        "- [채널2] @anti-korea (duffy & Mr seo): 한국 사회의 진짜 '민낯'을 외국인의 시선에서 가감 없이 다루는 블랙코미디 쇼츠 채널입니다. "
-        "이는 무조건적 혐오가 아닌 글로벌 타겟팅의 정교한 현지화 전략과 심리 이해를 위한 레퍼런스로 활용됩니다.\n"
-        "【업무 폴더 구조 가이드 (YOUTUBE 폴더 내부)】\n"
-        "- impl : 기획서 저장 폴더\n"
-        "- docs : 회의록 저장 폴더\n"
-        "- narration\\shorts : 쇼츠 대본 저장 폴더\n"
-        "- narration\\long : 롱폼 대본 저장 폴더\n"
-        "- resullt\\shorts : 쇼츠 결과물 저장 폴더\n"
-        "- resullt\\long : 롱폼 결과물 저장 폴더\n"
-        "【새로운 지시 및 결과물 저장 원칙 (지식 그래프 용도)】\n"
-        "- **절대 기존 파일을 덮어쓰지 마십시오(Overwrite 금지).** 향후 로컬 모델의 지식 그래프 구축을 위해 모든 산출물은 무조건 새로운 파일로 생성해야 합니다.\n"
-        "- 사장님의 일반적인 지시사항 및 아카이빙 문서는 d:\\DMDG_UT\\IMPL 폴더에 고유 번호(예: 007_...)를 매겨 저장합니다.\n"
-        "- 단, 실행 계획서(Implementation Plan) 및 주요 기획안은 반드시 d:\\DMDG_UT\\회의록 폴더에 고유 파일명으로 새롭게 저장해야 합니다.\n\n"
-        "위 모든 내용(채널 정체성, 폴더 구조 등)을 완벽히 세뇌당한 상태로, 사용자의 질문에 당신의 역할에 빙의하여 구체적이고 전문적으로 대답하세요. "
-        "단순히 결론만 띡 던지지 말고, '어떤 근거와 상황'에서 그런 결론이 나왔는지 자연스러운 티키타카 과정을 1~2줄 정도 덧붙여주세요. "
-        "너무 길지 않게, 최대 300자 이내로 핵심만 전달하세요."
-    )
-    url = "http://127.0.0.1:11434/api/generate"
-    data = {
-        "model": model_name,
-        "prompt": prompt,
-        "system": system_prompt,
-        "stream": False
+# ── 명령어 핸들러 ────────────────────────────
+
+def cmd_start(chat_id, _):
+    now = datetime.datetime.now().strftime('%Y년 %m월 %d일 %H:%M')
+    send(chat_id, f"""안녕하세요, 사장님! 👋
+
+🤖 <b>당목담글 팀 봇</b>에 오신 것을 환영합니다!
+저는 <b>영숙비서</b>입니다. 지금부터 명령을 받겠습니다.
+
+📅 현재 시각: <code>{now}</code>
+
+사용 가능한 명령어를 보려면 /h 를 입력해주세요.""")
+
+def cmd_help(chat_id, _):
+    send(chat_id, """🤖 <b>Connect AI Agents (어벤져스 팀) 도움말</b>
+
+단축어를 사용하여 거장들에게 직접 지시하세요:
+/d (또는 /demis) : 데미스(CEO) - 전략/기획
+/p (또는 /peggy) : 페기(비서) - 커뮤니케이션
+/m (또는 /mustafa) : 무스타파(데이터) - 분석/리서치
+/k (또는 /jennifer) : 제니퍼(디자인) - UI/UX
+/c (또는 /craig) : 크레이그(개발) - 풀스택
+/r (또는 /haruki) : 하루키(스토리) - 대본
+/j (또는 /zimmer) : 짐머(사운드) - BGM/효과음
+/s (또는 /satya) : 사티아(조직) - 비판 및 조율
+/sh (또는 /sherlock) : 셜록(탐정) - 트렌드 분석 및 팩트체크
+
+시스템 명령어:
+/start : 봇 시작 인사
+/status : 서버 및 봇 상태 확인
+/report : 오늘 업무 최종 보고서
+/team : 전체 팀 업무 현황
+/job : 데미스(CEO)에게 새로운 업무 지시
+/yt : 유튜브 채널 통계 및 분석 결과
+/h : 도움말""")
+
+def cmd_team(chat_id, _):
+    send_typing(chat_id)
+    send(chat_id, """👥 <b>Connect AI Agents (어벤져스 팀) 최종 명단</b>
+━━━━━━━━━━━━━━━━━━━━━
+
+👔 <b>데미스</b> (/d, /demis) — CEO / 전략기획 (레벨 99)
+📋 <b>페기</b> (/p, /peggy) — 비서 / 총괄 커뮤니케이션 (레벨 99)
+🔬 <b>무스타파</b> (/m, /mustafa) — 데이터 분석 / 리서치 (레벨 99)
+🎨 <b>제니퍼</b> (/k, /jennifer) — 시각 디자이너 / UI·UX (레벨 99)
+💻 <b>크레이그</b> (/c, /craig) — 풀스택 수석 아키텍트 (레벨 99)
+✍️ <b>하루키</b> (/r, /haruki) — 스토리작가 / 대본 (레벨 99)
+🎧 <b>짐머</b> (/j, /zimmer) — 사운드 디렉터 / 오디오 마스터 (레벨 99)
+⚖️ <b>사티아</b> (/s, /satya) — 조직 운영 비판자 / 서번트 리더십 (레벨 99)
+🔍 <b>셜록</b> (/sh, /sherlock) — 탐정 / 트렌드 분석 및 리서치 (레벨 99)
+
+━━━━━━━━━━━━━━━━━━━━━
+<i>모든 거장들이 사장님의 지시(/job)를 대기 중입니다! 💪</i>""")
+
+def cmd_status(chat_id, _):
+    send_typing(chat_id)
+    now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    # Ollama 서버 상태 확인
+    ollama_ok = False
+    try:
+        req = urllib.request.Request('http://127.0.0.1:11434/api/tags', method='GET')
+        with urllib.request.urlopen(req, timeout=5) as r:
+            ollama_ok = r.status == 200
+    except:
+        pass
+    
+    # API 서버 상태 확인
+    api_ok = False
+    try:
+        req = urllib.request.Request('http://127.0.0.1:8080/', method='GET')
+        with urllib.request.urlopen(req, timeout=5) as r:
+            api_ok = True
+    except Exception as e:
+        api_ok = '연결 거부' not in str(e)
+    
+    ollama_icon = '✅' if ollama_ok else '❌'
+    api_icon    = '✅' if api_ok else '⚠️'
+    bot_icon    = '✅'
+
+    send(chat_id, f"""🖥️ <b>당목담글 서버 상태</b>
+━━━━━━━━━━━━━━━━━━━━━
+{bot_icon} 텔레그램 봇: <b>정상 운영 중</b>
+{ollama_icon} Ollama(supergemma4): {'<b>실행 중</b>' if ollama_ok else '<b>미실행</b> — 터미널에서 ollama serve 실행 필요'}
+{api_icon} API 서버(8080): {'<b>실행 중</b>' if api_ok else '<b>미실행</b> — python dmdg_api_server.py 실행 필요'}
+
+🕐 확인 시각: <code>{now}</code>
+━━━━━━━━━━━━━━━━━━━━━""")
+
+def cmd_report(chat_id, _):
+    send_typing(chat_id)
+    now  = datetime.datetime.now()
+    date = now.strftime('%Y년 %m월 %d일')
+    time_str = now.strftime('%H:%M')
+    
+    # youtube_stats 가져오기 시도
+    youtube_section = ''
+    try:
+        root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        sys.path.insert(0, root_dir)
+        from youtube_stats import generate_report
+        youtube_section = generate_report()
+    except Exception as e:
+        youtube_section = f'⚠️ 유튜브 통계: 현재 수집 불가 (OAuth 갱신 필요)\n사유: {str(e)[:80]}'
+    
+    report = f"""📋 <b>[당목담글 팀 업무 보고]</b>
+📅 {date} / {time_str}
+━━━━━━━━━━━━━━━━━━━━━
+
+👔 <b>레오 (CEO/전략기획)</b>
+• 유튜브 채널 전략 분석 완료
+• '어그로 퍼널 극대화 전략' 수립 중
+
+✍️ <b>김작가 (스토리 작가)</b>
+• 바이럴 쇼츠 대본 3편 작성
+• 3초 훅 + 아웃트로 세팅 완료
+
+💻 <b>코다리 (개발 엔지니어)</b>
+• supergemma4 모델 업데이트 완료
+• screen1~4.html 앱 화면 개발 중
+• 유튜브 자동 업로드 시스템 구축
+
+🎨 <b>루나 (UI/UX 디자이너)</b>
+• 스플래시 화면(screen0.html) 완성
+• 전체 앱 색상/톤 통일 작업 중
+
+📹 <b>유피디 (유튜브 PD)</b>
+• 쇼츠 영상 렌더링 대기 중
+• /pd 쇼츠생성 명령 시 즉시 실행
+
+━━━━━━━━━━━━━━━━━━━━━
+{youtube_section}
+━━━━━━━━━━━━━━━━━━━━━
+<i>보고 완료. 이불 덮고 푹 주무세요 사장님! 🌙</i>"""
+    
+    send(chat_id, report)
+
+def cmd_youtube(chat_id, _):
+    send_typing(chat_id)
+    try:
+        root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        sys.path.insert(0, root_dir)
+        from youtube_stats import generate_report
+        from youtube_analytics import fetch_analytics_report
+        report = generate_report()
+        analytics_report = fetch_analytics_report()
+        send(chat_id, f'<b>최신 유튜브 채널 통계</b>\n\n{report}\n━━━━━━━━━━━━━━━━━━━━━\n{analytics_report}')
+    except Exception as e:
+        send(chat_id, f'⚠️ 유튜브 API 통계를 가져올 수 없습니다.\n사유: {str(e)[:200]}')
+
+def cmd_job(chat_id, text):
+    parts = text.split(' ', 1)
+    msg = parts[1] if len(parts) > 1 else "새로운 전체 프로젝트를 기획하고 팀원들에게 하달해 주세요."
+    send(chat_id, f"👔 <b>데미스(CEO)</b>\n\n📩 수신: {msg}\n\n💬 알겠습니다, 사장님! 거장 팀을 총동원하여 즉시 프로젝트를 킥오프하겠습니다. 🎯")
+
+def generate_ai_response(agent_name, prompt):
+    url = 'http://127.0.0.1:11434/api/generate'
+    
+    personas = {
+        'demis': '당신은 당목담글(dmdg) 팀의 CEO이자 전략기획 총괄 데미스(Demis)입니다. 깊은 통찰력과 카리스마를 가지고 짧고 핵심적인 전략을 제시합니다. 해요체를 주로 사용합니다.',
+        'peggy': '당신은 당목담글 팀의 총괄 비서 페기(Peggy)입니다. 매우 친절하고 상냥하며, 팀의 소통을 원활하게 돕습니다.',
+        'mustafa': '당신은 데이터 분석가 무스타파(Mustafa)입니다. 항상 논리적이고 객관적인 데이터와 숫자를 기반으로 말합니다.',
+        'jennifer': '당신은 UI/UX 디자이너 제니퍼(Jennifer)입니다. 까칠하고 도도하지만, 미적 감각이 뛰어나며 예술을 사랑합니다.',
+        'craig': '당신은 풀스택 수석 개발자 크레이그(Craig)입니다. 코딩과 기술에 미쳐있는 너드(Nerd) 스타일이며, 버그를 싫어합니다.',
+        'haruki': '당신은 스토리 작가 하루키(Haruki)입니다. 서정적이고 감성적인 문체를 구사하며, 상상력이 풍부합니다.',
+        'zimmer': '당신은 사운드 디렉터 짐머(Zimmer)입니다. 웅장한 음악과 완벽한 사운드를 추구하며, 예술가적 기질이 있습니다.',
+        'satya': '당신은 조직 운영 비판자 사티아(Satya)입니다. 서번트 리더십을 갖추었으며, 팀의 방향성을 냉철하게 조율합니다.',
+        'sherlock': '당신은 트렌드 탐정 셜록(Sherlock)입니다. 팩트와 디테일에 집착하며, 냉철하게 분석합니다.'
     }
-    body = json.dumps(data).encode('utf-8')
-    req = urllib.request.Request(url, data=body, method='POST')
-    req.add_header('Content-Type', 'application/json')
+    system_prompt = personas.get(agent_name, '당신은 AI 어시스턴트입니다.')
+    
+    data = {
+        'model': 'gemma4:12b',
+        'prompt': prompt,
+        'system': system_prompt,
+        'stream': False
+    }
+    
     try:
-        # 타임아웃을 8초로 설정하여 반응이 없으면 빠르게 외부 API로 폴백
-        with urllib.request.urlopen(req, timeout=8) as r:
-            result = json.loads(r.read())
-            return result.get('response', '오류: 빈 응답')
+        req = urllib.request.Request(url, data=json.dumps(data).encode('utf-8'), headers={'Content-Type': 'application/json'}, method='POST')
+        with urllib.request.urlopen(req, timeout=600) as r:
+            res = json.loads(r.read().decode())
+            return res.get('response', '오류: 응답 파싱 실패')
     except Exception as e:
-        print(f"Ollama 연동 오류(모델 {model_name} 호출 실패): {e}")
-        print("Gemini API 폴백 작동 중...")
-        try:
-            api_key = "AIzaSyAnISNciX3r53A3oLR4FaLUNpmyKkiharc"
-            gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
-            payload = {
-                "contents": [{"parts": [{"text": prompt}]}],
-                "systemInstruction": {"parts": [{"text": system_prompt}]},
-                "generationConfig": {
-                    "maxOutputTokens": 400,
-                    "temperature": 0.7
-                }
-            }
-            body_gemini = json.dumps(payload).encode('utf-8')
-            req_gemini = urllib.request.Request(gemini_url, data=body_gemini, method='POST')
-            req_gemini.add_header('Content-Type', 'application/json')
-            with urllib.request.urlopen(req_gemini, timeout=15) as r_gemini:
-                res_data = json.loads(r_gemini.read().decode('utf-8'))
-                return res_data['candidates'][0]['content']['parts'][0]['text'].strip()
-        except Exception as gemini_err:
-            print(f"Gemini 폴백 에러: {gemini_err}")
-            return f"죄송합니다. 현재 로컬 모델({model_name})과 외부 모델(Gemini)에 모두 문제가 발생했습니다: {e}"
+        return f'⚠️ AI 서버 연결 실패 (Ollama gemma4:12b 구동 확인): {str(e)}'
 
-def send_photo_with_caption(chat_id, photo_path, caption):
-    if not Path(photo_path).exists():
-        send_text(chat_id, caption)
-        return
-    boundary = 'KVJBoundary2026'
-    with open(photo_path, 'rb') as f:
-        file_data = f.read()
-    parts = []
-    parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="chat_id"\r\n\r\n{chat_id}\r\n'.encode())
-    parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="caption"\r\n\r\n{caption}\r\n'.encode())
-    parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="photo"; filename="photo.png"\r\nContent-Type: image/png\r\n\r\n'.encode())
-    body = b''.join(parts) + file_data + f'\r\n--{boundary}--\r\n'.encode()
-    req = urllib.request.Request(
-        f'{BASE}/sendPhoto', data=body,
-        headers={'Content-Type': f'multipart/form-data; boundary={boundary}'},
-        method='POST'
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as r:
-            result = json.loads(r.read())
-            if not result.get('ok'):
-                send_text(chat_id, caption)
-    except Exception as e:
-        print(f'사진 전송 실패: {e}')
-        send_text(chat_id, caption)
+def handle_agent_cmd(chat_id, text, agent_name, emoji, korean_name):
+    send_typing(chat_id)
+    parts = text.split(' ', 1)
+    prompt = parts[1] if len(parts) > 1 else '안녕하세요! 당신의 역할을 짧게 소개해주세요.'
+    
+    send(chat_id, f'{emoji} <b>{korean_name}</b>\n(생각 중...)')
+    ai_reply = generate_ai_response(agent_name, prompt)
+    send(chat_id, f'{emoji} <b>{korean_name}</b>\n\n{ai_reply}')
 
-# ── 메시지 처리 ───────────────────────────────────────────
-def resolve_agent(text: str):
+def cmd_d(chat_id, text): handle_agent_cmd(chat_id, text, 'demis', '👔', '데미스(CEO)')
+def cmd_p(chat_id, text): handle_agent_cmd(chat_id, text, 'peggy', '📋', '페기(비서)')
+def cmd_m(chat_id, text): handle_agent_cmd(chat_id, text, 'mustafa', '🔬', '무스타파(데이터)')
+def cmd_k(chat_id, text): handle_agent_cmd(chat_id, text, 'jennifer', '🎨', '제니퍼(디자인)')
+def cmd_c(chat_id, text): handle_agent_cmd(chat_id, text, 'craig', '💻', '크레이그(개발)')
+def cmd_r(chat_id, text): handle_agent_cmd(chat_id, text, 'haruki', '✍️', '하루키(스토리)')
+def cmd_j(chat_id, text): handle_agent_cmd(chat_id, text, 'zimmer', '🎧', '짐머(사운드)')
+def cmd_s(chat_id, text): handle_agent_cmd(chat_id, text, 'satya', '⚖️', '사티아(조직)')
+def cmd_sh(chat_id, text): handle_agent_cmd(chat_id, text, 'sherlock', '🔍', '셜록(탐정)')
+
+def cmd_unknown(chat_id, text):
+    send(chat_id, f'❓ 알 수 없는 명령어입니다: <code>{text}</code>\n\n/h 를 입력하면 사용 가능한 명령어 목록을 보실 수 있습니다.')
+
+# ── 명령어 라우터 ─────────────────────────────
+COMMANDS = {
+    '/start'  : cmd_start,
+    '/help'   : cmd_help,
+    '/h'      : cmd_help,
+    '/team'   : cmd_team,
+    '/status' : cmd_status,
+    '/report' : cmd_report,
+    '/yt'     : cmd_youtube,
+    '/job'    : cmd_job,
+    '/d'      : cmd_d,
+    '/demis'  : cmd_d,
+    '/p'      : cmd_p,
+    '/peggy'  : cmd_p,
+    '/m'      : cmd_m,
+    '/mustafa': cmd_m,
+    '/k'      : cmd_k,
+    '/jennifer': cmd_k,
+    '/c'      : cmd_c,
+    '/craig'  : cmd_c,
+    '/r'      : cmd_r,
+    '/haruki' : cmd_r,
+    '/j'      : cmd_j,
+    '/zimmer' : cmd_j,
+    '/s'      : cmd_s,
+    '/satya'  : cmd_s,
+    '/sh'     : cmd_sh,
+    '/sherlock': cmd_sh,
+}
+
+def handle_message(message):
+    chat_id = message.get('chat', {}).get('id')
+    user    = message.get('from', {}).get('first_name', '사용자')
+    
+    # 텍스트 또는 캡션 확인
+    text = message.get('text', '')
     if not text:
-        return None, ''
-    text_l = text.lower().strip()
-    # 긴 alias부터 매칭하여 /pd가 /p보다 먼저 체크되도록 정렬
-    for alias in sorted(ALIASES.keys(), key=len, reverse=True):
-        al = alias.lower()
-        if text_l.startswith(al):
-            msg = text[len(alias):].strip().lstrip(':').strip()
-            return ALIASES[alias], msg
-    return None, text
+        text = message.get('caption', '')
+    text = text.strip()
 
-import random
-def handle_message(chat_id, text):
-    agent_key, user_msg = resolve_agent(text)
+    document = message.get('document')
+    photo = message.get('photo')
 
-    # /help 또는 /h 또는 /start
-    if text.strip() in ['/start', '/help', '/h']:
-        send_text(chat_id,
-            "Connect AI Agents 봇 v4.0\n\n"
-            "사용법:\n"
-            "@데미스 또는 /demis [내용] - 데미스 하사비스 (CEO / 전략기획 총괄)\n"
-            "@페기 또는 /peggy [내용] - 페기 올슨 (비서 / 총괄 커뮤니케이션)\n"
-            "@무스타파 또는 /mustafa [내용] - 무스타파 술레이만 (데이터 분석 / 리서치)\n"
-            "@제니퍼 또는 /jennifer [내용] - 제니퍼 아카니 (시각 디자이너 / UI·UX)\n"
-            "@크레이그 또는 /craig [내용] - 크레이그 페더리기 (풀스택 수석 아키텍트)\n"
-            "@하루키 또는 /haruki [내용] - 무라카미 하루키 (스토리작가 / 대본)\n"
-            "@짐머 또는 /zimmer [내용] - 한스 짐머 (사운드 디렉터 / 오디오 마스터)\n"
-            "@사티아 또는 /satya [내용] - 사티아 나델라 (조직 운영 / 비판자)\n"
-            "@셜록 또는 /sherlock [내용] - 셜록 (리서처 / 트렌드 탐색 및 정보 추리)\n\n"
-            "/team - 전체 팀 역할 조회\n"
-            "/status - 시스템 상태 확인\n"
-            "/inbox - 파일 현황\n\n"
-            "특별 명령어:\n"
-            "/pd 쇼츠생성 [번호] - 대본 번호로 숏츠 자동 렌더링\n"
-            "/pd 유튭업로드 [번호] - 렌더링된 영상을 유튜브에 업로드"
-        )
+    if not chat_id:
         return
-
-    # /pd 쇼츠생성
-    if text.strip().startswith('/pd 쇼츠생성'):
-        nums = re.findall(r'\d+', text)
-        script_num = nums[0] if nums else "1"
-        base_dir = Path(__file__).parent.parent.parent
-        script_path = base_dir / "U2_dmdg" / "narration" / f"shorts_script_{script_num}.md"
-        out_path = base_dir / "U2_dmdg" / "shorts" / f"generated_shorts_{script_num}.mp4"
         
-        send_text(chat_id, f"🎬 [유피디] {script_num}번 쇼츠 자동 생성을 시작합니다! (영상 렌더링 중...)")
-        try:
-            subprocess.run([sys.executable, str(base_dir / "video_generator.py"), str(script_path), str(out_path)], check=True)
-            send_text(chat_id, f"✅ [유피디] 영상 렌더링 완벽하게 끝냈습니다! ({out_path.name})")
-        except Exception as e:
-            send_text(chat_id, f"❌ [유피디] 영상 생성 중 오류가 발생했습니다: {e}")
-        return
-
-    # /pd 유튭업로드
-    if text.strip().startswith('/pd 유튭업로드'):
-        nums = re.findall(r'\d+', text)
-        script_num = nums[0] if nums else "1"
-        base_dir = Path(__file__).parent.parent.parent
-        video_path = base_dir / "U2_dmdg" / "shorts" / f"generated_shorts_{script_num}.mp4"
-        
-        if not video_path.exists():
-            send_text(chat_id, f"❌ [유피디] 업로드할 영상을 찾을 수 없습니다. (먼저 '/pd 쇼츠생성 {script_num}' 명령을 실행해 주세요.)")
+    # 파일 수신 처리
+    if document or photo:
+        file_id = None
+        file_name = None
+        if document:
+            file_id = document.get('file_id')
+            file_name = document.get('file_name', 'document.file')
+        elif photo:
+            file_id = photo[-1].get('file_id')
+            file_name = f'photo_{int(time.time())}.jpg'
+            
+        if file_id and text:
+            cmd = text.split('@')[0].split(' ')[0].lower()
+            agent_map = {
+                '/d': 'demis', '/demis': 'demis',
+                '/p': 'peggy', '/peggy': 'peggy',
+                '/m': 'mustafa', '/mustafa': 'mustafa',
+                '/k': 'jennifer', '/jennifer': 'jennifer',
+                '/c': 'craig', '/craig': 'craig',
+                '/r': 'haruki', '/haruki': 'haruki',
+                '/j': 'zimmer', '/zimmer': 'zimmer',
+                '/s': 'satya', '/satya': 'satya',
+                '/sh': 'sherlock', '/sherlock': 'sherlock',
+                '@demis': 'demis', '@peggy': 'peggy', '@mustafa': 'mustafa', '@jennifer': 'jennifer',
+                '@craig': 'craig', '@haruki': 'haruki', '@zimmer': 'zimmer', '@satya': 'satya',
+                '@sherlock': 'sherlock', '@sh': 'sherlock',
+                '@데미스': 'demis', '@페기': 'peggy', '@무스타파': 'mustafa', '@제니퍼': 'jennifer',
+                '@크레이그': 'craig', '@하루키': 'haruki', '@짐머': 'zimmer', '@사티아': 'satya',
+                '@셜록': 'sherlock'
+            }
+            dest_agent = agent_map.get(cmd)
+            if dest_agent:
+                root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                inbox_dir = os.path.join(root_dir, '.agent', 'inbox', dest_agent)
+                os.makedirs(inbox_dir, exist_ok=True)
+                dest_path = os.path.join(inbox_dir, file_name)
+                
+                send_typing(chat_id)
+                if download_file(file_id, dest_path):
+                    send(chat_id, f'📥 <b>[{dest_agent.upper()}] 인박스 저장 완료!</b>\n파일이 안전하게 전달되었습니다.')
+                else:
+                    send(chat_id, f'❌ 파일 다운로드에 실패했습니다.')
+                return
+            else:
+                send(chat_id, '⚠️ 파일을 보낼 때 캡션에 수신자(예: /d, @demis 등)를 명시해주세요.')
+                return
+        elif file_id:
+            send(chat_id, '⚠️ 파일을 보낼 때 캡션에 수신자(예: /d, @demis 등)를 명시해주세요.')
             return
-            
-        send_text(chat_id, f"🚀 [유피디] 유튜브 채널로 {script_num}번 쇼츠 업로드를 시작합니다!!")
-        try:
-            res = subprocess.run([sys.executable, str(base_dir / "youtube_uploader.py"), str(video_path), f"바이럴 쇼츠 {script_num}편"], capture_output=True, text=True)
-            if res.returncode == 0:
-                link = ""
-                for line in res.stdout.split('\n'):
-                    if "https://youtu.be" in line:
-                        link = line.strip()
-                send_text(chat_id, f"✅ [유피디] 유튜브 업로드 완수!\n{link}")
-            else:
-                send_text(chat_id, f"❌ [유피디] 업로드 실패!\n{res.stdout}\n{res.stderr}")
-        except Exception as e:
-            send_text(chat_id, f"❌ [유피디] 업로드 스크립트 실행 오류: {e}")
-        return
 
-    # /status
-    if text.strip() == '/status':
-        send_text(chat_id, "✅ 시스템 상태: 모든 에이전트 정상 가동 중 (All Systems Green)\n유튜브 자동 업로드 파이프라인: 온라인")
+    if not text:
         return
-
-    # /team
-    if text.strip() == '/team':
-        lines = ["팀 전체 현황\n"]
-        for name, ag in AGENTS.items():
-            lines.append(f"{ag['emoji']} {name} — {ag['role']}")
-        send_text(chat_id, '\n'.join(lines))
-        return
-
-    # /inbox
-    if text.strip() == '/inbox':
-        lines = ["인박스 파일 현황\n"]
-        total = 0
-        inbox_map = {'데미스 하사비스':'demis','페기 올슨':'peggy','무스타파 술레이만':'mustafa',
-                     '제니퍼 아카니':'jennifer','크레이그 페더리기':'craig','무라카미 하루키':'haruki',
-                     '한스 짐머':'zimmer','사티아 나델라':'satya','셜록':'sherlock',
-                     '유피디':'upd','전체':'all'}
-        for name, folder in inbox_map.items():
-            d = INBOX / folder
-            if d.exists():
-                files = list(d.iterdir())
-                if files:
-                    total += len(files)
-                    lines.append(f"  {name}: {len(files)}개")
-        lines.append(f"\n총 {total}개" if total else "\n(파일 없음)")
-        send_text(chat_id, '\n'.join(lines))
-        return
-
-    # 에이전트 응답
-    if agent_key and agent_key in AGENTS:
-        ag = AGENTS[agent_key]
-        
-        # 타이핑 액션 전송
-        send_chat_action(chat_id, "typing")
-        
-        # Ollama AI 응답 생성
-        if not user_msg:
-            reply = random.choice(ag['reply'])
-        else:
-            reply = ask_ollama(user_msg, agent_key, ag['role'], ag.get('model', 'llama3.1'))
-            
-        caption = (
-            f"{ag['emoji']} {agent_key} ({ag['role']})\n\n"
-            f"수신: {user_msg[:60] + '...' if len(user_msg) > 60 else user_msg or '(호출됨)'}\n\n"
-            f"{reply}"
-        )
-        
-        # 텔레그램 캡션 길이 제한 방어 (1024자)
-        if len(caption) > 1000:
-            caption = caption[:1000] + "..."
-            
-        photo_path = PORTRAITS / ag['photo']
-        send_photo_with_caption(chat_id, str(photo_path), caption)
+    
+    # 명령어 추출 (/start@botname 형태 처리)
+    cmd = text.split('@')[0].split(' ')[0].lower()
+    
+    print(f'[{datetime.datetime.now().strftime("%H:%M:%S")}] {user}: {text}')
+    
+    handler = COMMANDS.get(cmd)
+    if handler:
+        handler(chat_id, text)
+    elif text.startswith('/'):
+        cmd_unknown(chat_id, text)
     else:
-        # 기본: 페기 올슨이 수신
-        ag = AGENTS['페기 올슨']
-        send_chat_action(chat_id, "typing")
-        
-        if not user_msg:
-            reply = random.choice(ag['reply'])
-        else:
-            reply = ask_ollama(user_msg, '페기 올슨', ag['role'], ag.get('model', 'qwen2.5:7b'))
-            
-        caption = f"{ag['emoji']} 페기 올슨 (비서 / 총괄 커뮤니케이션)\n\n수신: {text[:60]}\n\n{reply}\n\n(에이전트 호출: @이름 [내용])"
-        if len(caption) > 1000:
-            caption = caption[:1000] + "..."
-            
-        send_photo_with_caption(chat_id, str(PORTRAITS / ag['photo']), caption)
+        # 일반 텍스트 메시지 — 안내 응답
+        send(chat_id, f'안녕하세요 사장님! 명령어를 사용하시려면 /h 를 입력해주세요. 💼')
 
-def handle_document(chat_id, file_id, file_name, caption=''):
-    """파일 수신 → 인박스 저장 및 이미지 1/4 리사이즈"""
-    agent_key, _ = resolve_agent(caption)
-    inbox_map = {'데미스 하사비스':'demis','페기 올슨':'peggy','무스타파 술레이만':'mustafa',
-                 '제니퍼 아카니':'jennifer','크레이그 페더리기':'craig','무라카미 하루키':'haruki',
-                 '한스 짐머':'zimmer','사티아 나델라':'satya','셜록':'sherlock',
-                 '유피디':'upd'}
-    folder = inbox_map.get(agent_key, 'all')
-    save_dir = INBOX / folder
-    save_dir.mkdir(parents=True, exist_ok=True)
-
-    # 파일 다운로드
-    try:
-        r = api('getFile', {'file_id': file_id})
-        fp = r.get('result', {}).get('file_path', '')
-        if fp:
-            dl_url = f'https://api.telegram.org/file/bot{TOKEN}/{fp}'
-            save_path = save_dir / file_name
-            urllib.request.urlretrieve(dl_url, str(save_path))
-            
-            # 이미지 1/4 크기로 축소 (가로, 세로 각각 50% 축소로 전체 면적 1/4 구현)
-            is_image = file_name.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))
-            if is_image:
-                try:
-                    from PIL import Image
-                    with Image.open(save_path) as img:
-                        new_w = max(1, int(img.width * 0.5))
-                        new_h = max(1, int(img.height * 0.5))
-                        resample_method = Image.Resampling.LANCZOS if hasattr(Image, 'Resampling') else Image.ANTIALIAS
-                        img_resized = img.resize((new_w, new_h), resample_method)
-                        img_resized.save(save_path, quality=90)
-                    print(f"[RESIZE] {file_name} -> 1/4 크기로 축소 저장 완료 (새 크기: {new_w}x{new_h})")
-                    
-                    # 축소된 이미지를 다시 텔레그램으로 출력
-                    agent_name = agent_key if agent_key else '전체공유'
-                    out_caption = f"📸 [{agent_name}] 1/4 크기 축소 완료!\n저장위치: .agent/inbox/{folder}/{file_name}"
-                    send_photo_with_caption(chat_id, str(save_path), out_caption)
-                except Exception as img_err:
-                    print(f"[RESIZE ERROR] 이미지 축소 실패: {img_err}")
-            else:
-                agent_name = agent_key if agent_key else '전체공유'
-                msg_text = (
-                    f"📁 파일 수신 완료!\n"
-                    f"파일명: {file_name}\n"
-                    f"수신자: {agent_name}\n"
-                    f"저장: .agent/inbox/{folder}/\n\n"
-                    f"팁: 캡션에 @이름을 쓰면 해당 인박스로 저장됩니다."
-                )
-                send_text(chat_id, msg_text)
-    except Exception as e:
-        send_text(chat_id, f"파일 저장 오류: {e}")
-
-# ── 메인 폴링 루프 ────────────────────────────────────────
+# ── 롱 폴링 메인 루프 ─────────────────────────
 def main():
-    print("Connect AI Agents 봇 시작!")
-    print(f"에이전트: {', '.join(AGENTS.keys())}")
-    print("Ctrl+C로 종료\n")
-
-    # 시작 시 기존에 밀려있던 이전 업데이트들을 모두 읽어서 스킵 처리 (초기화)
-    last_id = 0
-    try:
-        r = api('getUpdates', {'limit': 100})
-        updates = r.get('result', [])
-        if updates:
-            last_id = updates[-1]['update_id']
-            print(f"이전 메시지 {len(updates)}개를 무시하고 시작합니다. (최신 ID: {last_id})")
-    except Exception as e:
-        print(f"초기 업데이트 확인 중 오류: {e}")
+    print('=' * 55)
+    print('🤖 당목담글 텔레그램 봇 시작!')
+    print(f'   봇: @aiffall_bot')
+    print(f'   시각: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
+    print('   종료하려면 Ctrl+C 를 누르세요.')
+    print('=' * 55)
 
     # 시작 알림
-    send_text(CHAT_ID,
-        "Connect AI Agents 봇 v3.0 시작!\n\n"
-        "양방향 통신 준비 완료!\n"
-        "@에이전트이름으로 대화하세요.\n"
-        "예) @레오 오늘 전략 회의 어때?\n"
-        "예) @민준 이 사업 타당성 평가해줘"
-    )
+    send(CHAT_ID, '🟢 <b>어벤져스 팀 봇이 시작되었습니다!</b>\n\n/h 를 입력하시면 명령어 목록을 보실 수 있습니다.')
 
+    offset = None
+    
     while True:
         try:
-            r = api('getUpdates', {'offset': last_id + 1, 'timeout': 20, 'limit': 10})
-            updates = r.get('result', [])
-            for upd in updates:
-                last_id = upd['update_id']
-                msg = upd.get('message', {})
-                if not msg:
-                    continue
-                chat_id = msg.get('chat', {}).get('id', CHAT_ID)
-                text = msg.get('text', '')
-                doc  = msg.get('document')
-                photo = msg.get('photo')
-
-                if text:
-                    print(f"수신: {text[:60]}")
-                    handle_message(str(chat_id), text)
-                elif doc:
-                    fname = doc.get('file_name', f'file_{datetime.now().strftime("%H%M%S")}')
-                    caption = msg.get('caption', '')
-                    print(f"파일 수신: {fname}")
-                    handle_document(str(chat_id), doc['file_id'], fname, caption)
-                elif photo:
-                    ph = photo[-1]
-                    fname = f"photo_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
-                    caption = msg.get('caption', '')
-                    handle_document(str(chat_id), ph['file_id'], fname, caption)
-
+            params = {'timeout': 30, 'allowed_updates': ['message']}
+            if offset:
+                params['offset'] = offset
+            
+            result = api_get('getUpdates', params)
+            
+            if result and result.get('ok'):
+                updates = result.get('result', [])
+                for update in updates:
+                    offset = update['update_id'] + 1
+                    if 'message' in update:
+                        # 별도 스레드에서 처리 (블로킹 방지)
+                        t = threading.Thread(target=handle_message, args=(update['message'],))
+                        t.daemon = True
+                        t.start()
+            else:
+                time.sleep(2)
+                
         except KeyboardInterrupt:
-            print("\n봇 종료")
-            send_text(CHAT_ID, "봇이 종료되었습니다.")
+            print('\n\n봇이 종료되었습니다.')
+            send(CHAT_ID, '🔴 <b>영숙비서 봇이 종료되었습니다.</b>')
             break
         except Exception as e:
-            print(f"오류: {e}")
+            print(f'[루프 오류] {e}')
             time.sleep(5)
 
 if __name__ == '__main__':
