@@ -1,3 +1,6 @@
 [submodule "YOUTUBE/Projects/Subway_Shorts"]
 	path = YOUTUBE/Projects/Subway_Shorts
 	url = https://github.com/dmdg-official/DMDG_UT_Subway_Shorts.git
+[submodule "YOUTUBE/Projects/Geumdeungjisa"]
+	path = YOUTUBE/Projects/Geumdeungjisa
+	url = https://github.com/dmdg-official/DMDG_UT_Geumdeungjisa.git
