@@ -4,3 +4,15 @@
 [submodule "YOUTUBE/Projects/Geumdeungjisa"]
 	path = YOUTUBE/Projects/Geumdeungjisa
 	url = https://github.com/dmdg-official/DMDG_UT_Geumdeungjisa.git
+[submodule "YOUTUBE/Projects/TempleFoodUS"]
+	path = YOUTUBE/Projects/TempleFoodUS
+	url = https://github.com/dmdg-official/DMDG_UT_TempleFoodUS.git
+[submodule "YOUTUBE/Projects/Empress_Longform"]
+	path = YOUTUBE/Projects/Empress_Longform
+	url = https://github.com/dmdg-official/DMDG_UT_Empress_Longform.git
+[submodule "YOUTUBE/Projects/JeongjoAssassination"]
+	path = YOUTUBE/Projects/JeongjoAssassination
+	url = https://github.com/dmdg-official/DMDG_UT_JeongjoAssassination.git
+[submodule "YOUTUBE/Projects/TempleFood"]
+	path = YOUTUBE/Projects/TempleFood
+	url = https://github.com/dmdg-official/MDG_UT_TempleFood.git
