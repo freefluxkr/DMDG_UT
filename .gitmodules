@@ -25,3 +25,12 @@
 [submodule "YOUTUBE/Projects/SadoSeja"]
 	path = YOUTUBE/Projects/SadoSeja
 	url = https://github.com/dmdg-official/DMDG_UT_SadoSeja.git
+[submodule "museum-pwa"]
+	path = museum-pwa
+	url = https://github.com/dmdg-official/museum-pwa.git
+[submodule "sodam-pwa"]
+	path = sodam-pwa
+	url = https://github.com/dmdg-official/sodam-pwa.git
+[submodule "museum-react"]
+	path = museum-react
+	url = https://github.com/dmdg-official/museum-react.git
