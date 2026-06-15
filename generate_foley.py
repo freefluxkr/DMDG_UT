@@ -13,48 +13,44 @@ def save_wav(filename, samples):
         for s in samples:
             f.writeframesraw(struct.pack('<h', int(max(-32767, min(32767, s)))))
 
-# 1. Wood Tock (나무 블록 소리) - Low freq sine with fast exponential decay
-def generate_wood_tock():
-    duration = 0.15
+# 1. Cute Boing (뿅!) - High freq sweeping up
+def generate_cute_boing():
+    duration = 0.3
     samples = []
     for i in range(int(SAMPLE_RATE * duration)):
         t = i / SAMPLE_RATE
-        freq = 400 * math.exp(-20 * t)  # Pitch drop
-        env = math.exp(-30 * t)         # Fast decay
+        freq = 400 + (t * 2000)  # Sweep up
+        env = math.exp(-10 * t)         
         val = math.sin(2 * math.pi * freq * t) * env * 25000
         samples.append(val)
-    save_wav('C:\\Users\\tuesv\\Documents\\DMDG_UT\\wood_tock.wav', samples)
+    save_wav('C:\\Users\\tuesv\\Documents\\DMDG_UT\\cute_boing.wav', samples)
 
-# 2. Clay Slap (찰흙 부딪히는 소리) - Noise with lowpass filter and envelope
-def generate_clay_slap():
-    duration = 0.2
-    samples = []
-    last_val = 0
-    for i in range(int(SAMPLE_RATE * duration)):
-        t = i / SAMPLE_RATE
-        env = math.exp(-25 * t)
-        # generate noise
-        noise = random.uniform(-1, 1)
-        # simple lowpass
-        val = (noise * 0.2 + last_val * 0.8)
-        last_val = val
-        samples.append(val * env * 30000)
-    save_wav('C:\\Users\\tuesv\\Documents\\DMDG_UT\\clay_slap.wav', samples)
-
-# 3. Magnetic Click (자석 찰칵 소리) - High freq short burst
-def generate_magnetic_click():
-    duration = 0.05
+# 2. Cute Poing (띠용~) - Sine wave with pitch modulation
+def generate_cute_poing():
+    duration = 0.4
     samples = []
     for i in range(int(SAMPLE_RATE * duration)):
         t = i / SAMPLE_RATE
-        freq = 3000
-        env = math.exp(-100 * t)
-        val = math.sin(2 * math.pi * freq * t) * env * 20000
+        freq = 300 + math.sin(t * 30) * 100
+        env = math.exp(-8 * t)
+        val = math.sin(2 * math.pi * freq * t) * env * 25000
         samples.append(val)
-    save_wav('C:\\Users\\tuesv\\Documents\\DMDG_UT\\magnetic_click.wav', samples)
+    save_wav('C:\\Users\\tuesv\\Documents\\DMDG_UT\\cute_poing.wav', samples)
 
-generate_wood_tock()
-generate_clay_slap()
-generate_magnetic_click()
+# 3. Magic Sparkle (샤라랑~) - High freq noise with sine bursts
+def generate_magic_sparkle():
+    duration = 0.5
+    samples = []
+    for i in range(int(SAMPLE_RATE * duration)):
+        t = i / SAMPLE_RATE
+        freq = 4000 + random.uniform(-500, 500)
+        env = math.exp(-5 * t) * (0.5 + 0.5 * math.sin(t * 50))
+        val = math.sin(2 * math.pi * freq * t) * env * 15000
+        samples.append(val)
+    save_wav('C:\\Users\\tuesv\\Documents\\DMDG_UT\\magic_sparkle.wav', samples)
 
-print("Generated 3 distinct Foley ASMR sound files!")
+if __name__ == "__main__":
+    generate_cute_boing()
+    generate_cute_poing()
+    generate_magic_sparkle()
+    print("Generated 3 cute cartoon Foley ASMR sound files! (boing, poing, sparkle)")

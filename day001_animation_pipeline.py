@@ -24,16 +24,42 @@ def setup_scene():
     camera = bpy.context.active_object
     bpy.context.scene.camera = camera
 
-def create_clay_material(name, color):
+def create_toon_material(name, color):
     mat = bpy.data.materials.new(name=name)
     mat.use_nodes = True
     nodes = mat.node_tree.nodes
-    bsdf = nodes.get("Principled BSDF")
+    links = mat.node_tree.links
     
-    if bsdf:
-        bsdf.inputs['Base Color'].default_value = color
-        if 'Roughness' in bsdf.inputs:
-            bsdf.inputs['Roughness'].default_value = 0.8
+    # 기존 노드 초기화
+    for node in nodes:
+        nodes.remove(node)
+        
+    output = nodes.new(type='ShaderNodeOutputMaterial')
+    output.location = (400, 0)
+    
+    emission = nodes.new(type='ShaderNodeEmission')
+    emission.location = (200, 0)
+    
+    diffuse = nodes.new(type='ShaderNodeBsdfDiffuse')
+    diffuse.inputs['Color'].default_value = color
+    diffuse.location = (-400, 0)
+    
+    shader_to_rgb = nodes.new(type='ShaderNodeShaderToRGB')
+    shader_to_rgb.location = (-200, 0)
+    
+    color_ramp = nodes.new(type='ShaderNodeValToRGB')
+    color_ramp.location = (0, 0)
+    color_ramp.color_ramp.interpolation = 'CONSTANT'
+    color_ramp.color_ramp.elements[0].position = 0.5
+    color_ramp.color_ramp.elements[0].color = (color[0]*0.5, color[1]*0.5, color[2]*0.5, 1) # Shadow
+    color_ramp.color_ramp.elements[1].position = 0.52
+    color_ramp.color_ramp.elements[1].color = color # Highlight
+    
+    links.new(diffuse.outputs['BSDF'], shader_to_rgb.inputs['Shader'])
+    links.new(shader_to_rgb.outputs['Color'], color_ramp.inputs['Fac'])
+    links.new(color_ramp.outputs['Color'], emission.inputs['Color'])
+    links.new(emission.outputs['Emission'], output.inputs['Surface'])
+    
     return mat
 
 def create_text_object(char, name, location, material):
@@ -71,7 +97,7 @@ def build_dangeul_village():
         (0.8, 0.2, 0.4, 1), # Red/Pink
         (0.9, 0.8, 0.2, 1)  # Yellow
     ]
-    materials = [create_clay_material(f"Clay_{i}", c) for i, c in enumerate(colors)]
+    materials = [create_toon_material(f"Toon_{i}", c) for i, c in enumerate(colors)]
     
     objects = []
     
@@ -138,6 +164,11 @@ if __name__ == "__main__":
     bpy.context.scene.render.resolution_y = 1920
     bpy.context.scene.frame_start = 1
     bpy.context.scene.frame_end = 120
+    bpy.context.scene.render.engine = 'BLENDER_EEVEE' # Eevee engine for Toon Shading
+    bpy.context.scene.render.engine = 'BLENDER_EEVEE' # Eevee engine for Toon Shading
+    bpy.context.scene.render.engine = 'BLENDER_EEVEE' # Eevee engine for Toon Shading
+    bpy.context.scene.render.engine = 'BLENDER_EEVEE' # Eevee engine for Toon Shading
+    bpy.context.scene.render.engine = 'BLENDER_EEVEE' # Eevee engine for Toon Shading
     
     output_blend = os.path.join(os.path.dirname(os.path.abspath(__file__)), "day001_village_scene.blend")
     bpy.ops.wm.save_as_mainfile(filepath=output_blend)
