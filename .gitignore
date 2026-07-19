@@ -34,3 +34,7 @@ Thumbs.db
 .idea/
 client_secret*.json
 token.json
+
+# Large data files
+Test/data/
+
